@@ -1,2 +1,7 @@
 # total
 .DS_Store
+
+# output
+paper.synctex.gz
+paper.pdf
+paper.log
