@@ -427,7 +427,8 @@ listtablename={表格目录}
        \underline{\makebox[6cm][s]{
            \hspace*{1cm}
            \makebox[2.5cm][l]{\xiaoerhao\heiti\@advisorname}
-           \makebox[2cm][l]{\xiaoerhao\heiti\@advisortitle}}}
+          %  \makebox[2cm][l]{\xiaoerhao\heiti\@advisortitle}}}
+           \makebox[2cm][r]{}}}
        \\
        &
        \ifcoadvisor
@@ -547,16 +548,17 @@ listtablename={表格目录}
        \underline{\makebox[6cm][s]{
            \hspace*{1cm}
            \makebox[2.5cm][c]{\xiaoerhao\heiti\@advisorname}
-           \makebox[2cm][r]{\xiaoerhao\heiti\@advisortitle}}}
+          %  \makebox[2cm][r]{\xiaoerhao\heiti\@advisortitle}}}
+           \makebox[2cm][r]{}}}
        \\
-       &
-       \ifcoadvisor
-       \underline{\makebox[6cm][s]{
-           \hspace*{1cm}
-           \makebox[2.5cm][c]{\xiaoerhao\heiti\@coadvisorname}
-           \makebox[2cm][r]{\xiaoerhao\heiti\@coadvisortitle}}}
-       \else
-       \fi \\
+      %  &
+      %  \ifcoadvisor
+      %  \underline{\makebox[6cm][s]{
+      %      \hspace*{1cm}
+      %      \makebox[2.5cm][c]{\xiaoerhao\heiti\@coadvisorname}
+      %      \makebox[2cm][r]{\xiaoerhao\heiti\@coadvisortitle}}}
+      %  \else
+      %  \fi \\
      \end{tabular}
    \end{center}
 
@@ -619,14 +621,15 @@ listtablename={表格目录}
            \\
        \makebox[3.5cm][s]{ \xiaoerhao\heiti\advisorpre:  } &
        \underline{\makebox[6cm][s]{
-          \xiaoerhao\songti\textbf{\@advisorname\quad\@advisortitle} }}
+          % \xiaoerhao\songti\textbf{\@advisorname\quad\@advisortitle} }}
+          \xiaoerhao\songti\textbf{\@advisorname} }}
 \\
-       &
-       \ifcoadvisor
-       \underline{\makebox[6cm][s]{
-           \xiaoerhao\songti\textbf{\@coadvisorname\quad\@coadvisortitle} }}
-       \else
-       \fi
+      %  &
+      %  \ifcoadvisor
+      %  \underline{\makebox[6cm][s]{
+      %      \xiaoerhao\songti\textbf{\@coadvisorname\quad\@coadvisortitle} }}
+      %  \else
+      %  \fi
      \end{tabular}
      }
  \end{center}

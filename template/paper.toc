@@ -1,7 +1,0 @@
-\contentsline {chapter}{摘\hskip 1em\relax 要}{I}{section*.1}%
-\contentsline {chapter}{Abstract}{III}{section*.3}%
-\contentsline {chapter}{\numberline {第一章\hspace {.3em}}绪论}{1}{chapter.1}%
-\contentsline {section}{\numberline {1.1}研究背景}{1}{section.1.1}%
-\contentsline {chapter}{致谢}{3}{section*.6}%
-\contentsline {chapter}{参考文献}{5}{section*.8}%
-\contentsline {chapter}{作者简介}{5}{section*.9}%
