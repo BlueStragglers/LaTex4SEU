@@ -422,22 +422,22 @@ listtablename={表格目录}
        \underline{\makebox[6cm][s]{
            \hspace*{1cm}
            \makebox[2.5cm][c]{\xiaoerhao\heiti\@author}
-           \makebox[2cm][r]{}}} \\
+           \makebox[2cm][r]{ }}} \\
        \makebox[3.5cm][s]{\xiaoerhao\songti\advisorpre: } &
        \underline{\makebox[6cm][s]{
            \hspace*{1cm}
-           \makebox[2.5cm][l]{\xiaoerhao\heiti\@advisorname}
+           \makebox[2.5cm][c]{\xiaoerhao\heiti\@advisorname}
           %  \makebox[2cm][l]{\xiaoerhao\heiti\@advisortitle}}}
-           \makebox[2cm][r]{}}}
+           \makebox[2cm][r]{ }}}
        \\
-       &
-       \ifcoadvisor
-       \underline{\makebox[6cm][s]{
-           \hspace*{1cm}
-           \makebox[2.5cm][l]{\xiaoerhao\heiti\@coadvisorname}
-           \makebox[2cm][l]{\xiaoerhao\heiti\@coadvisortitle}}}
-       \else
-       \fi \\
+      %  &
+      %  \ifcoadvisor
+      %  \underline{\makebox[6cm][s]{
+      %      \hspace*{1cm}
+      %      \makebox[2.5cm][l]{\xiaoerhao\heiti\@coadvisorname}
+      %      \makebox[2cm][l]{\xiaoerhao\heiti\@coadvisortitle}}}
+      %  \else
+      %  \fi \\
      \end{tabular}
    \end{center}
   \end{minipage}
