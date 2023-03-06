@@ -22,8 +22,9 @@
 \typeout{Document Class `seuthesix' 1.0.1 by James Fan (2016/03/20)}
 
 \newif\ifnocolorlinks\nocolorlinksfalse
-\newif\ifcoadvisor\coadvisorfalse
-\newif\ifengineering\engineeringfalse
+\newif\ifcoadvisor\coadvisortrue
+% 这里修改学位级别
+\newif\ifengineering\engineeringtrue
 \newif\ifmasters\masterstrue
 \newif\ifphd\phdfalse
 \newif\ifalgorithmlist\algorithmlistfalse
@@ -38,8 +39,7 @@
 \DeclareOption{algorithmlist}{\algorithmlisttrue}
 \DeclareOption{phd}{\phdtrue\mastersfalse\engineeringfalse\renewcommand\@degreelevel{博士}}
 \DeclareOption{masters}{\masterstrue\engineeringfalse\phdfalse\renewcommand\@degreelevel{硕士}}
-\DeclareOption{engineering}{%
-\engineeringtrue\masterstrue\phdfalse\renewcommand\@degreelevel{工程硕士}}
+\DeclareOption{engineering}{\engineeringtrue\masterstrue\phdfalse\renewcommand\@degreelevel{工程硕士}}
 \DeclareOption{figurelist}{\figurelisttrue}
 \DeclareOption{tablelist}{\tablelisttrue}
 \DeclareOption{nomlist}{\nomlisttrue}
@@ -330,28 +330,28 @@ listtablename={表格目录}
    }
 \end{picture}
 
- \ifengineering
-\begin{picture}(0,0)
- \put(23,-7.2){ %
-\includegraphics[scale=0.68]{figures/engineering.png}}
-\end{picture}
-   \else \ifmasters
-\begin{picture}(0,0)
- \put(24.2,-7.2){ %
-\includegraphics[scale=1.1]{figures/master-hwzs.pdf}}
-\end{picture}
-   \else \ifphd
-\begin{picture}(0,0)
- \put(24.2,-7.2){ %
-\includegraphics[scale=1.1]{figures/doctor-hwzs.pdf}}
-\end{picture}
-   \else
+\ifengineering
+   \begin{picture}(0,0)
+      \put(23,-7.2){ %
+      \includegraphics[scale=0.68]{figures/engineering.png}}
+   \end{picture}
+\else \ifmasters
+   \begin{picture}(0,0)
+      \put(24.2,-7.2){ %
+      \includegraphics[scale=1.1]{figures/master-hwzs.pdf}}
+   \end{picture}
+\else \ifphd
+   \begin{picture}(0,0)
+   \put(24.2,-7.2){ %
+   \includegraphics[scale=1.1]{figures/doctor-hwzs.pdf}}
+   \end{picture}
+\else
    \ClassError{seuthesix}{invalid degree type option.}%
    {Check your class option of degree type to be one of the following:%
    masters, engineering, phd.}
    \fi
    \fi
-   \fi
+\fi
 
    \begin{picture}(0,0)
  \put(35,2){ %
@@ -423,21 +423,21 @@ listtablename={表格目录}
            \hspace*{1cm}
            \makebox[2.5cm][c]{\xiaoerhao\heiti\@author}
            \makebox[2cm][r]{ }}} \\
-       \makebox[3.5cm][s]{\xiaoerhao\songti\advisorpre: } &
-       \underline{\makebox[6cm][s]{
-           \hspace*{1cm}
-           \makebox[2.5cm][c]{\xiaoerhao\heiti\@advisorname}
-          %  \makebox[2cm][l]{\xiaoerhao\heiti\@advisortitle}}}
-           \makebox[2cm][r]{ }}}
-       \\
+         %   \makebox[2cm][r]{ }}}
+      \makebox[3.5cm][s]{\xiaoerhao\songti\advisorpre: } &
+      \underline{\makebox[6cm][s]{
+         \hspace*{1cm}
+         \makebox[2.5cm][c]{\xiaoerhao\heiti\@advisorname}
+         \makebox[2cm][c]{\xiaoerhao\heiti\@advisortitle}}} \\
       %  &
-      %  \ifcoadvisor
-      %  \underline{\makebox[6cm][s]{
-      %      \hspace*{1cm}
-      %      \makebox[2.5cm][l]{\xiaoerhao\heiti\@coadvisorname}
-      %      \makebox[2cm][l]{\xiaoerhao\heiti\@coadvisortitle}}}
-      %  \else
-      %  \fi \\
+       \ifcoadvisor
+         \makebox[3.5cm][s]{} &
+         \underline{\makebox[6cm][s]{
+            \hspace*{1cm}
+            \makebox[2.5cm][c]{\xiaoerhao\heiti\@coadvisorname}
+            \makebox[2cm][c]{\xiaoerhao\heiti\@coadvisortitle}}} \\
+       \else
+       \fi 
      \end{tabular}
    \end{center}
   \end{minipage}
@@ -535,6 +535,14 @@ listtablename={表格目录}
      \yihao\heiti\@subtitle
    \end{center}
 
+   \ifengineering
+      \begin{center}
+         \sihao\bfseries
+         (\engthesistypepre\@engthesistype)
+      \end{center}
+   \else
+   \fi
+
    \begin{center}
     \setlength{\tabcolsep}{0pt}
     \renewcommand{\arraystretch}{2.0}
@@ -548,17 +556,18 @@ listtablename={表格目录}
        \underline{\makebox[6cm][s]{
            \hspace*{1cm}
            \makebox[2.5cm][c]{\xiaoerhao\heiti\@advisorname}
-          %  \makebox[2cm][r]{\xiaoerhao\heiti\@advisortitle}}}
-           \makebox[2cm][r]{}}}
+           \makebox[2cm][c]{\xiaoerhao\heiti\@advisortitle}}}
+         %   \makebox[2cm][r]{}}}
        \\
       %  &
-      %  \ifcoadvisor
-      %  \underline{\makebox[6cm][s]{
-      %      \hspace*{1cm}
-      %      \makebox[2.5cm][c]{\xiaoerhao\heiti\@coadvisorname}
-      %      \makebox[2cm][r]{\xiaoerhao\heiti\@coadvisortitle}}}
-      %  \else
-      %  \fi \\
+       \ifcoadvisor
+         \makebox[3.5cm][s]{} &
+         \underline{\makebox[6cm][s]{
+            \hspace*{1cm}
+            \makebox[2.5cm][c]{\xiaoerhao\heiti\@coadvisorname}
+            \makebox[2cm][c]{\xiaoerhao\heiti\@coadvisortitle}}}
+       \else
+       \fi \\
      \end{tabular}
    \end{center}
 
@@ -582,7 +591,7 @@ listtablename={表格目录}
        \CoverBottomOption{\authorizedatepre}{\@authorizedate}\\
        \CoverBottomOption[4.05cm]{\committeechairpre}{\@committeechair} &
        \CoverBottomOption{\reviewerpre}{\@reviewerA}\\
-       & \CoverBottomOption{\makebox[2.55cm]{}}{\@reviewerB}
+      %  & \CoverBottomOption{\makebox[2.55cm]{}}{\@reviewerB}
      \end{tabular}
    \end{center}
 
@@ -597,10 +606,12 @@ listtablename={表格目录}
 
    \includegraphics[height=0.63in]{figures/seu-text-logo}
 
-   \ifmasters
-   \includegraphics{figures/master-hwzs}
-  \else
-  \includegraphics{figures/doctor-hwzs}
+   \ifengineering
+   \includegraphics[scale=0.65]{engineering.png}
+   % \else \ifmasters
+   % \includegraphics{figures/master-hwzs}
+   \else
+   \includegraphics{figures/doctor-hwzs}
   \fi
 
    \vspace{31.5pt}
@@ -621,15 +632,15 @@ listtablename={表格目录}
            \\
        \makebox[3.5cm][s]{ \xiaoerhao\heiti\advisorpre:  } &
        \underline{\makebox[6cm][s]{
-          % \xiaoerhao\songti\textbf{\@advisorname\quad\@advisortitle} }}
-          \xiaoerhao\songti\textbf{\@advisorname} }}
-\\
-      %  &
-      %  \ifcoadvisor
-      %  \underline{\makebox[6cm][s]{
-      %      \xiaoerhao\songti\textbf{\@coadvisorname\quad\@coadvisortitle} }}
-      %  \else
-      %  \fi
+          \xiaoerhao\songti\textbf{\@advisorname\quad\@advisortitle} }} \\
+         %  \xiaoerhao\songti\textbf{\@advisorname} }}
+
+       &
+       \ifcoadvisor
+       \underline{\makebox[6cm][s]{
+           \xiaoerhao\songti\textbf{\@coadvisorname\quad\@coadvisortitle} }} \\ \\
+       \else
+       \fi
      \end{tabular}
      }
  \end{center}
@@ -658,7 +669,7 @@ listtablename={表格目录}
        \ifengineering
        {For the Professional Degree of \@degreetypeen}
        \else
-       {For the Academic Degree of \@degreetypeen}
+       {For the Professional Degree of \@degreetypeen}
        \fi 
        \\
        {\vspace{0.5in}}%
