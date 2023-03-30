@@ -80,7 +80,7 @@
 \UDC{004.8}            %《国际十进分类法UDC》的类号
 \secretlevel{公开}    %学位论文密级分为"公开"、"内部"、"秘密"和"机密"四种
 \studentid{201965 }   %学号要完整，前面的零不能省略。
-\title{基于知识图谱表示学习的知识推理方法研究}{}{Research on Knowledge Reasoning Methods based on Knowledge Graph Representation Learning}{}
+\title{基于知识图谱表示学习的知识推理方法研究}{}{Research on Knowledge Reasoning based on Knowledge Graph Representation Learning}{}
 \author{周星辰}{Zhou Xingchen}
 \advisor{汪鹏}{副教授}{Wang Peng}{Associate Prof.}
 % 空白的时候需要加转移符
@@ -98,55 +98,53 @@
 \makecover
 
 \begin{abstract}{表示学习，知识推理，强化学习，知识图谱}
-  面向知识图谱的知识推理旨在识别知识图谱中的错误信息，以及从现有数据中进行推理得出新的知识并进一步完善知识图谱，是近年来知识图谱研究领域的热点问题之一。
-  通过在知识图谱上进行知识推理能够解决包括知识图谱补全、知识图谱问答和推荐系统在内的一系列问题，具有重要的研究和应用价值。
-  尽管当前面向知识图谱的知识推理已经存在许多研究工作，但现有工作在面对具有丰富层次结构信息的知识图谱以及长距离知识推理等复杂任务场景时，仍然存在知识推理精度不足等问题。
-  针对上述问题，本文首先提出一种基于图神经网络的知识图谱表示学习模型，该模型能够利用极坐标编码器捕获知识图谱中的层次结构，并采用图神经网络模型捕获知识图谱中节点的邻域信息进行知识表示和推理，同时通过因果干预调整图神经网络的消息传递过程以提高模型效果。
-  随后提出一种基于双重智能体强化学习的知识推理模型，该模型构建了两个强化学习知识推理模块，分别从实体和层次两种粒度进行知识推理，同时通过智能体交互机制实现智能体间的信息交互和轨迹协调以提高知识推理质量。
+  % 面向知识图谱的知识推理旨在识别知识图谱中的错误信息，以及推理得出新的知识并进一步完善知识图谱，是近年来知识图谱研究的热点问题之一。
+  面向知识图谱的知识推理旨在推理得出与查询内容相关的知识和路径，是近年来知识图谱研究的热点问题之一。
+  知识推理能够解决包括知识图谱补全、知识图谱问答和推荐系统在内的一系列问题，具有重要的研究和应用价值。
+  尽管当前面向知识图谱的知识推理已经存在许多研究工作，但现有工作在面对稀疏知识图谱上的知识推理和多跳知识推理等复杂场景时，仍然存在知识推理精度不足等问题。
+  针对上述问题，本文首先提出一种基于图神经网络的知识图谱表示学习模型，该模型能够利用基于极坐标系的编码器捕获知识图谱中的层次信息，并采用图神经网络模型捕获知识图谱中节点的邻域信息。
+  构建的模型能够将知识转换为表示向量，并可以为知识推理模型提供帮助。
+  随后提出一种基于双重智能体强化学习的知识推理模型，该模型采用强化学习框架，并构建了两种能够相互协作的强化学习智能体，分别根据知识图谱中的实体和层次信息进行知识推理，同时通过协作动作空间、协作策略网络和协作奖励实现两种智能体进行信息交流。
+  构建的模型可以根据给定的知识信息进行推理，并得到知识推理路径。
   本文的主要工作具体包括：
   \begin{itemize}
     \item [1)]\textbf{提出一种基于图神经网络的知识图谱表示学习模型NORMAN：}
-    模型首先利用层次信息提取模块，采用极坐标表示法编码知识图谱并通过半径坐标捕获知识图谱的层次信息，为各个模块提供数据支持。
-    随后采用因果推断模块，对图神经网络模块构建因果图，并采用邻域信息因果干预的方法，综合考虑层次差异得分、决策差异得分、预测置信度得分和推理距离得分等多种因素，构建二元分类器评估当前节点是否接收来自邻域节点的消息。
-    同时图神经网络模块层次信息提取模块的知识向量作为初始向量，采用消息传递机制更新向量，并通过因果推断模块评估是否接收来自邻域的消息，进而实现高质量知识图谱表示。
-    完成训练后的模型能够将输入的知识转化为向量，并可以用于后续知识推理工作。
-    在公开数据集上的实验结果表明，NORMAN模型在知识图谱补全任务上的性能要优于现有方法。
+    该方法主要针对知识图谱的层次信息和邻域信息进行建模，主要包含层次信息提取和图神经网络模型两部分。
+    模型首先使用一种基于极坐标系的编码器，将知识编码为极坐标向量的形式，其中半径坐标向量用于捕获知识的层次信息，角坐标向量则用于区分不同类别的知识。
+    随后使用一种图神经网络模型，首先利用层次信息提取过程得到的向量通过全连接层映射获取模型的初始向量，随后通过递归方式实现邻域子图构建和消息传递，并通过消息聚合和信息更新实现向量更新。
+    NORMAN模型能够有效地捕获知识图谱中的层次信息和邻域信息，进行高质量的知识表示，并能够通过单跳知识推理在知识图谱补全等任务中进行应用。
+    在公开数据集上的实验结果表明，NORMAN模型在知识图谱补全任务上优于现有模型。
     \item [2)]\textbf{提出一种基于双重智能体强化学习的知识推理模型LAURA：}
-    模型采用强化学习框架，能够根据知识图谱中的拓扑结构进行多跳推理，并能够通过显式推理生成具有可解释性的推理路径。
-    通过结合知识图谱表示学习模型NORMAN，LAURA模型能够对动作空间进行扩展，从而缓解了知识图谱稀疏造成动作空间不足的问题。同时通过利用NORMAN模型的评分函数作为软奖励提供给没有到达目标节点的推理过程，可以缓解知识推理的奖励稀疏问题。
-    在知识推理的过程中，实体级和层次级强化学习模块能够分别根据知识图谱中的实体和层次两种粒度的信息进行知识推理。
-    同时，通过双重智能体强化学习交互模块提供的协作动作空间、协作策略网络和协作奖励，能够让上述两种粒度的强化学习模块进行信息交互和轨迹协调，进而实现高质量知识推理。
-    在公开数据集上的实验结果表明，LAURA模型在单跳和多跳知识图谱问答任务上的性能要优于现有方法。
+    该方法能够同时利用知识图谱中的实体和层次信息进行知识推理。
+    模型首先采用了强化学习框架，能够根据知识图谱中的拓扑结构进行多跳推理并生成推理路径。
+    随后提出了一种新颖的双重智能体强化学习方法，在知识推理过程中构建了两种强化学习智能体，能够分别根据知识图谱中的实体和层次信息进行知识推理。同时，采用协作动作空间、协作策略网络和协作奖励方法帮助两种智能体实现信息交互，指导两种智能体沿相似路径进行知识推理，并帮助彼此到达正确的节点。
+    此外，模型通过使用NORMAN的评分函数，实现智能体的动作空间和奖励函数的扩展。
+    LAURA模型能够有效地利用知识图谱中的实体和层次信息，实现高质量和高可解释性的知识推理，并能够在知识图谱问答等任务中进行应用。
+    在公开数据集上的实验结果表明，LAURA模型在单跳和多跳知识图谱问答任务上优于现有模型。
   \end{itemize}
 \end{abstract}
 
 \begin{englishabstract}{represent learning, knowledge reasoning, reinforcement learning, knowledge graph}
-  Knowledge reasoning over knowledge graphs aims to identify misinformation in knowledge graphs, as well as to obtain new knowledge from existing data and further improve knowledge graphs. 
-  It is one of the hot issues in the field of knowledge graph research in recent years. 
-  Knowledge reasoning on knowledge graphs can solve a series of problems, including knowledge graph completion, knowledge graph question answering and recommendation system, which has important research and application value. 
+  Knowledge reasoning over knowledge graphs aims to identify misinformation in knowledge graphs, as well as to obtain new knowledge from existing data and further improve knowledge graphs. It is one of the popular issues in the field of knowledge graph research in recent years.
+  Knowledge reasoning over knowledge graph can solve a series of problems including knowledge graph completion, knowledge graph question answering and recommendation system, which has important research and application value.
   Although there are many research work on knowledge reasoning over knowledge graphs, there are still problems such as insufficient accuracy of knowledge reasoning in the face of complex task scenarios such as knowledge graphs with rich hierarchical information and long-distance knowledge reasoning. 
-  In view of the above problems, this paper first proposes a knowledge graph representation learning model based on causal inference. 
-  The model can use the polar coordinate encoder to capture the hierarchy in the knowledge graph, and use the graph neural network model to obtain the neighborhood information of the nodes in the knowledge graph for knowledge representation and reasoning. 
-  At the same time, causal inference method is used to evaluate the neighborhood structural differences in the process of message transmission to improve the stability and interpretability of the model.
-  Then, a knowledge reasoning model based on dual-agent reinforcement learning is proposed. 
-  The model constructs two reinforcement learning knowledge reasoning modules to carry out knowledge reasoning from the perspective of entity and hierarchy respectively. 
-  At the same time, the model can realize information interaction and path coordination through the dual-agent interaction module.
-  Coordinate with each other to achieve high-quality and high-interpretability knowledge reasoning. 
+  Aiming at the above problems, this paper first proposes a knowledge graph representation learning model based on graph neural network, which can capture hierarchical structures in the knowledge graph by using the polar encoder, and capture neighborhood structures of the nodes in the knowledge graph by using the graph neural network model.
+  Then, a knowledge reasoning model based on dual-agent reinforcement learning is proposed. This model adopts the reinforcement learning framework and constructs two reinforcement learning agents that can cooperate with each other to perform knowledge reasoning according to the entity and hierarchical information in the knowledge graph. At the same time, the two agents exchange information through cooperative action space, cooperative strategy network and cooperative reward.
   The main contributions of this paper include:
   \begin{itemize}
-    \item [1)]\textbf{A knowledge graph representation learning model based on causal inference, NORMAN, is proposed:}
-    First of all, the model uses the hierarchical information extraction module, which uses polar coordinate representation encoder to encode the knowledge graph and capture the hierarchical information of the knowledge graph through radius coordinates to improve the effect of knowledge graph representation.
-    Then, the causal inference module is used to construct a causal graph of the graph neural network module, and the method of causal intervention of neighborhood information is adopted to comprehensively consider a variety of factors such as hierarchical difference score, decision difference score, predictive confidence score and inference distance score to evaluate whether the current node receives information from the neighborhood nodes and improve stability of the model.
-    At the same time, through the graph neural network module, the results of the hierarchical information extraction module is used as the auxiliary, and the causal inference module is used to evaluate whether to receive neighborhood information. 
-    The completed training model can convert the input knowledge triples into the knowledge graph representation vectors and can be used for the tasks of knowledge reasoning.
-    Experimental results on public datasets show that the NORMAN model outperforms existing methods on knowledge graph completion tasks.
-    \item [2)]\textbf{A knowledge reasoning model based on dual-agent intensive learning, LAURA, is proposed:}
-    The model adopts the reinforcement learning framework, which can carry out multi-hop knowledge reasoning according to the topology of the knowledge graph, and can generate an interpretable reasoning path through explicit knowledge graph reasoning.
-    With the help of knowledge graph representation learning model NORMAN, the LAURA model can expand the action space, thus alleviating the sparseness of the knowledge graph. 
-    By using the scoring function of the NORMAN model as a soft reward fucntion to provide the reasoning process that does not reach the target node, the reward sparseness of knowledge reasoning can be alleviated.
-    In the process of knowledge reasoning, entity-level and hierarchy-level reinforcement learning modules can carry out knowledge reasoning based on the entity and hierarchy information in the knowledge graph respectively.
-    At the same time, the interaction between the above two reinforcement learning modules is realized through the dual-agent reinforcement learning interaction module. By adopting collaborative action space, collaborative strategy network and path similarity rewards, interaction between modules can be realized, the effect of knowledge reasoning can be improved, and high-quality knowledge reasoning can be achieved.
-    Experimental results on public datasets show that the LAURA model outperforms existing methods on both single-hop and multi-hop knowledge question answering tasks.
+    \item [1)]\textbf{A knowledge graph representation learning model based on graph neural network, NORMAN, is proposed:}
+    This proposed model mainly models the hierarchical information and neighborhood information in the knowledge graph, and mainly includes two parts: hierarchical information extraction and graph neural network model.
+    Firstly, an encoder based on polar coordinate system is proposed. The encoder can encode knowledge into the form of polar coordinate vectors, where the radius coordinate vector is used to capture the hierarchical information of knowledge, and the angular coordinate vector is used to distinguish different types of knowledge.
+    Then a graph neural network model is proposed. The model first uses the vector obtained from the hierarchical information extraction process to obtain the initial vector of the model through the fully connected layer mapping, and then implements neighborhood subgraph construction and message delivery in a recursive manner, and implements vector update through message aggregation and information update.
+    The NORMAN model can effectively capture the hierarchical and neighborhood information in the knowledge graph, perform high-quality knowledge representation, and can be applied in tasks such as knowledge graph completion.
+    Experimental results on public datasets show that the NORMAN model outperforms existing models on knowledge graph completion tasks.
+    \item [2)]\textbf{A knowledge reasoning model based on dual-agent reinforcement learning, LAURA, is proposed:}
+    This proposed model mainly applies the entity and hierarchical information in the knowledge graph for knowledge reasoning.
+    First, a reinforcement learning framework is adopted, which can perform multi-hop reasoning and generate reasoning paths according to the topological structure in the knowledge graph.
+    A novel dual-agent reinforcement learning model is subsequently proposed. In the process of knowledge reasoning, two kinds of reinforcement learning agents are constructed, which can perform knowledge reasoning according to the entity and hierarchical information in the knowledge graph respectively. At the same time, methods such as cooperative action space, cooperative strategy network and cooperative reward are used to help the two agents realize information interaction, guide the two agents to perform knowledge reasoning along similar paths, and help each other reach the correct node.
+    In addition, the model realizes the expansion of the agents' action space and reward function by using the scoring function of NORMAN.
+    The LAURA model can effectively utilize entity and hierarchical information in knowledge graphs to achieve high-quality and highly interpretable knowledge reasoning, and can be applied in tasks such as knowledge graph question answering.
+    Experimental results on public datasets show that the LAURA model outperforms existing models on single-hop and multi-hop knowledge graph question answering tasks.
   \end{itemize}
 \end{englishabstract} 
 
@@ -156,18 +154,18 @@
 \chapter{绪论}
 \section{研究背景}
 知识图谱（Knowledge Graph, KG）最早由Google公司在2012年提出，用于将事实知识进行结构化处理，并将其应用于智能搜索引擎。Google 知识图谱的成功应用，引起了学术界和工业界的广泛关注。知识图谱本质上是结构化的语义知识库，能够解释现实世界中的概念及关系~\cite{nickel2015review}。同时，知识图谱不采用诸如框架和脚本等繁琐的结构，而是采用形式更为灵活简单的(\textit{头实体}, \textit{关系}, \textit{尾实体})三元组以及与实体和关系相关的属性。其中，实体可以是现实世界的对象和抽象的概念，关系是实体之间的联系，实体和关系具有相应的属性。为了更直观地展示和分析知识图谱，还可以将知识图谱中的实体和关系分别作为节点和边，采用网络图的形式表示知识图谱~\cite{noy2019industry}。随着智能信息化的不断发展，知识图谱已被广泛应用于数据检索~\cite{rinaldi2021semantic,sarhan2021open,li2021research}、智能问答~\cite{li2021improving,do2021developing}、大数据分析决策~\cite{zhou2021geoscience,abu2021relational}等领域。典型的知识图谱如图\ref{1_KG}所示，其中包含各种类型的实体和关系信息，同时实体之间存在概念层次结构。
-\begin{figure}
+\begin{figure}[h]
   \centering
-  \includegraphics[width=0.9\textwidth]{1_KG}
+  \includegraphics[width=1.0\textwidth]{1_KG}
   \caption{知识图谱}
   \label{1_KG}
 \end{figure}
 
-在实践中，知识图谱旨在作为组织或社区内不断发展的知识共享基础。知识图谱可以分为两类，分别是通用知识图谱和领域知识图谱~\cite{hogan2021knowledge}。两类知识图谱的原理相同，区别在于知识范围和应用领域，两种知识图谱在国内外均已得到广泛应用。国外的通用知识图谱包括百科知识图谱Freebase~\cite{bollacker2007platform}，DBpedia~\cite{lehmann2015dbpedia}和Yago~\cite{hoffart2011yago2}，多语言百科知识图谱Wikidata~\cite{vrandevcic2014wikidata}，词典知识图谱WordNet~\cite{miller2007wordnet}和常识知识图谱CYC~\cite{lenat1995cyc}等。国内的通用知识图谱则包括中文百科知识图谱Zhishi.me~\cite{niu2011zhishi}，该知识图谱首先采用固定的抽取规则，从百度百科、互动百科和中文维基百科中抽取实体信息，随后对不同百科的实体进行对齐，从而完成实体链接。CN-DBpedia~\cite{xu2017cn}是复旦大学开发的大规模通用领域结构化百科，从中文百科类网站的纯文本信息中提取信息，经过过滤、融合、推断等步骤后构成高质量结构化数据。领域知识图谱主要服务于特定行业领域，随着知识图谱在工业界的推广，逐渐发挥着越来越重要的作用。国外的领域知识图谱包括服务网络搜索的Google\footnote{https://blog.google/products/search/introducing-knowledge-graph-things-not/}知识图谱，服务社交网络的LinkedIn\footnote{https://engineering.linkedin.com/blog/2016/10/building-the-linkedin-knowledge-graph}知识图谱，服务商业领域的Aribnb\footnote{https://medium.com/airbnb-engineering/scaling-knowledge-access-and-retrieval-at-airbnb-665b6ba21e95}和Amazon\footnote{https://www.aboutamazon.com/news/innovation-at-amazon/making-search-easier}知识图谱，以及服务金融领域的Banca d’Italia~\cite{bellomarini2019knowledge}知识图谱等。国内的领域知识图谱包括百度~\cite{wang2013xlore}、淘宝~\cite{xu2021alime}、微博~\cite{wei2020analysis}等企业的知识图谱。由于领域知识图谱涉及到具体而复杂的领域场景，需要业务和开发专家的配合，因此对领域知识图谱的设计和开发提出了更高的要求。
+在实践中，知识图谱旨在作为组织或社区内不断发展的知识共享基础。知识图谱可以分为两类，分别是通用知识图谱和领域知识图谱~\cite{hogan2021knowledge}。两类知识图谱的原理相同，区别在于知识范围和应用领域，两种知识图谱在国内外均已得到广泛应用。国外的通用知识图谱包括百科知识图谱Freebase~\cite{bollacker2007platform}，DBpedia~\cite{lehmann2015dbpedia}和Yago~\cite{hoffart2011yago2}，多语言百科知识图谱Wikidata~\cite{vrandevcic2014wikidata}，词典知识图谱WordNet~\cite{miller2007wordnet}和常识知识图谱CYC~\cite{lenat1995cyc}等。国内的通用知识图谱则包括中文百科知识图谱Zhishi.me~\cite{niu2011zhishi}，该知识图谱首先采用固定的抽取规则，从百度百科、互动百科和中文维基百科中抽取实体信息，随后对不同百科的实体进行对齐，从而完成实体链接。CN-DBpedia~\cite{xu2017cn}是复旦大学开发的大规模通用领域结构化百科，从中文百科类网站的纯文本信息中提取信息，经过过滤、融合、推断等步骤后构成高质量结构化数据。领域知识图谱主要服务于特定行业领域，随着知识图谱在工业界的推广，逐渐发挥着越来越重要的作用。国外的领域知识图谱包括服务网络搜索的Google\footnote{https://blog.google/products/search/introducing-knowledge-graph-things-not/}知识图谱，服务社交网络的LinkedIn\footnote{https://engineering.linkedin.com/blog/2016/10/building-the-linkedin-knowledge-graph}知识图谱，服务商业领域的Aribnb\footnote{https://medium.com/airbnb-engineering/scaling-knowledge-access-and-retrieval-at-airbnb-665b6ba21e95}和Amazon\footnote{https://www.aboutamazon.com/news/innovation-at-amazon/making-search-easier}知识图谱，以及服务金融领域的Banca d’Italia~\cite{bellomarini2019knowledge}知识图谱等。国内的领域知识图谱包括百度~\cite{wang2013xlore}、淘宝~\cite{xu2021alime}、微博~\cite{wei2020analysis}等企业的知识图谱。由于领域知识图谱涉及到具体而复杂的领域场景，需要业务和开发专家的配合，因此对领域知识图谱的设计和开发提出了更高的要求。综上所述，知识图谱能够采用简洁的表示形式，将复杂多样的知识转化为清晰的三元组形式，并提供了强大的知识存储和推理能力，具有重要的研究和应用价值。
 
-知识图谱能够采用简洁的表示形式，将复杂多样的知识转化为清晰的三元组形式，并提供了强大的知识存储和推理能力。然而，知识图谱的知识信息通常采用自然语言进行描述，难以被计算机所处理和应用。因此，为了方便知识图谱的后续应用，需要将知识图谱内的知识信息转换为计算机能够直接处理的向量形式，这项技术被称为知识图谱表示学习（Knowledge Graph Representation Learning, KGRL）~\cite{chen2022rlpath}或知识图谱嵌入（Knowledge Graph Embedding, KGE）~\cite{wang2021transet}。知识图谱表示学习模型能够将知识图谱中的实体和关系映射到低维稠密的向量空间进行表示，同时保留其中的结构和语义信息，从而能够进行知识推理等知识应用工作。知识图谱表示学习主要涉及四个问题：（1）选择何种表示空间：现有的模型采用的表示空间可以分为欧氏空间~\cite{lu2022dense}、流形空间~\cite{ebisu2018toruse}、复向量空间~\cite{trouillon2016complex}和黎曼空间~\cite{pan2021hyperbolic}。（2）采用何种评分函数：现有的评分函数包括基于距离的评分函数~\cite{sachan2020knowledge}和基于语义相似度的评分函数~\cite{xiao2017ssp}。（3）应用何种编码模型：现有模型采用的编码模型包括线性模型~\cite{peng2020lineare}、双线性模型~\cite{pan2021hyperbolic}、因式分解模型~\cite{ji2015knowledge}和神经网络模型~\cite{jiang2021kernel}。（4）是否采用辅助信息，以及采用何种辅助信息：可以加入文本信息、视觉信息和类型信息等多种辅助信息~\cite{wang2017knowledge}。通过知识图谱表示学习，可以将知识信息转换为向量表示，作为知识图谱补全等下游任务的输入。由于知识图谱通常是采用自动或半自动的方式进行构建，因此通常是不完整的。通过现有知识预测知识图谱中缺失的知识，进行知识图谱补全，是提高知识图谱质量的有效手段~\cite{vu2019capsule}。
+然而，知识图谱的知识信息通常采用自然语言进行描述，难以被计算机所处理和应用。因此，为了方便知识图谱的后续应用，需要将知识图谱内的知识信息转换为计算机能够直接处理的向量形式，这项技术被称为知识图谱表示学习（Knowledge Graph Representation Learning, KGRL）~\cite{chen2022rlpath}或知识图谱嵌入（Knowledge Graph Embedding, KGE）~\cite{wang2021transet}。知识图谱表示学习模型能够将知识图谱中的实体和关系映射到低维稠密的向量空间进行表示，同时保留其中的结构和语义信息，从而能够进行知识推理等知识应用工作。知识图谱表示学习主要涉及四个问题：（1）选择何种表示空间：现有的模型采用的表示空间可以分为欧氏空间~\cite{lu2022dense}、流形空间~\cite{ebisu2018toruse}、复向量空间~\cite{trouillon2016complex}和黎曼空间~\cite{pan2021hyperbolic}。（2）采用何种评分函数：现有的评分函数包括基于距离的评分函数~\cite{sachan2020knowledge}和基于语义相似度的评分函数~\cite{xiao2017ssp}。（3）应用何种编码模型：现有模型采用的编码模型包括线性模型~\cite{peng2020lineare}、双线性模型~\cite{pan2021hyperbolic}、因式分解模型~\cite{ji2015knowledge}和神经网络模型~\cite{jiang2021kernel}。（4）是否采用辅助信息，以及采用何种辅助信息：可以加入文本信息、视觉信息和类型信息等多种辅助信息~\cite{wang2017knowledge}。通过知识图谱表示学习，可以将知识信息转换为向量表示，作为知识图谱补全等下游任务的输入。由于知识图谱通常是采用自动或半自动的方式进行构建，因此通常是不完整的。通过现有知识预测知识图谱中缺失的知识，进行知识图谱补全，是提高知识图谱质量的有效手段~\cite{vu2019capsule}。同时知识图谱表示学习也能够通过简单的单跳知识推理，完成部分知识图谱问答工作，在智能问答等应用中具有重要价值。
 
-知识图谱的典型应用包括知识图谱补全和知识图谱问答。尽管知识图谱表示学习能够完成部分知识图谱补全和知识图谱问答的工作，但无法对关系路径进行建模，而只能基于单个实体或者关系进行简单的补全或问答，如进行单跳知识图谱问答。同时，知识图谱表示学习通过向量计算的方法进行隐式的知识补全，本质上属于黑盒模型，无法提供充分的证据，可解释性比较差。因此，需要借助知识图谱上的知识推理方法，综合考虑知识图谱网络图的拓扑结构信息对复杂关系路径进行建模，从而解决更为复杂的知识图谱补全和知识图谱问答内容，如实现多跳知识图谱问答，并提供相应推理证据~\cite{chen2020review}。知识推理不局限于传统的基于逻辑的和规则的推理方法，还可以采用更多样化的推理方法，随着技术的发展，一系列新的知识推理方法不断涌现，例如随机游走方法~\cite{jagvaral2020path}、路径排序方法~\cite{zhao2021target}、启发式方法~\cite{he2021heuristic}和神经网络方法~\cite{wang2018deep}等。丰富的知识图谱内容为知识推理技术的发展提供了新的机遇和挑战。
+尽管知识图谱表示学习能够完成部分知识图谱补全和知识图谱问答的工作，但无法对关系路径进行建模，而只能基于单个实体或者关系进行简单的补全或问答，如进行单跳知识图谱问答。同时，知识图谱表示学习通过向量计算的方法进行隐式的知识图谱补全，本质上属于黑盒模型，无法提供充分的证据，可解释性比较差。因此，需要借助知识图谱上的知识推理方法，综合考虑知识图谱网络图的拓扑结构信息对复杂关系路径进行建模，从而解决更为复杂的知识图谱补全和知识图谱问答内容，如实现多跳知识图谱问答，并提供相应推理证据~\cite{chen2020review}。知识推理不局限于传统的基于逻辑的和规则的推理方法，还可以采用更多样化的推理方法，随着技术的发展，一系列新的知识推理方法不断涌现，例如随机游走方法~\cite{jagvaral2020path}、路径排序方法~\cite{zhao2021target}、启发式方法~\cite{he2021heuristic}和神经网络方法~\cite{wang2018deep}等。丰富的知识图谱内容为知识推理技术的发展提供了新的机遇和挑战。
 
 综上所述，知识图谱在人工智能应用中具有较大价值，面向知识图谱的表示学习技术有助于将知识图谱转化成易于处理和应用的知识图谱表示向量，并为下游任务提供充分的支持。知识推理是知识图谱智能应用的一个重要任务，深入研究该任务，有助于加深对知识图谱的认知，并充分和有效地利用知识图谱的知识。因此，本文旨在提出一种有效的知识图谱表示学习模型，随后基于知识图谱表示学习模型，实现一种知识推理模型，在适用于大规模知识图谱的前提下保证知识推理的质量，并能够解决诸如知识图谱补全、单跳知识图谱问答、多跳知识图谱问答和稀疏知识图谱上的知识图谱问答等知识推理任务。
 
@@ -175,8 +173,12 @@
 本节对面向知识图谱的表示学习和知识推理方法进行介绍，并介绍了一些常见的知识推理应用，此外还针对现有工作的问题进行了分析。
 
 \subsection{知识图谱表示学习研究现状}
-知识图谱能够有效地表示知识图谱中的结构化数据，但是难以被计算机进行直接处理和利用，需要先通过知识图谱表示学习的过程将知识三元组转换为向量的形式，才能应用于各类知识图谱推理任务。知识图谱可以表示为$G=\{E, R, F\}$，其中$E$、$R$和$F$分别表示实体、关系和事实的集合。知识图谱内的事实三元组可以表示为$(h, r, t) \in F$，其中$h$、$r$和$t$分别表示头实体、关系和尾实体。例如，对于给定的事实三元组(\textit{美国，首都，华盛顿特区})，其中的\textit{美国}是头实体$h$，\textit{华盛顿特区}是尾实体$t$，\textit{首都}则是头实体和尾实体之间的关系$r$。同时根据定义，有$h \in E$，$t \in E$，$r \in R$，以及$(h, r, t) \in F$。经过知识图谱表示学习后，可以将知识图谱中的节点和关系映射到低维稠密向量空间中。
-这里使用粗体字符表示知识图谱表示向量，并设置目标向量空间为$d$维的欧氏空间，则完成知识表示后的实体和关系向量有$\bm{e} \in \mathbb{R}^{\mathrm{d}}$和$\bm{r} \in \mathbb{R}^{\mathrm{d}}$。欧氏空间是一种常用的向量空间，在实际的知识图谱表示学习任务中需要根据模型的需要来设置向量空间。为了构建知识图谱表示学习模型，需要完成三个步骤：（1）定义实体和关系在向量空间的表示形式。在这一步中，需要选择向量空间，设计编码模型，并确定是否需要辅助信息。（2）定义评分函数$f_r(h, t)$，用于评价知识$(h, r, t)$的合理性。知识图谱中可见事实三元组的得分一般会高于潜在事实三元组的得分。以及（3）学习实体和关系的表示，使知识图谱中可见事实三元组的总置信度最大化。
+知识图谱能够有效地表示知识图谱中的结构化数据，但是难以被计算机进行直接处理和利用，需要先通过知识图谱表示学习的过程将知识三元组转换为向量的形式，才能应用于各类知识图谱推理任务。
+
+知识图谱可以表示为$G=\{E, R, F\}$，其中$E$、$R$和$F$分别表示实体、关系和事实的集合。知识图谱内的事实三元组可以表示为$(h, r, t) \in F$，其中$h$、$r$和$t$分别表示头实体、关系和尾实体。例如，对于给定的事实三元组(\textit{美国，首都，华盛顿特区})，其中的\textit{美国}是头实体$h$，\textit{华盛顿特区}是尾实体$t$，\textit{首都}则是头实体和尾实体之间的关系$r$。同时根据定义，有$h \in E$，$t \in E$，$r \in R$，以及$(h, r, t) \in F$。经过知识图谱表示学习后，可以将知识图谱中的节点和关系映射到低维稠密向量空间中。
+这里使用粗体字符表示知识图谱表示向量，并设置目标向量空间为$d$维的欧氏空间，则完成知识表示后的实体和关系向量有$\bm{e} \in \mathbb{R}^{\mathrm{d}}$和$\bm{r} \in \mathbb{R}^{\mathrm{d}}$。欧氏空间是一种常用的向量空间，在实际的知识图谱表示学习任务中需要根据模型的需要来设置向量空间。
+
+为了构建知识图谱表示学习模型，需要完成三个步骤：（1）定义实体和关系在向量空间的表示形式。在这一步中，需要选择向量空间，设计编码模型，并确定是否需要辅助信息。（2）定义评分函数$f_r(h, t)$，用于评价知识$(h, r, t)$的合理性。知识图谱中可见事实三元组的得分一般会高于潜在事实三元组的得分。以及（3）学习实体和关系的表示，使知识图谱中可见事实三元组的总置信度最大化。
 
 目前的知识图谱表示学习模型可以分为翻译模型，语义匹配模型和因果推断模型。
 
@@ -248,60 +250,58 @@ DeepPath~\cite{wang2019deeppath}首先将强化学习模型应用到了关系路
 
 \begin{itemize}
   \item [1)]\textbf{模型对知识图谱层次信息的感知能力不强：}现有面向知识图谱的表示学习和知识推理模型通常能够较好的建模知识图谱内部三元组的语义信息，但是通常对知识图谱的层次信息建模能力较差，导致在进行知识图谱表示和知识推理的过程中无法充分利用知识图谱内丰富的层次信息，限制了模型效果。
-  \item [2)]\textbf{模型难以分析和体现知识的因果性：}现有的知识图谱表示学习模型通常直接选择捕获目标知识的实体和邻域信息进行表示学习，而没有进行因果推断以避免邻域结构差异对表示结果的影响。同时知识图谱表示学习过程无法清晰地评估实体和邻域信息对表示结果的贡献程度，限制了模型在下游任务中的表现。
-  \item [3)]\textbf{模型在复杂知识推理任务上的推理能力不足：}多跳推理任务和稀疏知识图谱上的复杂知识推理任务在现实世界中十分常见，具有重要的研究和应用价值。然而现有的知识推理模型在上述复杂推理任务上的表现仍然较差，同时，直接采用知识图谱表示学习模型只能实现单跳推理，这限制了知识图谱表示学习模型在知识推理任务上的进一步应用。
-  \item [4)]\textbf{模型可解释性较差：}采用神经网络结构的知识推理模型由于模型结构属于黑盒模型，所以难以分析模型通过知识推理得出结果的具体过程。同时如果采用知识图谱表示学习模型直接进行知识推理，则模型只会得出推理结果，而不会提供相应的推理路径和证据信息，这导致难以分析模型推理具体过程并进而优化模型。
-  \item [5)]\textbf{知识图谱表示学习模型与知识推理模型的结合不够充分：}由于通常情况下知识图谱表示学习模型与知识推理模型的训练过程相互分离和缺乏协作，导致模型间的结合不够充分，从而降低了面向知识图谱的知识推理的效果。
+  \item [2)]\textbf{模型可解释性较差：}采用神经网络结构的知识推理模型由于模型结构属于黑盒模型，所以难以分析模型通过知识推理得出结果的具体过程。同时如果采用知识图谱表示学习模型直接进行知识推理，则模型只会得出推理结果，而不会提供相应的推理路径和证据信息，这导致难以分析模型推理具体过程并进而优化模型。
+  \item [3)]\textbf{知识图谱表示学习模型与知识推理模型的结合不够充分：}由于通常情况下知识图谱表示学习模型与知识推理模型的训练过程相互分离和缺乏协作，导致模型间的结合不够充分，从而降低了面向知识图谱的知识推理的效果。
+  \item [4)]\textbf{模型在复杂知识推理任务上的推理能力不足：}稀疏知识图谱上的知识推理任务和多跳推理任务在现实世界中十分常见，具有重要的研究和应用价值。然而现有的知识推理模型在面对上述复杂推理任务时表现仍然较差。同时，直接采用知识图谱表示学习模型只能实现单跳推理，这限制了知识图谱表示学习模型在知识推理任务上的进一步应用。
 \end{itemize}
 
 \section{论文工作}
-针对现有的面向知识图谱的表示学习和知识推理方法存在的问题，本文提出了知识图谱表示学习模型NORMAN（k\textbf{NO}wledge graph \textbf{R}epresentation learning \textbf{M}odel based on gr\textbf{A}ph \textbf{N}eural network）和知识推理模型LAURA（know\textbf{L}edge graph re\textbf{A}soning model based on d\textbf{U}al-agent \textbf{R}einforcement le\textbf{A}rning）。
-NORMAN模型首先获取知识图谱中的层次级别和知识表示向量，随后将它们作为输入提供给图神经网络模型进行模型训练，并在训练过程中将因果推断方法融入消息传递过程中以提高模型的稳定性，最终完成知识图谱表示学习模型的训练，得到的模型能够将知识转换为向量表示，并可以为知识推理过程提供支持。
-LAURA模型利用NORMAN模型提供的层次信息和得分函数，训练实体级和层次级两种粒度的强化学习推理模型，并通过协作动作空间、协作策略网络和协作奖励实现实体级和层次级知识推理模型的信息交互和轨迹协调，最终完成知识图谱推理模型的训练，得到的模型可以根据给定知识信息进行推理，返回知识推理结果、推理路径和推理置信度信息。
-\begin{figure}
+本文提出了基于图神经网络的知识图谱表示学习模型NORMAN（k\textbf{NO}wledge graph \textbf{R}epresentation learning \textbf{M}odel based on gr\textbf{A}ph \textbf{N}eural network）和基于双重智能体强化学习的知识推理模型LAURA（know\textbf{L}edge graph re\textbf{A}soning model based on d\textbf{U}al-agent \textbf{R}einforcement le\textbf{A}rning）。
+
+NORMAN模型首先采用基于极坐标系的编码器对知识图谱进行编码，从而捕获知识图谱中的层次信息，并将获取到的知识向量输入给图神经网络模型。随后通过图神经网络模型构建邻域子图并进行消息传递，从而捕获知识图谱中的邻域信息，并完成知识向量的更新。训练后得到的NORMAN模型能够将知识转换为向量形式，并可以为知识推理过程提供支持。
+LAURA模型利用NORMAN模型提供的层次信息和得分函数，训练两种分别能获取实体和层次信息的强化学习智能体，并通过协作动作空间、协作策略网络和协作奖励实现两种智能体的信息交互和轨迹协调，最终完成知识推理模型的训练。得到的模型可以根据给定知识信息进行推理，返回知识推理结果、推理路径和推理置信度等信息。
+
+\begin{figure}[t]
   \centering
   \includegraphics[width=1.0\textwidth]{1_Total}
   \caption{技术路线图}
   \label{1_Total}
 \end{figure}
 图\ref{1_Total}是本文的整体研究技术框架，具体研究内容如下：
-
 \begin{itemize}
-  \item [1)]\textbf{提出一种基于图神经网络的知识图谱表示学习模型：}
-  该模型包含层次信息提取模块、因果推断模块和图神经网络模块。
-  层次信息提取模块的目标是增强模型对层次信息的利用能力，提高模型对知识信息的表示效果。本文采用极坐标表示法编码知识图谱，并以半径坐标作为知识的层次信息，角坐标则用于区分不同类别的知识。通过对半径坐标进行聚类，可以实现对知识的层次信息提取，为因果推断模块提供数据支持。
-  因果推断模块采用因果推断方法评估邻域信息是否有助于进行表示和推理并进行邻域信息取舍。本文采用邻域信息因果干预的方法，综合考虑层次差异得分、决策差异得分、预测置信度得分和推理距离得分等多种因素，判断当前节点是否接收来自邻域节点的信息。本文通过加入因果推断方法提高知识图谱表示效果，为知识推理提供充分支持。
-  图神经网络模块采用图神经网络模型，能够充分利用知识图谱中各个实体的邻域结构信息，并通过邻域间的信息传递进行表示向量更新。在此过程中，模块利用层次信息提取模块的层次信息作为辅助，采用因果推断模块评估是否接收邻域信息。完成训练后的模型，能够将输入的知识三元组转换为表示向量，并可以用于后续知识推理工作。
-  在公开数据集上的实验结果表明，本文提出的NORMAN模型在知识图谱补全任务上优于现有模型。
-  \item [2)]\textbf{提出一种基于双重智能体强化学习的知识推理模型：}
-  该模型包含实体级强化学习模块、层次级强化学习模块和双重智能体强化学习交互模块。
-  模型采用强化学习框架，能够根据知识图谱中的拓扑结构进行多跳推理并生成推理路径，提高知识推理的可解释性。
-  通过融合知识图谱表示学习模型，知识推理模型能够对动作空间进行扩展，从而增强了模型在稀疏知识图谱上的推理能力。
-  模型将知识图谱表示学习的评分函数作为软奖励提供给没有到达目标节点的推理过程，缓解了强化学习的奖励稀疏问题，加快了智能体的学习速度，增强了模型的知识推理能力。
-  在知识推理过程中，实体级和层次级强化学习模块能够分别根据知识图谱中的实体和层次信息进行知识推理，实现微观和宏观两种粒度的知识推理。
-  同时，双重智能体强化学习交互模块用于实现上述两种粒度的强化学习模块的合作。通过采用协作动作空间、协作策略网络和协作奖励实现模块间的信息交互和轨迹协调，进而实现高质量和高可解释性的知识推理。
-  在公开数据集上的实验结果表明，本文提出的LAURA模型在单跳和多跳知识图谱问答任务上优于现有模型。
+  \item [1)]\textbf{提出一种基于图神经网络的知识图谱表示学习模型NORMAN：}
+  该方法主要针对知识图谱的层次信息和邻域信息进行建模，主要包含层次信息提取和图神经网络模型两部分。
+  首先为了捕获知识图谱中的层次信息并对不同的实体和关系进行区分，提出了一种基于极坐标系的编码器。该编码器能够将知识编码为极坐标向量的形式，其中半径坐标向量用于捕获知识的层次信息，角坐标向量则用于区分不同类别的知识。
+  随后为了捕获知识图谱中的邻域信息，提出了一种图神经网络模型。该模型首先利用层次信息提取过程得到的向量通过一个全连接层映射获取模型的初始向量，随后通过递归方式实现邻域子图构建和消息传递，并通过消息聚合函数将邻域子图中的消息聚合起来，通过信息更新函数将消息与节点向量相结合，实现节点信息更新。同时在消息传递过程中，对各个邻域节点的消息采用注意力机制，从而区分不同节点的消息贡献程度。
+  通过上述方法，NORMAN模型能够有效地捕获知识图谱中的层次信息和邻域信息，进行高质量的知识表示，并能够在知识图谱补全等下游任务中进行应用。
+  在多个公开数据集上的实验结果表明，本文提出的NORMAN模型在知识图谱补全任务上优于现有模型。
+  \item [2)]\textbf{提出一种基于双重智能体强化学习的知识推理模型LAURA：}
+  该方法主要针对知识图谱中的实体和层次信息进行建模。
+  首先为了提高知识推理的可解释性，采用了强化学习框架，能够根据知识图谱中的拓扑结构进行多跳推理并生成推理路径，从而实现高可解释性的知识推理。
+  随后为了保证知识推理路径的充分性，提出了一种新颖的双重智能体强化学习方法。在知识推理过程中构建了两种能够相互协作进行知识推理的强化学习智能体，两种智能体能够分别根据知识图谱中的实体和层次信息进行知识推理。同时，采用协作动作空间、协作策略网络和协作奖励等方法，能够帮助两种智能体实现信息交互，指导两种智能体沿相似路径进行知识推理，并帮助彼此到达正确的节点，进而实现高质量和高可解释性的知识推理。
+  此外，通过融合知识图谱表示学习模型NORMAN，能够对智能体的动作空间进行扩展，从而缓解了知识图谱稀疏造成的智能体动作空间较小的问题。同时通过利用NORMAN模型的评分函数计算软奖励提供给没有到达目标节点的推理过程，缓解了在知识图谱上应用强化学习框架存在的奖励稀疏问题，提高了智能体的学习速度和推理能力。
+  在多个公开数据集上的实验结果表明，本文提出的LAURA模型在单跳和多跳知识图谱问答任务上优于现有模型。
 \end{itemize}
-
 
 \section{论文组织结构}
 本文共分为四章，各章的主要内容如下：
 
-第一章为论文的绪论部分，首先对论文的研究背景进行了介绍，随后分别从面向知识图谱的表示学习模型和知识推理模型两种角度进行分析，并给出了当前知识推理的主要应用，最后分析了当前面向知识图谱的表示学习和知识推理方法存在的问题，并引出了本文工作。
+第一章为论文的绪论部分。首先对论文的研究背景进行了介绍；随后分别从面向知识图谱的表示学习模型和知识推理模型两种角度进行分析，并介绍了当前知识推理的主要应用；最后分析了当前研究面临的挑战，并介绍了本文的主要工作。
 
-第二章提出了一种基于图神经网络的知识图谱表示学习模型NORMAN。首先介绍知识图谱表示学习任务，随后进行模型框架概览，并对模型的三个模块进行详细介绍，随后针对模型开展实验评估，最后对模型进行总结。
+第二章提出了一种基于图神经网络的知识图谱表示学习模型NORMAN。首先介绍知识图谱表示学习的目标；随后阐述了本文提出的基于图神经网络的知识图谱表示学习模型，详细介绍了模型各个部分的组成成分和方法原理；随后在公开数据集上开展实验评估，验证了模型的有效性；最后对本章内容进行总结。
 
-第三章提出了一种基于双重智能体强化学习的知识推理模型LAURA。首先介绍知识推理任务，随后完成模型框架概览，对模型的三个模块进行详细介绍，随后对模型开展实验评估，最后对模型进行总结。
+第三章提出了一种基于双重智能体强化学习的知识推理模型LAURA。首先介绍知识推理的目标；随后介绍了模型采用的强化学习框架和构造两种智能体的过程，并详细阐述了采用双重智能体共同进行知识推理的过程和原理；随后在公开数据集上开展实验评估，验证了模型的有效性；最后对本章内容进行总结。
 
-第四章对全文工作进行了总结，并展望了未来研究方向。
+第四章对全文工作进行了总结，并展望了未来的研究方向。
 
 
 \chapter{基于图神经网络的知识图谱表示学习模型}
-本章提出一种基于图神经网络的知识图谱表示学习模型NORMAN，主要包含三个模块，分别是层次信息提取模块、因果推断模块和图神经网络模块，该方法首先通过极坐标编码模型捕获知识图谱的层次信息，随后通过图神经网络模型进行知识图谱表示，并在图神经网络消息传递过程中利用因果推断方法提高知识表示效果。
-% 本章主要包含七个部分：知识图谱表示学习任务定义（2.1节），模型方法概览（2.2节），层次信息提取模块（2.3节），因果推断模块（2.4节），知识图谱嵌入模块（2.5节），实验评估（2.6节），以及本章小结（2.7节）。
+本章提出一种基于图神经网络的知识图谱表示学习模型NORMAN，该方法首先通过基于极坐标系的编码器捕获知识图谱的层次信息，随后通过图神经网络模型进行知识图谱表示。
+本章主要包含六个部分：知识图谱表示学习任务定义（2.1节），模型概览（2.2节），层次信息提取（2.3节），图神经网络模型（2.4节），实验评估（2.5节），以及本章小结（2.6节）。
 
 \section{知识图谱表示学习任务定义}
-知识图谱可以表示为$G=\{E, R, F\}$，其中$E$、$R$和$F$分别表示实体、关系和事实的集合。知识图谱内的知识三元组可以表示为$(h, r, t) \in F$，其中$h$、$r$和$t$分别表示头实体、关系和尾实体。同时根据定义，有$h \in E$，$t \in E$，以及$r \in R$。
+知识图谱可以表示为$G=\{E, R, F\}$，其中$E$、$R$和$F$分别表示实体、关系和事实的集合。
+知识图谱内的知识三元组可以表示为$(h, r, t) \in F$，其中$h$、$r$和$t$分别表示头实体、关系和尾实体。同时根据定义，有$h \in E$，$t \in E$，以及$r \in R$。
 例如图\ref{2_KG}\subref{2_KG_a}中通过三元组形式展示了知识图谱YAGO中的部分知识信息。
 知识图谱也可以表示为有向图的形式，其中节点代表实体，边代表关系，如图\ref{2_KG}\subref{2_KG_b}所示。
 同时，知识图谱中可能包含如图中虚线所示的潜在知识。这部分潜在知识需要通过知识图谱补全方法进行获取。
@@ -337,32 +337,34 @@ LAURA模型利用NORMAN模型提供的层次信息和得分函数，训练实体
   \item [2)] 定义评分函数。评分函数可以表示为$f_r(h, t)$，用于评价知识$(h, r, t)$的合理性。一般而言，知识图谱中已知的事实知识三元组的得分会高于潜在事实三元组的得分。
   \item [3)] 学习知识表示，使知识图谱事实三元组的总置信度最大化。
 \end{itemize}
-通过上述训练步骤能够得到一个有效的知识图谱表示学习模型，该模型能够将知识表示为向量的形式，并能够用于各类知识图谱下游任务。
+通过上述步骤能够得到一个有效的知识图谱表示学习模型，该模型能够将知识表示为向量的形式，并能够用于各类知识图谱下游任务。
 
 本章涉及到的相关符号及定义如表\ref{2_symbols}所示。
 \begin{table}[ht]
   \centering
+  \caption{本章符号定义}
   \begin{tabular*}{0.8\textwidth}{@{\extracolsep{\fill}}clcl}
 		\toprule[1pt]
     符号 & 描述 & 符号 & 描述 \\ \hline
+    $G$ & 知识图谱 & $F$ & 知识图谱事实集合\\
     $\mathbb{R}^{\mathrm{d}}$ & $d$维欧氏空间 & $h$ & 节点\\
     $\|\cdot\|_{p}$ & $p$范数 & $\alpha$ & 注意力权重\\
     $\circ$ & 哈达玛积运算 & $D$ & 数据集合\\
     $\bmod$ & 求余运算 & $\lambda$ & 权重\\ 
-    $E(\cdot)$ & 期望计算 & $\epsilon$ & 聚类最大步数\\
+    $E(\cdot)$ & 期望计算 & $dim$ & 向量嵌入维度\\
     $\rho$ & 半径坐标 & $\gamma$ & 固定边界值\\
     $\theta$ & 角坐标 & $m$ & 消息\\
     $n$ & 邻域节点 & $L$ & 最大消息传递距离\\
 		\bottomrule[1pt]
 	\end{tabular*}
-  \caption{本章符号定义}
   \label{2_symbols}
 \end{table}
 
 \section{模型概览}
-本章提出的NORMAN模型可以根据知识图谱的结构信息和关联情况，将实体和关系转换为特征向量。图\ref{2_NORMAN}展示了NORMAN模型的结构框架信息。
-对于层次信息提取模块，需要将知识图谱中的知识三元组数据作为输入。模块使用欧氏空间作为知识表示空间，采用翻译模型评分函数，并选择极坐标系编码模型获取知识的表示向量。同时模块还会提取知识表示向量中的半径坐标，并通过聚类算法获取知识对应的层次级别。模块的输出包括知识表示向量和知识层次级别两部分内容。
-对于图神经网络模块，该模块为知识图谱表示学习模型的主体部分，采用图神经网络模型，在训练过程中将层次信息提取模块的知识向量作为对应知识的初始向量，并通过知识邻域间的消息传递进行向量更新，同时使用因果推断方法评估各个图神经网络节点是否接收特定邻域的信息。完成训练后的模型能够将输入的结构化知识转换为表示向量，并用于后续的知识推理任务。
+本章提出的NORMAN模型可以根据知识图谱的语义和结构信息，将实体和关系转换为表示向量。图\ref{2_NORMAN}展示了NORMAN模型的结构框架信息。
+首先模型会对输入的知识图谱进行层次信息提取，该部分使用欧氏空间作为表示空间，采用基于距离的评分函数，并构建了基于极坐标系的编码模型，能够利用极坐标系的特性捕获知识图谱的层次信息，并将知识转化为表示向量。
+随后采用图神经网络模型捕获知识图谱的邻域信息。在训练过程中将层次信息提取得到的向量通过一个全连接层进行映射得到初始向量，并通过邻域节点间的消息传递进行向量更新。
+完成训练后的模型能够将输入的知识三元组转换为表示向量，并用于后续的知识推理任务。
 \begin{figure}[H]
   \centering
   \includegraphics[width=1.0\textwidth]{2_NORMAN}
@@ -371,44 +373,39 @@ LAURA模型利用NORMAN模型提供的层次信息和得分函数，训练实体
 \end{figure}
 
 \section{层次信息提取}
-层次信息在知识图谱中非常常见，例如在图\ref{1_KG}中的知识图谱上就包含了四种层次级别的实体，分别是大陆、国家、城市和景区，这些实体的层次级别呈现从高到低的排列。不同层次级别的实体之间存在着不同关系，这些关系同样存在层次级别，例如图中存在三种关系，按照关系的层次级别由高到低的顺序排列，分别是包含国家、位于和城市景区。
-同时，知识图谱中的实体类型和关系类型存在长尾分布的情况。以FB15K-237知识图谱为例，图谱的实体类型和关系类型的知识数量分布情况如图\ref{2_LongTail}所示。可以发现知识图谱中的一小部分实体类型对应了大部分的知识数据，而大部分实体类型则只有很少的知识数据。关系类型的知识数量分布分布情况也同样呈现长尾分布情况。
-上述问题对模型的知识图谱表示能力提出了较高的要求，即模型需要能够表示知识图谱中的层次信息，同时还要考虑知识图谱中实体类型和关系类型的知识数量呈现长尾分布的特点，能够对不同类型的实体和关系进行区分。
-因此，首先需要抽取知识图谱中的层次信息，并作为输入提供给图神经网络模型，进而提高模型对层次信息的知识表示能力。
+现有的知识图谱表示学习模型主要侧重于建模对称、反对称、逆向和组成等关系模式。然而，许多现有模型无法表示知识图谱中的层次信息，这限制了模型的表示能力。
+为了应对这一挑战，NORMAN模型首先提出一种基于极坐标系的编码器对知识图谱进行编码，从而捕获知识图谱中的层次信息，并将获取到的知识向量作为输入提供给图神经网络模型。
+
+层次信息在知识图谱中非常常见，以图\ref{1_KG}中展示的知识图谱为例，可以发现知识图谱中的实体与关系存在的层次信息可以表示为类似同心圆的层次结构，在该结构中靠近圆心的部分是层次级别较高的实体和关系，远离圆心的部分则对应层次级别较低的实体和关系。
+同时，知识图谱中的实体和关系存在长尾分布的情况。以FB15K-237知识图谱为例，对知识图谱中出现次数最多的100个实体和关系对应的知识数量分别进行了统计，得到的知识数量分布情况如图\ref{2_LongTail}所示。可以发现知识图谱中的一小部分实体对应了大部分的知识数据，而大部分实体则只有很少的知识数据。关系的知识数量分布分布情况也同样呈现长尾分布情况。
+
+因此，为了更好地捕获知识图谱中的层次信息，同时对不同类型的实体和关系进行区分，本文选择使用基于极坐标系的编码模型对知识图谱进行编码，这是因为极坐标系上任意一点的位置是根据其到极点的距离$\rho$（半径坐标）和其与极轴按照逆时针方向计算的角度$\theta$（角坐标）所唯一确定的。通过将知识图谱中层次级别较高的实体和关系映射到靠近极点（半径坐标模量较小）的位置，将层次较低的内容映射到远离极点（半径坐标模量较大）的位置，能够对知识图谱中的层次信息进行表示。同时，还可以通过调整实体和关系的角坐标实现对不同实体和关系的区分。上述思路在具体实现的过程中主要是通过模块的评分函数进行体现。
+此外，在表示空间的选择方面，本文选择欧氏空间作为知识表示空间，主要是因为可以将极坐标系下的欧氏距离度量函数融入评分函数中，从而保证知识图谱表示学习过程的正确性。
 \begin{figure}
   \centering
-  \subfloat[实体类型的知识数量分布情况]{
-    \includegraphics[width=0.4\textwidth]{2_LongTail_a.pdf}
+  \subfloat[实体的知识数量分布情况]{
+    \includegraphics[width=0.45\textwidth]{2_LongTail_a.pdf}
     \label{2_LongTail_a}
   }
-  \subfloat[关系类型的知识数量分布情况]{
-    \includegraphics[width=0.4\textwidth]{2_LongTail_b.pdf}
+  \subfloat[关系的知识数量分布情况]{
+    \includegraphics[width=0.45\textwidth]{2_LongTail_b.pdf}
     \label{2_LongTail_b}
   }
-  \caption{知识图谱实体类型和关系类型的长尾分布情况}
+  \caption{FB15K-237知识图谱实体和关系的长尾分布情况}
   \label{2_LongTail}
 \end{figure}
 
-% 层次信息提取过程如图\ref{2_NORMAN}所示。可以发现提取过程主要是采用基于极坐标系的编码模型将知识图谱映射到欧氏空间，并通过半径坐标区分不同层次的实体和关系，通过角坐标区分不同类型的实体和关系。
-% 图中包含了四种不同类别的节点，但节点$e_2$和$e_4$的半径坐标模量相等，说明两个节点位于同一个层次。
-% 通过层次信息提取能够将知识转换成表示向量，同时能够通过半径坐标向量聚类的方式获取实体和关系的层次级别，从而可以为图神经网络模型提供支持。
-% \begin{figure}
-%   \centering
-%   \includegraphics[width=0.7\textwidth]{2_Layers}
-%   \caption{层次信息提取过程}
-%   \label{2_Layers}
-% \end{figure}
-
-% \subsection{极坐标系编码知识图谱}
-层次信息提取模块可以通过极坐标编码器将知识图谱中的知识编码为欧氏空间的表示向量，在结果中，每个实体和关系都对应着一个极坐标，可以表示为$(\bm{\rho}, \bm{\theta})$， 其中$\bm{\rho}$表示半径坐标向量，$\bm{\theta}$表示角坐标向量。半径坐标向量主要用于区分实体和关系的层次情况，而角坐标向量主要用于区分不同的实体和关系类型，从而保证了模块对知识图谱的表示能力。
-在使用极坐标系编码器在欧氏空间上对知识图谱进行编码时，需要考虑如何设计得分函数的问题。本文采用翻译模型的思路，考虑将极坐标系下的欧氏距离度量函数融入评分函数中，以保证知识图谱学习过程的正确性。
+首先可以通过基于极坐标系的编码模型将知识图谱中的知识编码为欧氏空间的表示向量，在结果中，每个实体和关系都对应着一个极坐标，可以表示为$(\bm{\rho}, \bm{\theta})$，其中$\bm{\rho}$表示半径坐标向量，$\bm{\theta}$表示角坐标向量。同时半径坐标向量主要用于区分实体和关系的层次情况，而角坐标向量主要用于区分不同的实体和关系，从而保证了模块对知识图谱的表示能力。
+在使用极坐标系编码器在欧氏空间上对知识图谱进行编码时，需要考虑如何设计得分函数的问题。本文计划采用基于距离的评分函数，考虑将极坐标系下的欧氏距离度量函数融入评分函数中，以保证知识图谱学习过程的正确性。
 对此，需要先分析如何通过计算得到极坐标系上的两点之间欧氏距离。
+
 对极坐标系上的两点$p$和$q$，可以将两点表示为向量形式$\bm{p}$和$\bm{q}$。设$p$和$q$的极坐标分别为$(\bm{\rho_1}, \bm{\theta_1})$和$(\bm{\rho_2}, \bm{\theta_2})$，则两点之间的欧氏距离可以具体表示为:
 \begin{equation}
   \|\bm{p}-\bm{q}\|_2=\left(\bm{\rho_1}^2-2 \bm{\rho_1} \bm{\rho_2} \cos \left(\bm{\theta_1}-\bm{\theta_2}\right)+\bm{\rho_2}^2\right)^{\frac{1}{2}}
   \label{equation_distance}
 \end{equation}
-通过应用公式\ref{equation_distance}，可以采用翻译模型得分函数，实现知识三元组$(h, r, t)$的评分。
+
+通过应用公式\ref{equation_distance}，可以采用基于距离的得分函数，实现知识三元组$(h, r, t)$的评分。
 设$h, r, t$的极坐标分别是$\left(\bm{\rho_1}, \bm{\theta_1}\right)$，$\left(\bm{\rho_2}, \bm{\theta_2}\right)$和$\left(\bm{\rho_3}, \bm{\theta_3}\right)$，同时当$(h, r, t) \in F$时设它们的表示向量有$\|\bm{h} + \bm{r} - \bm{t}\|_2 = 0$，根据该假设可以得到极坐标系下欧氏距离的得分函数$f^E_r(h, t)$为：
 \begin{equation}
   \begin{aligned}
@@ -417,9 +414,10 @@ LAURA模型利用NORMAN模型提供的层次信息和得分函数，训练实体
     & - 2 \bm{\rho_1} \bm{\rho_3} \cos \left(\bm{\theta_1}-\bm{\theta_3}\right) - 2 \bm{\rho_2} \bm{\rho_3} \cos \left(\bm{\theta_2}-\bm{\theta_3}\right))^{\frac{1}{2}}
   \end{aligned}
 \end{equation}
-该评分函数的思想是，将关系$r$视为极坐标系上的点$h$到$t$的变换，即有$\bm{h} + \bm{r} = \bm{t}$，目标是使得正例三元组的评分尽可能低，同时使负例三元组的得分尽量较高。
+该评分函数的思想是，将关系$r$视为极坐标系上的点$h$到$t$的变换，即有$\bm{h} + \bm{r} = \bm{t}$，目标是使得正例三元组的评分尽可能接近为零，同时使负例三元组的得分尽量较高。
 
-然而，仅使用基于距离的得分函数$f^E_r(h, t)$是不够的，原因是欧氏距离得分函数$f^E_r(h, t)$在实际训练过程中并没有具体区分半径坐标和角坐标，导致无法使用半径坐标来学习知识图谱中的层次结构信息，同时也没有使用角坐标来区分不同的实体和关系类别。对此，模块针对半径坐标和角坐标分别设计了两种得分函数，从而充分利用极坐标系的半径坐标和角坐标的优势进行知识图谱表示。
+然而，仅使用基于距离的得分函数$f^E_r(h, t)$是不够的，原因是欧氏距离得分函数$f^E_r(h, t)$在实际训练过程中并没有具体区分半径坐标和角坐标，导致无法使用半径坐标来学习知识图谱中的层次信息，同时也没有使用角坐标来区分不同的实体和关系类别。
+对此，模块针对半径坐标和角坐标分别设计了两种得分函数，从而充分利用极坐标系的半径坐标和角坐标的优势进行知识图谱表示。
 
 针对半径坐标，模块将$r$视为$h$到$t$的半径坐标缩放变化过程，即有$\bm{\rho_1} \circ \bm{\rho_2} = \bm{\rho_3}$，其中$\circ$为哈达玛积运算，即对向量$\bm{a}, \bm{b} \in \mathbb{R}^{d}$，有$\left(\mathbf{a} \circ \mathbf{b}\right)_i = \mathbf{a}_i \cdot \mathbf{b}_i$。
 根据上述设定，可以得到半径坐标的得分函数$f^{\rho}_r(h, t)$为：
@@ -456,43 +454,30 @@ LAURA模型利用NORMAN模型提供的层次信息和得分函数，训练实体
 同时，随机负例的采样概率$p(h_i, r_i, t_i)$可以表示为：
 \begin{equation}
   p(h_i, r_i, t_i)=\frac{\exp f_{r_i}(h_i, t_i))}{\sum_j \exp f_{r_j}(h_j, t_j)}
-  \label{abc}
 \end{equation}
-通过上述得分函数和损失函数训练模型即可实现在保证模型学习正确性的情况下，利用半径坐标捕获知识图谱中的层次信息，同时利用角坐标区分不同的实体和关系类型。
 
-% 需要注意的是，半径坐标向量表达的层次信息是在连续空间上的，并且需要通过计算向量的模量来获取具体的层次，这导致半径坐标向量无法直接为后续模块提供清晰的层次信息。
-% 为了方便后续模块直接获取实体和关系的层次信息，本节通过聚类算法将半径坐标向量转化为一系列离散的整数，作为实体和关系的层次级别。具体而言，模块采用K-Means聚类算法，对实体和关系的半径坐标向量进行聚类，从而将知识转换为K个层次。其中$K$为超参数，需要根据具体的知识图谱调整为不同的K值。
-% 完成半径坐标向量的聚类过程后即可得到知识图谱上所有实体和关系对应的的层次级别，范围是从0到$K-1$的连续整数值，可以为后续模块提供层次级别信息。
+通过上述得分函数和损失函数训练模型即可实现在保证模型学习正确性的情况下，利用半径坐标捕获知识图谱中的层次信息，同时利用角坐标区分不同的实体和关系。
 
-
-\section{图神经网络模型}
-本章构建的知识图谱表示学习模型主要采用图神经网络模型，能够结合前文所述的层次信息提取模块和因果推断模块进行知识图谱表示。
-在具体应用过程中，首先需要使用层次信息提取模块获取知识三元组的初始表示向量和层次信息，并将这些内容作为输入提供给图神经网络模块。
-随后进行图神经网络模型训练，训练过程中利用因果推断模块分析当前神经节点是否存在邻域结构差异问题，并评估是否接收来自邻域节点的信息进行节点信息更新。
-完成训练后的图神经网络模型能够捕获知识图谱的邻域结构信息，实现高质量的知识表示。
-
-% \begin{figure}
-%   \centering
-%   \includegraphics[width=0.7\textwidth]{2_GNN}
-%   \caption{图神经网络模块结构图}
-%   \label{2_GNN}
-% \end{figure}
-本节构建的图神经网络模块如图\ref{2_NORMAN}所示。在模块构建的过程中，主要包含以下步骤：
-首先需要进行邻域子图构建，通过同时从知识三元组的头实体$h$和尾实体$t$开始迭代地获取关联实体，并统计头尾之间长度不超过最大长度$L$的节点的交集，作为邻域子图。
-除了这种邻域子图构建方法之外，本节还研究了一种基于动态规划的邻域子图构建方法，这种方法具有更好的适用性，能解决更复杂的知识图谱补全问题。
-随后进行消息传递，消息传递过程首先利用层次信息提取模块得到的实体和关系向量作为初始的节点信息，随后通过消息聚合函数将邻域子图中其他节点的信息聚合起来，并通过信息更新函数将新获取到的消息与当前节点的原有信息结合，实现节点信息更新。
-在消息传递的过程中，对于是否接收特定邻域节点的信息需要利用因果推断模块进行评估。
+% \section{图神经网络模型}
+\section{基于图神经网络模型的知识图谱表示学习}
+随后对NORMAN模型的图神经网络模型部分进行介绍，该部分为NORMAN模型的核心部分，如图\ref{2_NORMAN}所示。
+在模型构建的过程中，主要包含以下步骤：
+首先需要进行向量的初始化，通过层次信息提取获取到的表示向量进行一个全连接层映射并获取模型的初始向量，即可完成图神经网络模型的初始化。
+随后需要进行邻域子图构建，通过选择知识中的一个实体作为起点，递归地向外扩展节点，直到达到最大距离时停止，即可实现邻域子图的构建。
+随后进行消息传递，通过消息聚合函数将邻域子图中其他节点的信息聚合起来，并通过信息更新函数将新获取到的消息与当前节点的原有信息结合，实现节点信息更新。同时在消息传递的过程中，对于各个邻域节点的信息需要利用注意力机制进行评估，从而区分不同节点的消息贡献程度。
 完成模型训练后得到的图神经网络模型可以将知识信息转换成表示向量，并能够应用于知识图谱补全和知识图谱问答等下游任务中。
-% 在如图\ref{2_NORMAN}所示的图神经网络模型样例中可以发现，使用模型进行了查询三元组为$(e_s, ?, ?)$知识图谱补全的任务。
-% 在任务中设置的最大长度$L=3$，通过消息传递实现了节点信息更新，并对$e_s$和$e_o$之间所有可能的关系进行了打分，最后选择得分最高的关系$r_k$作为答案，完成了知识图谱补全任务。
+
+\subsection{模型初始化}
+首先需要进行图神经网络模型的初始化。为了保留层次信息提取部分获取到的层次信息，本文选择采用一个全连接层，将层次信息提取部分获取到的知识表示向量$\bm{h}_{layer}$映射为图神经网络模型的初始向量$\bm{h}_{GNN}$。映射过程可以表示为：
+\begin{equation}
+  \bm{h}_{GNN} = \mathbf{W} \cdot \bm{h}_{layer}
+\end{equation}
+其中$\mathbf{W}$是待学习的映射矩阵。完成向量映射后可以将获取到的向量$\bm{h}_{GNN}$提供给图神经网络模型，完成图神经网络模型的初始化，同时能够在图神经网络中保留知识图谱的层次信息，提高知识表示的效果。
 
 \subsection{邻域子图构建}
-在利用图神经网络模型进行知识图谱表示时，首先需要进行邻域子图构建。
-% 由于邻域信息对知识表示具有重要作用，因此本文构建的图神经网络模块首先会通过递归的方式进行知识图谱子图构建。
+在利用图神经网络模型进行知识图谱表示时，需要进行邻域子图构建。
 本文采用的邻域子图构建算法如\ref{algorithm_simple}所示。
-算法首先以知识三元组中的一个实体作为起点，随后采用递归的方式从最新的一层向外扩展节点，并在扩展节点的同时进行消息传递，直到扩展达到到最大距离$L$，此时所有起点到终点的路径长度均为最大距离$L$。
-为了避免保存知识图谱邻域子图对系统内存造成的压力，本文选择让算法可以在每次向外扩展节点时进行消息传递，从而不再需要在完成整个知识图谱邻域子图构建后再进行消息传递。
-完整的算法包含消息传递过程，如算法\ref{algorithm_GNN}所示。
+算法首先以知识三元组中的一个实体作为起点，随后采用递归的方式从最新的一层向外扩展节点，直到扩展达到到最大距离$L$，此时所有起点到终点的路径长度均为最大距离$L$。
 \begin{algorithm}[tb]
 	\caption{邻域子图构建算法}
 	\label{algorithm_simple}
@@ -510,6 +495,9 @@ LAURA模型利用NORMAN模型提供的层次信息和得分函数，训练实体
 	\end{algorithmic}
 \end{algorithm} 
 
+为了避免保存知识图谱邻域子图对系统内存造成的压力，本文选择让算法可以在每次向外扩展节点时进行消息传递，从而不再需要在完成整个知识图谱邻域子图构建后再进行消息传递。
+完整的算法包含消息传递过程，如算法\ref{algorithm_GNN}所示。
+
 \subsection{消息传递}
 在进行邻域子图构建时，模块可以通过消息传递机制进行节点邻域信息的获取和节点信息的更新。
 消息传递过程主要包括两步：首先进行消息聚合获取邻域子图中所有节点的节点信息（包括节点自身的信息），并通过聚合函数进行聚合。
@@ -517,7 +505,7 @@ LAURA模型利用NORMAN模型提供的层次信息和得分函数，训练实体
 \begin{equation}
   \bm{m} = \operatorname{AGGREGATE}(\bm{h_s}, \bm{n})
 \end{equation}
-完成消息聚合后可以得到消息向量$\bm{m}$，随后进行节点信息更新，通过使用更新函数将来自邻域的消息和节点自身信息结合起来进行更新，实现节点信息的更新。节点信息更新可以表示为：
+完成消息聚合后可以得到消息向量$\bm{m}$，随后即可进行节点信息更新。通过使用更新函数将来自邻域的消息和节点自身信息结合起来，从而实现节点信息的更新。节点信息更新可以表示为：
 \begin{equation}
   \bm{h_o} = \operatorname{UPDATE}(\bm{h_s}, \bm{m})
 \end{equation}
@@ -526,105 +514,23 @@ LAURA模型利用NORMAN模型提供的层次信息和得分函数，训练实体
   \bm{h_o} = \operatorname{UPDATE}(\bm{h_s}, \operatorname{AGGREGATE}(\bm{h_s}, \bm{n}))
   \label{equation_MessagePassing}
 \end{equation}
-因此，在构建消息传递函数的过程中，主要需要考虑如何设计消息聚合部分和节点信息更新部分的内容。
-考虑到给定不同的知识三元组，得到的邻域子图可能相同，但用于推理的证据通常情况下是不同的。
-因此，为了从邻域子图中获取与给定的知识三元组相关的知识并提高搜集邻域知识过程的可解释性，模块在消息聚合部分使用注意力机制以评估不同邻域知识的重要性，
-并采用一个GRU层作为门控机制，减少GNN模型的限制并维护信息的长期传播。
-消息传递函数可以表示为：
+因此，在设计消息传递函数的过程中，主要需要考虑如何设计消息聚合部分和节点信息更新部分的内容。
+
+考虑到给定不同的知识三元组，得到的邻域子图可能相同，但用于推理的证据通常情况下是不同的。因此，为了从邻域子图中获取与给定的知识三元组相关的知识并提高搜集邻域知识过程的可解释性，需要在消息聚合部分使用注意力机制以评估不同邻域知识的重要性，并采用一个GRU层作为门控机制，减少GNN模型的限制并维护信息的长期传播。根据上述分析构建的消息传递函数可以表示为：
 \begin{equation}
   \bm{h_o} = \operatorname{GRU}(\mathbf{W} \cdot (\bm{h_s} + \sum_{\bm{n_i} \in \bm{n}}{\bm{\alpha} \cdot \bm{n_i}}))
   \label{equation_newMessagePassing}
 \end{equation}
-其中的注意力权重$\bm{\alpha}$可以表示为：
+其中$\mathbf{W}$表示训练参数，同时注意力权重$\bm{\alpha}$可以表示为：
 \begin{equation}
-  \bm{\alpha} = \operatorname{Sigmoid}(\mathbf{W_{1}} \cdot \operatorname{ReLU}(\mathbf{W_{2}} \cdot (\bm{h_s} + \bm{n_i} + \bm{h}_q)))
+  \bm{\alpha} = \operatorname{Sigmoid}(\mathbf{W}_1 \cdot \operatorname{ReLU}(\mathbf{W}_2 \cdot (\bm{h_s} \oplus \bm{h_q} \oplus \bm{n_i})))
   \label{equation_Alpha}
 \end{equation}
-其中，$\bm{h}_q$是查询问题的关系对应的表示向量。
+其中$\bm{h_q}$是查询问题的关系对应的表示向量，$\oplus$是向量拼接运算。
+在使用消息传递机制完成了节点信息更新后，节点的表示向量中即可融入了层次信息和邻域信息，从而可以进行知识表示。
 
-%%  在这里加入因果推断  %%
-% 然而训练图注意力机制难度较高，需要数据集提供大量标记数据，这导致采用图注意力机制对小规模数据集进行表示学习时就难以取得令人满意的效果~\cite{knyazev2019understanding}。
-% 针对上述问题，本节通过因果推断方式~\cite{yao2021survey}分析邻域信息并决定是否接收来自邻域节点的消息，从而避免无关信息的干扰，提高表示效果。
-% 同时这里不采用深度学习模型，而是采用SVM（Support Vector Machine，支持向量机）模型构建二元分类器，从而保证模块能够利用少量数据进行充分的模型训练。
-
-% \begin{figure}
-%   \centering
-%   \includegraphics[width=0.55\textwidth]{2_CausalIntervention}
-%   \caption{图神经网络消息传递因果干预图}
-%   \label{2_CausalIntervention}
-% \end{figure}
-% 如图\ref{2_CausalIntervention}所示，在因果干预步骤中，目标是通过选择是否接收来自特定邻域节点的信息，从而避免无关信息的干扰并提高知识图谱表示学习的效果。
-% 为了确定哪些邻域节点消息在消息传递过程中需要屏蔽，本文设计了一种二元分类器，能够根据邻域子图和节点的属性确定是否屏蔽来自邻域节点的信息。
-% 该分类器的输入主要包括以下内容：层次差异得分、决策差异得分、预测置信度得分和推理距离得分。
-
-% \textbf{层次差异得分}是计算中心节点和邻域节点的层次级别的差值。在通常情况下，知识三元组的头尾实体所处的层次级别差异度都相对较小，因此可以考虑将层次差异得分纳入分类器中，通过分析各个邻域节点是否与中心节点的层次级别相差较小来评估是否接收来自邻域节点的信息。设中心节点的层次级别为$h_c$，邻域节点的层次级别为$h_n$，则层次差异得分$v_h$的计算方式为：
-% \begin{equation}
-%   v_h = h_c - h_n
-%   \label{get1}
-% \end{equation}
-
-% \textbf{决策差异得分}为随机调整邻域节点信息接受情况时节点表示向量的方差。如果得到的方差较大，则说明对邻域节点消息的轻微改变会导致预测结果发生重大变化，这意味着节点的邻域结构存在较大差异，应该通过屏蔽邻域节点消息来降低邻域结构差异带来的影响。令$\operatorname{var}(\cdot)$为方差计算函数，$K$为随机屏蔽若干邻域节点消息的实验次数，$n_k$为第$k$次实验时保留消息的邻域节点集合，则决策差异得分$v_d$的计算方式为：
-% \begin{equation}
-%   v_d = \operatorname{var}(Y(X=x, N=n_k) \mid k \in K)
-%   \label{get2}
-% \end{equation}
-% 需要注意的是，由于决策差异得分的计算过程是采用所有中心节点的邻域节点进行评估，所以参与计算的邻域节点都共享相同的决策差异得分。
-
-% \textbf{预测置信度得分}是计算接收和不接收邻域节点信息得到的平均置信度的差值。一般认为置信度体现了模型对预测结果的确信程度，高置信度代表模型倾向于该答案，因此通过比较节点平均置信度的高低并计算差值，可以评估接收邻域节点信息是否有益于模型做出决策。设不接收来自邻域的消息的置信度为$p_c$，接收来自邻域的消息的置信度为$p_n$，则预测置信度得分$v_c$的计算方式为：
-% \begin{equation}
-%   v_c = p_c - p_n
-%   \label{get3}
-% \end{equation}
-
-% \textbf{推理距离得分}是评估邻域节点距离初始查询节点$e_q$的距离。考虑到一般情况下实体间的距离越近则信息传递越强，计算当前节点到初始查询节点的距离得分有助于帮助模型选择相对较短的推理路径。设中心节点和邻域节点距离初始查询节点的距离分别为$l_c$和$l_n$，则推理距离得分$v_l$的计算方式为：
-% \begin{equation}
-%   v_l = l_c - l_n
-%   \label{get4}
-% \end{equation}
-% 考虑到知识图谱中两点之间可能有多条查询路径和对应的距离，为了简化计算，此处的距离计算方式是从完整知识图谱中提取的邻域子图中两点间最短的查询路径的距离。
-
-% 为了降低二元分类器的复杂性，保证模型能够在知识图谱数据量较少的情况下进行学习和训练，本文选择使用SVM模型训练二元分类器，用于评估是否接收某个邻域节点的信息。
-% 设置一个阈值$T$表示SVM进行二元分类的阈值，高于该阈值则接受该邻域节点的消息，否则不接受消息。模型决策过程可以表示如下：
-% \begin{equation}
-%   \bm{Result} = \left\{\begin{array}{l}
-%   \bm{1},\quad p > T, \\
-%   \bm{0},\quad p \leq T,
-%   \end{array} \quad p = \operatorname{SVM}\left(v_h, v_d, v_c, v_l\right)\right.
-%   \label{equation_SVM}
-% \end{equation}
-
-% 为了训练SVM二元分类器，需要进行因果干预数据集$D$的构建。构建数据集的过程可以表示为：
-% \begin{equation}
-%   D = \{((v_h, v_d, v_c, v_l), f) \mid (h, r, t) \in F \cup (h, r, t) \notin F\},\quad f = \operatorname{model}(\bm{\hat{h}}_o)
-% \end{equation}
-% 其中$\operatorname{model}$表示应用知识图谱表示学习模型进行知识图谱补全实验得到的结果，当正确结果排名在前$K$名时则返回1，否则返回-1。这里将$K$设置为10，从而对应知识图谱补全任务的Hits@10指标。
-% 这里利用$\operatorname{model}$计算得到的$f$值的作用是评估加入因果干预后是否会帮助模型获取正确的实验结果，从而提高模型表示效果。
-% 在具体构建数据集时，通过随机地将事实三元组中的实体和关系替换为其他实体和关系，得到候选三元组集合，其中的三元组$(h, r, t)$可以是事实三元组，也可以是潜在事实三元组。
-% 随后对每个三元组$t$计算知识图谱表示结果$\bm{h}_o$，通过因果干预得到$\bm{\hat{h}}_o$并计算对应的$f$，同时针对因果干预前后的结果计算$v_h, v_d, v_c, v_l$。通过上述过程即可实现数据集$D$的构建。
-% 可以发现，对同一个邻域可以通过因果干预的方式构建多个训练数据，从而能够利用少量数据构建大量数据集并实现模型训练。
-%%  结束  %%
-
-% 综上所述，通过在消息传递过程中结合因果推断方法，能够避免接受无关信息并提高知识表示效果。
-% 模型在消息传递时采用一个GRU层作为门控机制，减少GNN模型的限制并维护信息的长期传播。
-% 消息传递函数可以表示为：
-% \begin{equation}
-%   \bm{h_o} = \operatorname{GRU}(\mathbf{W} \cdot （\bm{h_s} + \sum_{\bm{n_i} \in \bm{n}}{\operatorname{SVM}(v_h, v_d, v_c, v_l) \cdot \bm{\alpha} \cdot \bm{n_i}})
-%   \label{equation_finalMessagePassing}
-% \end{equation}
-% 其中的
-
-% 在消息聚合部分融入因果推断模块的二元分类器，用于分析节点邻域是否存在局部性差异，并决定是否接收邻域节点信息。通过随机屏蔽掉一定的邻域消息，并计算对应的得分$v_h, v_d, v_c, v_l$和因果干预向量$\bm{\hat{h_o}}$，随后使用二元分类器计算因果干预后得分$p$，如果高于阈值$T$则选择因果干预后的结果$\bm{\hat{h_o}}$，否则仍然选择保留邻域信息的结果$\bm{h_o}$。这一过程可以表示为：
-% \begin{equation}
-%   \bm{h_o} = \left\{\begin{array}{l}
-%   \bm{h_o},\quad p < T, \\
-%   \bm{\hat{h_o}},\quad p \geq T,
-%   \end{array} \quad p = \operatorname{SVM}\left(v_h, v_d, v_c, v_l\right)\right.
-%   \label{equation_finalMessagePassing}
-% \end{equation}
-
-在通过消息传递机制完成了节点信息更新后，各个节点完成了消息传递和更新，节点的表示向量中也融入了层次结构信息和邻域信息。
-随后为了模块进行知识表示，需要选择适合的得分函数。
-考虑到表示向量$\bm{h_o}$包含了最大递归遍历距离为$L$的邻域子图内的信息，因此构建的得分函数采用了一个线性层计算最终得分。
+随后为了训练模型，需要选择适合的得分函数。
+考虑到此时各个节点的表示向量中已经包含了最大距离为$L$的邻域子图内的信息，因此构建的得分函数可以直接采用一个线性层计算最终得分。
 这里让$\bm{h_o}$表示知识三元组$(h, r, ?)$、$(h, ?, t)$或$(?, r, t)$中缺失信息的表示向量，则得分函数可以表示为:
 \begin{equation}
   f_{r}(h, t) = \mathbf{W} \cdot \bm{h_o}
@@ -638,16 +544,21 @@ LAURA模型利用NORMAN模型提供的层次信息和得分函数，训练实体
 	\begin{algorithmic}[1]
   \Require 知识图谱事实集合$F$, 知识三元组$(h, r, t)$, 最大距离$L$
   \Ensure 知识表示向量$(\bm{h}, \bm{r}, \bm{t})$
-  \State $(F_H, E_H, R_H) \leftarrow \operatorname{GetHierarchy}(F)$ // 通过层次信息提取模块，获取初始知识表示向量集合、实体层次集合和关系层次集合
-  \For{$e \in \{h, r, t\}$}
+  \State $F_H \leftarrow \operatorname{GetHierarchy}(F)$ // 通过层次信息提取获取初始知识表示向量集合
+  \For{$\{\bm{h}, \bm{r}, \bm{t}\} \in F_H$}
+  \State $\bm{h_q} \leftarrow \bm{r}$ // 获取查询关系向量
+  \For{$\bm{e} \in \{\bm{h}, \bm{t}\}$}
   \State $F_{e}^{0} \leftarrow \varnothing$ // 初始化邻域知识集合
   \State $E_{e}^{0} \leftarrow \{e\}$ // 初始化邻域实体集合
   \For{$i \leftarrow 1$ to $L$}
   \State $F_{e}^{i} \leftarrow \{(h_i, r_i, t_i) \in F \mid h_i \in E_{e}^{i-1}\}$ // 获取第$i$层邻域知识
   \State $E_{e}^{i} \leftarrow \{t_i \mid (h_i, r_i, t_i) \in F_{e}^{i}\}$ // 获取第$i$层邻域实体
-  \State $\bm{e_o} \leftarrow \operatorname{MessagePassing}(E_{e}^{i}, F_H)$ // 通过公式\ref{equation_newMessagePassing}进行消息传递和节点信息更新
+  \State $\bm{\alpha} = \operatorname{GetAttention}(\bm{e}, \bm{h_q}, E_{e}^{i}, F_H)$ // 通过公式\ref{equation_Alpha}获取注意力权重
+  \State $\bm{e} \leftarrow \operatorname{MessagePassing}(\bm{e}, \alpha, E_{e}^{i}, F_H)$ // 通过公式\ref{equation_newMessagePassing}进行消息传递
   \EndFor
   \EndFor
+  \EndFor
+  \State $(\bm{h}, \bm{r}, \bm{t}) \leftarrow F_H$ // 获取知识表示向量
   \State \Return $(\bm{h}, \bm{r}, \bm{t})$
 	\end{algorithmic}
 \end{algorithm} 
@@ -679,258 +590,232 @@ NORMAN模型使用Python语言编写，Python版本为3.10.1，使用的深度�
 知识图谱表示学习模型的目标是将实体和关系嵌入到低维向量空间中，同时保留原有知识图谱的结构信息和底层语义信息。
 由于通常难以直接评价知识图谱表示学习模型的好坏，因此常用的方法是利用模型解决知识图谱下游任务来评估模型效果。本文使用知识图谱补全进行模型评估，即给定不完整的查询三元组，要求根据知识图谱中已有的事实预测查询三元组中缺失的内容。
 知识图谱补全可以表示为补全查询三元组$\left(h, r, ?\right)$，$(h, ?, t)$或$\left(?, r, t\right)$的问题，其中$?$表示待补全的内容。
-在测试过程中，对于测试数据集中的每个三元组$(h, r, t)$，首先将头部实体$h$、关系$r$或尾部实体$t$替换为每个候选答案以创建一组候选三元组。随后使用得分函数$f_r\left(h, t\right)$计算所有候选三元组的得分，并按照降序对候选三元组进行排序。本文开展的实验遵循Bordes等人提出的实体链接实验设置~\cite{bordes2013translating}，该设置中不会将任何知识图谱中存在的事实三元组纳入排名序列中，从而确保排名中的三元组都是新的三元组。最后根据结果三元组序列可以评估模型执行知识图谱补全的效果。
-
+在测试过程中，对于测试数据集中的每个三元组$(h, r, t)$，首先将头部实体$h$、关系$r$或尾部实体$t$替换为每个候选答案以创建一组候选三元组，随后使用得分函数$f_r\left(h, t\right)$计算所有候选三元组的得分，并按照降序对候选三元组进行排序，最后根据结果评估模型执行知识图谱补全的效果。需要注意的是，知识图谱补全任务也可以认为是单跳知识推理任务，要求模型能够根据给定的查询三元组通过单步知识推理获取答案。
+% 本文开展的实验遵循Bordes等人提出的实体链接实验设置~\cite{bordes2013translating}，该设置中不会将任何知识图谱中存在的事实三元组纳入结果序列中，从而确保结果中的三元组都是新的三元组。
 知识图谱补全中常用的评价指标包括平均排序MR（正确答案排名的平均值）、平均倒数排序MRR（正确答案排名倒数的平均值）以及Hits@K（正确答案在序列中排名位于前K的比例）等。
 平均排序MR的计算方式是$\mathrm{MR}=\frac{1}{|\mathrm{S}|} \sum_{\mathrm{i}=1}^{|\mathrm{S}|} \mathrm{rank}_{\mathrm{i}}=\frac{1}{|\mathrm{S}|}\left(\mathrm{rank}_1+\mathrm{rank}_2+\cdots+\mathrm{rank}_{\mathrm{i}}\right)$，其中$|\mathrm{S}|$是结果三元组的数量，$\mathrm{rank}_{\mathrm{i}}$是第$i$个三元组在知识图谱补全结果序列中的排名，也就是正确三元组在预测三元组序列中的排名。由此可见，平均排序MR的结果越小代表模型效果越好。
 平均倒数排序MRR与平均排序MR较为类似，区别在于平均倒数排序是对排序结果的倒数进行求和，计算方式为$\operatorname{MRR}=\frac{1}{|\mathrm{S}|} \sum_{\mathrm{i}=1}^{|\mathrm{S}|} \frac{1}{\mathrm{rank}_{\mathrm{i}}}=\frac{1}{|\mathrm{S}|}\left(\frac{1}{\mathrm{rank}_1}+\frac{1}{\mathrm{rank}_2}+\cdots+\frac{1}{\mathrm{rank}_{\mathrm{i}}}\right)$。可以发现，MRR和MR具有相同的作用，都能够用于评估模型的知识图谱补全效果，同时根据相关工作介绍~\cite{hoyt2022unified}，MR在多个性能指标上比MRR的表现更差，一般情况下推荐使用MRR作为评价指标，而不推荐使用MR。因此，本文选择MRR评估模型效果。
 Hits@K是指在知识图谱补全结果序列中正确答案排名小于$K$的三元组的平均占比，计算方式为$\mathrm{Hits@K}=\frac{1}{|\mathrm{S}|} \sum_{\mathrm{i}=1}^{|\mathrm{S}|} \mathbb{I}\left(\operatorname{rank}_{\mathrm{i}} \leq \mathrm{K}\right)$，其中$|S|$是三元组总数，$K$是目标排名范围，$\mathbb{I}\left(\cdot\right)$是指示函数，即若括号中的条件为真则其函数值为1，否则为0。一般情况下，取$K$为1、3和10。可以直观地发现，Hits@K的指标越大表明模型在知识图谱补全上的效果越好。
 综上所述，本文选择平均倒数排序MRR和Hits@K作为评价指标，评估模型在知识图谱补全上的效果。
 
-本节首先介绍了知识图谱表示学习模型的评估实验内容，即通过知识图谱补全，评估模型的效果。随后介绍了任务的评价指标、数据集和具体的实验设置，并在最后比较本文提出的NORMAN模型和其他基线知识图谱表示学习模型在知识图谱补全上的效果，进而对NORMAN模型的优势和劣势进行客观评估。
+本节首先介绍了知识图谱表示学习模型的实验内容，随后介绍了任务的评价指标、数据集和具体的实验设置，并比较了本文提出的NORMAN模型和其他基线知识图谱表示学习模型在知识图谱补全上的效果，进而对NORMAN模型的优势和劣势进行客观评估。
 
 \subsection{数据集}
+\begin{table}[t]
+  \centering
+  \caption{知识图谱补全数据集统计信息}
+  \begin{tabular*}{0.95\textwidth}{@{\extracolsep{\fill}}lccccc}
+    \toprule[1pt]
+    数据集 & 实体数量 & 关系数量 & 训练集数量 & 验证集数量 & 测试集数量 \\ \hline
+    FB15K-237 & 14541 & 237 & 272115 & 17535 & 20466\\
+    WN18RR & 40943 & 11 & 86835 & 3034 & 3134\\
+    NELL-995 & 75492 & 200 & 138793 & 7710 & 7710\\
+    \bottomrule[1pt]
+	\end{tabular*}
+  \label{Datasets1}
+\end{table}
 本文采用的数据集包括：FB15K-237~\cite{toutanova2015representing}、WN18RR~\cite{dettmers2018convolutional}和NELL-995~\cite{xiong2017deeppath}。上述三个数据集分别是从大规模知识图谱Freebase~\cite{bollacker2008freebase}、WordNet~\cite{glorot2010understanding}和NELL~\cite{carlson2010toward}采样得到的。
 FB15K-237数据集在对Freebase知识图谱进行采样时删除了逆向关系，同时保留了其中的对称、反对称和组合关系。因此在FB15K-237数据集上的知识图谱补全主要考察模型对上述三种关系的表达能力。在数据数量上，FB15K-237包含14541种实体和237种关系，同时包含了310116条三元组数据，数据量较大，需要模型能够处理大规模知识图谱数据。
 WN18RR与FB15K-237类似，也是在对WordNet知识图谱进行采样时删除了逆向关系并保留了对称、反对称和组合关系，因此也是主要考察模型对上述三种关系的表达能力。WN18RR包含40943种实体和11种关系，并提供了93003条三元组数据，可以发现WN18RR的实体种类非常多，同时三元组数量较少，意味着每种实体对应的三元组数量较少，这增加了训练模型的难度。
 NELL-995是从大规模知识图谱NELL中采样得到的数据集，保留了数量排名在前200名的关系对应的三元组数据。与FB15K-237和WN18RR不同的是，NELL-995保留了逆向关系，原因是该数据集是可以用于评估多跳知识推理问题的数据集，为了进行双向推理保留了双向边，因此NELL-995除了对称、反对称和组合关系外，还可以考察模型对逆向关系的表达能力。在数据数量上，NELL-995包含75492种实体和200种关系，并提供了154213条三元组。可以发现，NELL-995提供了较多的数据，需要模型有处理大规模知识图谱的能力。
 实验采用的三种知识图谱补全数据集的具体统计信息如表\ref{Datasets1}所示。根据上述分析可知，三种数据集具有不同的特点，能够用于客观评估知识图谱表示学习模型的表示效果。
-\begin{table}[]
-  \centering
-  \begin{tabular*}{0.95\textwidth}{@{\extracolsep{\fill}}lccccc}
-  \toprule[1pt]
-  数据集 & 实体数量 & 关系数量 & 训练集数量 & 验证集数量 & 测试集数量 \\ \hline
-  FB15K-237 & 14541 & 237 & 272115 & 17535 & 20466\\
-  WN18RR & 40943 & 11 & 86835 & 3034 & 3134\\
-  NELL-995 & 75492 & 200 & 138793 & 7710 & 7710\\
-  \bottomrule[1pt]
-	\end{tabular*}
-  \caption{知识图谱补全数据集统计信息}
-  \label{Datasets1}
-\end{table}
+
+\subsection{基线模型}
+本文选择了一些表现较好的方法作为基线模型进行对比：
+\begin{itemize}
+  \item [1)]\textbf{TransE：}Bordes等~\cite{bordes2013translating}提出的TransE模型是最经典的翻译模型，通过基于距离的评分函数将关系作为头实体和尾实体间的翻译，并将翻译后的两个实体间的距离作为得分，从而获取三元组的合理性。
+  \item [2)]\textbf{DistMult：}Yang等~\cite{yang2015embedding}提出的DistMult模型则属于语义匹配模型，采用张量捕获知识图谱结构，并通过将语义信息矩阵限制为对角矩阵保证了算法的时间复杂度较低和准确度较高。
+  \item [3)]\textbf{ComplEx：}Trouillon等~\cite{trouillon2016complex}提出的ComplEx模型是对DistMult的一种扩展，通过使用复数嵌入能够建模不对称关系并实现效果提升。
+  \item [4)]\textbf{RotatE：}Sun等~\cite{sun2018rotate}提出的RotatE模型是另一种代表性的语义匹配模型，将关系视作复数空间中头实体到尾实体的旋转，具有较好的知识图谱表示与知识推理能力。
+  \item [5)]\textbf{CGI：}Feng等~\cite{feng2021should}提出的CGI模型是一种代表性的因果推断知识图谱表示学习模型，采用图卷积神经网络模型进行知识图谱表示学习，并通过对邻域信息进行因果推断评估是否接收邻域信息。
+  \item [6)]\textbf{ConvE：}Dettmers等~\cite{dettmers2018convolutional}提出的ConvE模型是经典的卷积神经网络神经推理模型，能够通过二维卷积捕获实体间的特征交互信息并实现知识推理。
+  \item [7)]\textbf{GraIL：}Teru等~\cite{teru2020inductive}提出的GraIL模型是一种采用图神经网络的知识推理模型，能够捕获邻域信息并实现知识图谱表示和知识推理。
+\end{itemize}
+其中，TransE、DistMult、ComplEx、RotatE和CGI均为知识图谱表示学习模型，能够用得分函数对所有候选答案的得分进行排序。ConvE和GraIL则为知识推理模型，能够通过单跳知识推理的方式计算候选答案的置信度，并对候选答案的置信度进行排序。因此两类模型均能够完成知识图谱补全任务。
 
 \subsection{实验设置}
-在实验过程中，本文对模型的超参数进行了调整，并最终形成了一系列最优超参数。
-在层次信息提取部分，需要调整的超参数主要是距离部分权重$\lambda_1$、半径坐标部分权重$\lambda_2$、角坐标部分权重$\lambda_3$、合页损失值$\gamma_1$、聚类步数$\epsilon$和层次数量$K$，需要根据不同的知识图谱进行调整。
-% 在因果推断模块，需要调整的超参数是SVM模型的二分类阈值$T$，需要根据不同的知识图谱进行调整。
-在图神经网络部分，需要调整的超参数则主要是邻域子图最大距离$L$和合页损失值$\gamma_2$，需要根据实验需要和不同的知识图谱进行调整。在不同数据集上进行调整时发现，在不考虑时间复杂度的情况下都是距离越大知识图谱表示效果越好。
-除了上述各个模块所需的超参数外，模型训练时还需要设置负采样大小、向量嵌入维度和学习率$\alpha$等信息。
-具体超参数设置情况如表\ref{Hyperparameters1}所示。
-\begin{table}[]
+\begin{table}[t]
   \centering
-  \begin{tabular*}{0.95\textwidth}{@{\extracolsep{\fill}}lcccc}
-  \toprule[1pt]
-  \multirow{2}{*}{超参数名称} & \multirow{2}{*}{取值范围} & \multicolumn{3}{c}{最佳超参数}\\ 
-    & & FB15K-237 & WN18RR & NELL-995 \\ \hline
-  负采样大小 & $\{128, 256, 512, 1024\}$ & 512 & 1024 & 1024 \\
-  嵌入维度 & $\{128, 256, 512, 1024\}$ & 1024 & 256 & 256 \\
-  $\alpha$ & $\{1e\text{-}3, 2e\text{-}4, 5e\text{-}5, 2e\text{-}5\}$ & $5e\text{-}5$ & $5e\text{-}5$ & $2e\text{-}4$ \\
-  $\lambda_1$ & $\{0.1, 0.2, 0.5, 1, 2\}$ & 1 & 0.5 & 0.5 \\
-  $\lambda_2$ & $\{0.1, 0.2, 0.5, 1, 2\}$ & 1 & 2 & 1 \\
-  $\lambda_3$ & $\{0.1, 0.2, 0.5, 1, 2\}$ & 1 & 1 & 0.5 \\
-  $\epsilon$ & $\{10, 20, 30, 40, 50\}$ & 30 & 40 & 40 \\
-  $\gamma_1$ & $\{3, 6, 9, 12, 24\}$ & 6 & 9 & 24 \\
-  $\gamma_2$ & $\{3, 6, 9, 12, 24\}$ & 6 & 9 & 24 \\
-  % K & $\{25, 50, 75, 100, 125\}$ & 50 & 75 & 75 \\
-  % T & $\{0.2, 0.4, 0.6, 0.8, 1\}$ & 0.6 & 0.4 & 0.4 \\
-  L & $\{1, 2, 3, 4, 5\}$ & 5 & 5 & 5 \\
-  \bottomrule[1pt]
-  \end{tabular*}
   \caption{知识图谱补全实验超参数设置情况}
+  \begin{tabular*}{0.95\textwidth}{@{\extracolsep{\fill}}lcccc}
+    \toprule[1pt]
+    \multirow{2}{*}{超参数名称} & \multirow{2}{*}{取值范围} & \multicolumn{3}{c}{最佳超参数}\\ 
+      & & FB15K-237 & WN18RR & NELL-995 \\ \hline
+    负采样大小 & $\{128, 256, 512, 1024\}$ & 1024 & 256 & 256 \\
+    $dim_1$ & $\{128, 256, 512, 1024\}$ & 512 & 1024 & 512 \\
+    $dim_2$ & $\{16, 32, 48, 64, 80\}$ & 16 & 64 & 48 \\
+    $\alpha$ & $\{1e\text{-}3, 2e\text{-}4, 5e\text{-}5, 2e\text{-}5\}$ & $5e\text{-}5$ & $5e\text{-}5$ & $2e\text{-}4$ \\
+    $\lambda_1$ & $\{0.1, 0.2, 0.5, 1, 2\}$ & 1 & 0.5 & 0.5 \\
+    $\lambda_2$ & $\{0.1, 0.2, 0.5, 1, 2\}$ & 1 & 2 & 1 \\
+    $\lambda_3$ & $\{0.1, 0.2, 0.5, 1, 2\}$ & 1 & 1 & 0.5 \\
+    $\gamma_1$ & $\{3, 6, 9, 12, 24\}$ & 6 & 9 & 24 \\
+    $\gamma_2$ & $\{3, 6, 9, 12, 24\}$ & 6 & 9 & 24 \\
+    L & $\{1, 2, 3, 4, 5\}$ & 5 & 5 & 5 \\
+    \bottomrule[1pt]
+  \end{tabular*}
   \label{Hyperparameters1}
 \end{table}
-此外，模型的训练过程中采用提前终止法防止模型陷入过拟合，在FB15K-237和NELL-995数据集中在80000步停止，在WN18RR数据集中在100000步停止。训练批次大小统一设定为256。
+在实验过程中，本文对模型的超参数进行了调整，并最终形成了一系列最优超参数。
+在层次信息提取部分，需要调整的超参数主要是层次信息提取嵌入维度$dim_1$、距离部分权重$\lambda_1$、半径坐标部分权重$\lambda_2$、角坐标部分权重$\lambda_3$和合页损失值$\gamma_1$，需要根据不同的知识图谱进行调整。
+在图神经网络部分，需要调整的超参数则主要是图神经网络嵌入维度$dim_2$、消息传递的最大距离$L$和合页损失值$\gamma_2$，需要根据实验需要和不同的知识图谱进行调整。在不同数据集上进行调整时发现，在不考虑时间复杂度的情况下都是距离$L$越大知识图谱表示效果越好。
+除了上述各个模块所需的超参数外，模型训练时还需要设置负采样大小和学习率$\alpha$等信息。
+具体超参数设置情况如表\ref{Hyperparameters1}所示。
+
+此外，模型的训练过程中采用提前终止法（Early-stop）防止模型陷入过拟合，在FB15K-237和NELL-995数据集中在80000步停止，在WN18RR数据集中在100000步停止。训练批次大小统一设定为256。
 
 \subsection{实验结果与分析}
 % 整体结果分析
-为了评估模型的表现，本文在FB15K-237、WN18RR和NELL-995数据集上选择了多种知识图谱表示学习模型进行实验。除了本文提出的NORMAN模型，还选择了TransE~\cite{bordes2013translating}、DistMult~\cite{yang2015embedding}、ComplEx~\cite{trouillon2016complex}、RotatE~\cite{sun2018rotate}、CGI~\cite{feng2021should}、ConvE~\cite{dettmers2018convolutional}及GraIL~\cite{teru2020inductive}等模型作为对比模型，共同开展实验。
-在对比模型中，TransE模型是最经典的翻译模型，通过基于距离的评分函数将关系作为头实体和尾实体间的翻译，并将翻译后的两个实体间的距离作为得分，从而获取三元组的合理性。DistMult模型则属于予以匹配模型，采用张量捕获知识图谱结构，并通过将语义信息矩阵限制为对角矩阵保证了算法的时间复杂度较低和准确度较高。ComplEx模型是对DistMult的一种扩展，通过使用附属嵌入能够建模不对称关系并实现效果提升。RotatE是另一种代表性的语义匹配模型，将关系视作复数空间中头实体到尾实体的旋转，具有较好的知识图谱表示与知识推理能力。CGI是一种代表性的因果推断知识图谱表示学习模型，采用图卷积神经网络模型进行知识图谱表示学习，并通过对邻域信息进行因果推断评估是否接收邻域信息。
-考虑到部分知识推理模型也能够对知识图谱进行表示并完成知识图谱补全等知识推理任务，本文还选择了一些知识推理模型进行对比实验。ConvE是经典的卷积神经网络神经推理模型，能够通过二维卷积捕获实体间的特征交互信息并实现知识推理。GraIL是一种采用图神经网络的知识推理模型，能够捕获邻域信息并实现知识图谱表示和知识推理。
-
-在FB15K-237知识图谱上应用上述模型进行知识图谱补全，其中在CGI模型中本文选择使用RoBERTa作为预训练模型。评价指标采用MRR和Hits@K，K值分别取1、3和10。最终得到实验结果如表\ref{Experiment1_FB15K-237}所示。可以发现，本文提出的NORMAN模型能够在FB15K-237知识图谱上取得优秀的效果，并在四种指标上均取得最好的效果，分别相较于ComplEx模型实现了$0.4\%$、$1.2\%$、$2.3\%$和$0.6\%$的改进。这说明了本文提出的模型能够较好的利用层次信息、因果信息和邻域信息，在大规模知识图谱上实现高质量知识图谱表示。
-可以发现在FB15K-237知识图谱上，知识图谱表示学习模型的效果通常优于知识推理模型，根据对FB15K-237数据集的分析~\cite{wan2021reasoning}可以了解到FB15K-237数据集的结构与WN18RR和NELL-995存在差别，在FB15K-237中一到多类型的推理路径的数量远大于多到一类型的推理路径，因此在FB15K-237上应用知识推理模型进行推理时，模型容易卡在一些具有大量出边的中间节点上，从而难以到达正确的答案节点。
-\begin{table}[]
+\subsubsection{知识图谱补全实验}
+\begin{table}[t]
   \centering
-  \begin{tabular*}{0.95\textwidth}{@{\extracolsep{\fill}}lcccc}
-  \toprule[1pt]
-  \multirow{2}{*}{模型} & \multicolumn{4}{c}{FB15K-237} \\
-    & MRR & Hits@1 & Hits@3 & Hits@10 \\ \hline
-  TransE & 36.1 & 24.8 & 40.1 & 45.0 \\
-  DistMult & 37.0 & 27.5 & 41.7 & 56.8 \\
-  ComplEx & 39.4 & 30.3 & 43.4 & 57.2 \\
-  RotatE & 33.7 & 24.1 & 38.6  & 53.3 \\
-  CGI & 30.2 & 22.6 & 29.5 & 45.3 \\
-  ConvE & 32.5 & 23.7 & 34.7 & 50.1 \\
-  GraIL & 27.9 & 20.5 & 29.2 & 42.9 \\
-  NORMAN & \textbf{39.8} & \textbf{31.5} & \textbf{45.7} & \textbf{57.8} \\
-  \bottomrule[1pt]
-  \end{tabular*}
   \caption{FB15K-237数据集知识图谱补全实验结果}
+  \begin{tabular*}{0.95\textwidth}{@{\extracolsep{\fill}}lcccc}
+    \toprule[1pt]
+    \multirow{2}{*}{模型} & \multicolumn{4}{c}{FB15K-237} \\
+      & MRR & Hits@1 & Hits@3 & Hits@10 \\ \hline
+    TransE & 29.4 & 24.8 & 40.1 & 46.5 \\
+    DistMult & 24.1 & 15.5 & 26.3 & 41.9 \\
+    ComplEx & 24.7 & 15.8 & 27.5 & 42.8 \\
+    RotatE & 33.7 & 24.1 & 38.6  & 53.3 \\
+    CGI & 30.2 & 22.6 & 29.5 & 45.3 \\
+    ConvE & 32.5 & 23.7 & 34.7 & 50.1 \\
+    GraIL & 27.9 & 20.5 & 29.2 & 42.9 \\
+    NORMAN & \textbf{39.8} & \textbf{31.5} & \textbf{45.7} & \textbf{57.8} \\
+    \bottomrule[1pt]
+  \end{tabular*}
   \label{Experiment1_FB15K-237}
 \end{table}
 
-在WN18RR知识图谱上开展的实验结果如表\ref{Experiment1_WN18RR}所示。根据结果可以发现，NORMAN模型在MRR、Hits@1、Hist@3和Hits@10四个指标上均取得了最好的效果，相比其他模型分别提高了$6.0\%$、$6.0\%$、$5.4\%$和$5.8\%$的提升，体现了NORMAN能够结合层次信息、因果信息和邻域信息实现从少量数据中获取到进行知识图谱表示的信息，从而适合于表示这种实体类型多而每种数据相对较少的知识图谱。
-\begin{table}[]
+首先在FB15K-237知识图谱上应用上述模型进行知识图谱补全，其中在CGI模型中本文选择使用RoBERTa作为预训练模型。评价指标采用MRR和Hits@K，$K$值分别取1、3和10。最终得到实验结果如表\ref{Experiment1_FB15K-237}所示。可以发现，本文提出的NORMAN模型能够在FB15K-237知识图谱上取得优秀的效果，并在四种指标上均取得最好的效果，分别相较于ComplEx模型实现了$0.4\%$、$1.2\%$、$2.3\%$和$0.6\%$的改进。这说明了本文提出的模型能够较好的利用层次信息和邻域信息，在大规模知识图谱上实现高质量知识图谱表示。
+可以发现在FB15K-237知识图谱上，知识图谱表示学习模型的效果通常优于知识推理模型，根据对FB15K-237数据集的分析~\cite{wan2021reasoning}可以了解到FB15K-237数据集的结构与WN18RR和NELL-995存在差别，在FB15K-237中一到多类型的推理路径的数量较多，即一个节点可能有大量出边到达其他节点，因此在FB15K-237上应用知识推理模型进行推理时，模型容易卡在一些具有大量出边的中间节点上，从而难以到达正确的答案节点。
+
+\begin{table}[t]
   \centering
-  \begin{tabular*}{0.95\textwidth}{@{\extracolsep{\fill}}lcccc}
-  \toprule[1pt]
-  \multirow{2}{*}{模型} & \multicolumn{4}{c}{WN18RR} \\
-    & MRR & Hits@1 & Hits@3 & Hits@10 \\ \hline
-  TransE & 35.9 & 28.9 & 46.4 & 53.4 \\
-  DistMult & 43.3 & 41.0 & 44.1 & 47.5 \\
-  ComplEx & 41.5 & 38.2 & 43.3 & 48.0 \\
-  RotatE & 47.6 & 42.8 & 49.2 & 57.1 \\
-  CGI & 44.2 & 39.6 & 46.5 & 55.2 \\
-  ConvE & 43.2 & 40.5 & 44.1 & 52.4 \\
-  GraIL & 43.7 & 42.5 & 48.6 & 56.5 \\
-  NORMAN & \textbf{53.6} & \textbf{48.8} & \textbf{54.6} & \textbf{62.9} \\
-  \bottomrule[1pt]
-  \end{tabular*}
   \caption{WN18RR数据集知识图谱补全实验结果}
+  \begin{tabular*}{0.95\textwidth}{@{\extracolsep{\fill}}lcccc}
+    \toprule[1pt]
+    \multirow{2}{*}{模型} & \multicolumn{4}{c}{WN18RR} \\
+      & MRR & Hits@1 & Hits@3 & Hits@10 \\ \hline
+    TransE & 22.6 & 28.9 & 46.4 & 50.4 \\
+    DistMult & 43.3 & 39.0 & 44.1 & 49.5 \\
+    ComplEx & 44.5 & 41.2 & 46.3 & 51.0 \\
+    RotatE & 47.6 & 42.8 & 49.2 & 57.1 \\
+    CGI & 44.2 & 39.6 & 46.5 & 55.2 \\
+    ConvE & 43.2 & 40.5 & 44.1 & 52.4 \\
+    GraIL & 43.7 & 42.5 & 48.6 & 56.5 \\
+    NORMAN & \textbf{53.6} & \textbf{48.8} & \textbf{54.6} & \textbf{62.9} \\
+    \bottomrule[1pt]
+  \end{tabular*}
   \label{Experiment1_WN18RR}
 \end{table}
 
-在NELL-995知识图谱上进行的实体链接实验对应的结果如表\ref{Experiment1_NELL-995}所示。根据结果可以发现，NORMAN模型可以实现优秀的效果。尽管如此，仍然可以发现NORMAN与ComplEx模型表现较为接近。根据数据集分析可以发现NELL-995知识图谱包含了逆向关系，这恰好是ComplEx模型的强项，能够通过在复数空间的嵌入实现对逆向关系的高质量建模，而本文提出的NORMAN模型则没有针对逆向关系进行独立的建模表示。然而，由于NORMAN模型能够综合语义信息、层次信息、因果信息和邻域信息建模知识图谱，因此能够提高对逆向关系的表示效果，从而总体上表现与ComplEx模型相当。同时相较于其他模型，NORMAN取得了更好的效果，证明了NORMAN模型具有很好的知识表示能力。
-\begin{table}[]
+在WN18RR知识图谱上开展的实验结果如表\ref{Experiment1_WN18RR}所示。根据结果可以发现，NORMAN模型在MRR、Hits@1、Hist@3和Hits@10四个指标上均取得了最好的效果，相比其他模型分别提高了$6.0\%$、$6.0\%$、$5.4\%$和$5.8\%$的提升，体现了NORMAN能够结合层次信息和邻域信息实现从少量数据中充足的信息进行知识图谱表示学习，因此NORMAN模型适合于表示这种实体种类多而每种数据相对较少的知识图谱。
+
+\begin{table}[t]
   \centering
-  \begin{tabular*}{0.95\textwidth}{@{\extracolsep{\fill}}lcccc}
-  \toprule[1pt]
-  \multirow{2}{*}{模型} & \multicolumn{4}{c}{NELL-995} \\
-    & MRR & Hits@1 & Hits@3 & Hits@10 \\ \hline
-  TransE & 45.6 & 51.4 & 67.8 & 75.1 \\
-  DistMult & 68.0 & 61.0 & 73.3 & 79.5 \\
-  ComplEx & 68.4 & \textbf{61.2} & \textbf{76.1} & 82.1 \\
-  RotatE & 50.8 & 54.8 & 69.2 & 78.8 \\
-  CGI & 55.2 & 57.9 & 71.1 & 76.2 \\
-  ConvE & 46.2 & 52.3 & 58.1 & 71.2 \\
-  GraIL & 49.6 & 54.3 & 61.4 & 73.2 \\
-  NORMAN & \textbf{68.7} & 60.4 & 75.3 & \textbf{87.5} \\
-  \bottomrule[1pt]
-  \end{tabular*}
   \caption{NELL-995数据集知识图谱补全实验结果}
+  \begin{tabular*}{0.95\textwidth}{@{\extracolsep{\fill}}lcccc}
+    \toprule[1pt]
+    \multirow{2}{*}{模型} & \multicolumn{4}{c}{NELL-995} \\
+      & MRR & Hits@1 & Hits@3 & Hits@10 \\ \hline
+    TransE & 45.6 & 51.4 & 67.8 & 75.1 \\
+    DistMult & 68.0 & 61.0 & 73.3 & 79.5 \\
+    ComplEx & 68.4 & 61.2 & 76.1 & 82.1 \\
+    RotatE & 50.8 & 54.8 & 69.2 & 78.8 \\
+    CGI & 55.2 & 57.9 & 71.1 & 76.2 \\
+    ConvE & 46.2 & 52.3 & 58.1 & 71.2 \\
+    GraIL & 49.6 & 54.3 & 61.4 & 73.2 \\
+    NORMAN & \textbf{68.7} & \textbf{61.4} & \textbf{76.3} & \textbf{87.5} \\
+    \bottomrule[1pt]
+  \end{tabular*}
   \label{Experiment1_NELL-995}
 \end{table}
 
+在NELL-995知识图谱上进行的实体链接实验对应的结果如表\ref{Experiment1_NELL-995}所示。根据结果可以发现，NORMAN模型可以实现优秀的效果。尽管如此，仍然可以发现NORMAN与ComplEx模型表现较为接近。根据数据集分析可以发现NELL-995知识图谱包含了逆向关系，这恰好是ComplEx模型的强项，能够通过在复数空间的嵌入实现对逆向关系的高质量建模，而本文提出的NORMAN模型则没有针对逆向关系进行独立的建模表示。然而，由于NORMAN模型能够综合层次信息和邻域信息建模知识图谱，因此能够提高对逆向关系的表示效果，从而总体上表现与ComplEx模型相当。同时相较于其他模型，NORMAN取得了更好的效果，证明了NORMAN模型具有很好的知识表示能力。
+
 % 任务类别实验
-为了评估NORMAN模型对不同关系类别的知识图谱补全的实施效果，本文采用NELL-995数据集并选择其中10种关系作为分析对象，对各个模型的表现结果分析如表\ref{Experiment1_tasks1}和表\ref{Experiment1_tasks2}所示，表中的评价指标为MRR。可以发现，本文提出的NORMAN模型在与其他知识图谱表示学习模型进行比较时均取得了很好的效果。同时，可以发现NORMAN模型相比知识推理模型也有较大提升，能够实现平均$27.3\%$的提升。说明模型能够综合层次信息、因果信息和邻域信息实现高质量的知识图谱表示，并能够在简单知识推理任务上超越其他现有的知识图谱表示学习模型和知识推理模型。
-\begin{table}[]
+为了评估NORMAN模型对不同关系类别的知识图谱补全的实施效果，本文采用NELL-995数据集并选择其中12种特定关系的知识图谱补全任务作为分析对象，对各个模型的表现结果分析如表\ref{Experiment1_tasks1}和表\ref{Experiment1_tasks2}所示，表中的评价指标为MRR。可以发现，本文提出的NORMAN模型在与其他知识图谱表示学习模型进行比较时均取得了很好的效果。同时，可以发现NORMAN模型相比知识推理模型也有较大提升，能够实现平均$27.3\%$的提升。说明模型能够综合层次信息和邻域信息实现高质量的知识图谱表示，并能够在简单的单跳知识推理任务上超越其他现有的知识图谱表示学习模型和知识推理模型。
+\begin{table}[t]
   \centering
+  \caption{NELL-995数据集知识图谱表示学习模型特定任务实验结果}
   \begin{tabular*}{0.95\textwidth}{@{\extracolsep{\fill}}lcccccc}
-  \toprule[1pt]
-  \small{任务名称} & \small{TransE} & \small{DistMult} & \small{ComplEx} & \small{RotatE} & \small{CGI} & \small{NORMAN} \\ \hline
-  \small{OrganizationHiredPerson} & 40.4 & 70.9 & 72.3 & 44.7 & 51.9 & \textbf{74.3} \\
-  \small{WorksFor} & 22.3 & 55.5 & 62.4 & 28.4 & 44.5 & \textbf{65.4} \\
-  \small{TeamPlaysInLeague} & 52.8 & \textbf{68.5} & 67.2 & 50.7 & 56.7 & 67.9 \\
-  \small{AthletePlaysInLeague} & 40.5 & \textbf{68.3} & 65.3 & 48.2 & 52.4 & 66.4 \\
-  \small{AthletePlaysSport} & 41.7 & 70.2 & 68.2 & 47.9 & 54.6 & \textbf{72.5} \\
-  \small{OrganizationHeadquarteredInCity} & 50.6 & 74.5 & 70.9 & 55.2 & 57.1 & \textbf{75.1} \\
-  \small{AthletePlaysForTeam} & 44.0 & 67.3 & 70.2 & 51.3 & 56.5 & \textbf{72.3} \\
-  \small{PersonLeadsOrganization} & 24.9 & 64.5 & 63.1 & 36.5 & 42.3 & \textbf{66.5} \\
-  \small{PersonBornInLocation} & 37.7 & 68.9 & 66.5 & 41.5 & 44.2 & \textbf{72.7} \\
-  \small{AgentBelongsToOrganization} & 23.5 & 65.6 & 69.2 & 31.2 & 51.5 & \textbf{70.2} \\
-  \small{AthleteHomeStadium} & 23.9 & 63.1 & 66.4 & 43.8 & 59.2 & \textbf{69.9} \\
-  \small{TeamPlaysSport} & 46.5 & \textbf{74.4} & 69.3 & 52.3 & 56.4 & 73.8 \\
-  \bottomrule[1pt]
+    \toprule[1pt]
+    \multirow{2}{*}{\small{任务名称}} & \multicolumn{6}{c}{\small{NELL-995}} \\
+      & \small{TransE} & \small{DistMult} & \small{ComplEx} & \small{RotatE} & \small{CGI} & \small{NORMAN} \\ \hline
+    \small{OrganizationHiredPerson} & 40.4 & 70.9 & 72.3 & 44.7 & 51.9 & \textbf{74.3} \\
+    \small{WorksFor} & 22.3 & 55.5 & 62.4 & 28.4 & 44.5 & \textbf{65.4} \\
+    \small{TeamPlaysInLeague} & 52.8 & \textbf{68.5} & 67.2 & 50.7 & 56.7 & 67.9 \\
+    \small{AthletePlaysInLeague} & 40.5 & \textbf{68.3} & 65.3 & 48.2 & 52.4 & 66.4 \\
+    \small{AthletePlaysSport} & 41.7 & 70.2 & 68.2 & 47.9 & 54.6 & \textbf{72.5} \\
+    \small{OrganizationHeadquarteredInCity} & 50.6 & 74.5 & 70.9 & 55.2 & 57.1 & \textbf{75.1} \\
+    \small{AthletePlaysForTeam} & 44.0 & 67.3 & 70.2 & 51.3 & 56.5 & \textbf{72.3} \\
+    \small{PersonLeadsOrganization} & 24.9 & 64.5 & 63.1 & 36.5 & 42.3 & \textbf{66.5} \\
+    \small{PersonBornInLocation} & 37.7 & 68.9 & 66.5 & 41.5 & 44.2 & \textbf{72.7} \\
+    \small{AgentBelongsToOrganization} & 23.5 & 65.6 & 69.2 & 31.2 & 51.5 & \textbf{70.2} \\
+    \small{AthleteHomeStadium} & 23.9 & 63.1 & 66.4 & 43.8 & 59.2 & \textbf{69.9} \\
+    \small{TeamPlaysSport} & 46.5 & \textbf{74.4} & 69.3 & 52.3 & 56.4 & 74.8 \\
+    \bottomrule[1pt]
   \end{tabular*}
-  \caption{知识图谱表示学习模型NELL-995数据集关系类别实验结果}
   \label{Experiment1_tasks1}
 \end{table}
 % (74.3-72.3+65.4-62.4+67.9-68.5+66.4-68.3+72.5-70.2+75.1-74.5+72.3-70.2+66.5-64.5+72.7-68.9+70.2-69.2+69.9-66.4+73.8-74.4)/12
 % (74.3-51.9+65.4-44.5+67.9-56.7+66.4-52.4+72.5-54.6+75.1-57.1+72.3-56.5+66.5-42.3+72.7-44.2+70.2-51.5+69.9-59.2+73.8-56.4)/12
 % 45.6 46.2 49.6
-\begin{table}[]
+\begin{table}[t]
   \centering
+  \caption{NELL-995数据集知识推理模型特定任务实验结果}
   \begin{tabular*}{0.95\textwidth}{@{\extracolsep{\fill}}lccc}
-  \toprule[1pt]
-  \small{任务名称} & \small{ConvE} & \small{GraIL} & \small{NORMAN} \\ \hline
-  \small{OrganizationHiredPerson} & 42.5 & 47.8 & \textbf{74.3} \\
-  \small{WorksFor} & 30.7 & 36.2 & \textbf{65.4} \\
-  \small{TeamPlaysInLeague} & 53.1 & 54.1 & \textbf{67.9} \\
-  \small{AthletePlaysInLeague} & 44.2 & 48.3 & \textbf{66.4} \\
-  \small{AthletePlaysSport} & 46.3 & 47.8 & \textbf{72.5} \\
-  \small{OrganizationHeadquarteredInCity} & 48.9 & 50.3 & \textbf{75.1} \\
-  \small{AthletePlaysForTeam} & 42.3 & 46.8 & \textbf{72.3} \\
-  \small{PersonLeadsOrganization} & 28.2 & 30.2 & \textbf{66.5} \\
-  \small{PersonBornInLocation} & 39.4 & 38.5 & \textbf{72.7} \\
-  \small{AgentBelongsToOrganization} & 25.5 & 31.6 & \textbf{70.2} \\
-  \small{AthleteHomestAdium} & 30.9 & 33.4 & \textbf{69.9} \\
-  \small{TeamPlaysSport} & 48.6 & 53.9 & \textbf{73.8} \\
-  \bottomrule[1pt]
+    \toprule[1pt]
+    \multirow{2}{*}{\small{任务名称}} & \multicolumn{3}{c}{\small{NELL-995}} \\
+      & \small{ConvE} & \small{GraIL} & \small{NORMAN} \\ \hline
+    \small{OrganizationHiredPerson} & 42.5 & 47.8 & \textbf{74.3} \\
+    \small{WorksFor} & 30.7 & 36.2 & \textbf{65.4} \\
+    \small{TeamPlaysInLeague} & 53.1 & 54.1 & \textbf{67.9} \\
+    \small{AthletePlaysInLeague} & 44.2 & 48.3 & \textbf{66.4} \\
+    \small{AthletePlaysSport} & 46.3 & 47.8 & \textbf{72.5} \\
+    \small{OrganizationHeadquarteredInCity} & 48.9 & 50.3 & \textbf{75.1} \\
+    \small{AthletePlaysForTeam} & 42.3 & 46.8 & \textbf{72.3} \\
+    \small{PersonLeadsOrganization} & 28.2 & 30.2 & \textbf{66.5} \\
+    \small{PersonBornInLocation} & 39.4 & 38.5 & \textbf{72.7} \\
+    \small{AgentBelongsToOrganization} & 25.5 & 31.6 & \textbf{70.2} \\
+    \small{AthleteHomestAdium} & 30.9 & 33.4 & \textbf{69.9} \\
+    \small{TeamPlaysSport} & 48.6 & 53.9 & \textbf{73.8} \\
+    \bottomrule[1pt]
   \end{tabular*}
-  \caption{知识推理模型NELL-995数据集关系类别实验结果}
   \label{Experiment1_tasks2}
 \end{table}
 % ((74.3-47.8)+(65.4-36.2)+(67.9-54.1)+(66.4-48.3)+(72.5-47.8)+(75.1-50.3)+(72.3-46.8)+(66.5-30.2)+(72.7-39.4)+(70.2-31.6)+(69.9-33.4)+(73.8-53.9))/12
 
 % 消融实验
-为了评估模型的各个模块效果，本文对NORMAN模型的各个模块开展了消融实验。
-构建的消融实验模型包括：NORMAN(w/o HM)、NORMAN(w/o GNN)以及完整的NORMAN模型。
-其中，NORMAN(w/o HM)模型去除了层次信息提取部分，仅由图神经网络模型实现知识图谱表示学习，这导致模型无法使用层次信息提取模块获取到的初始知识表示向量作为初始向量。对此，图神经网络模块使用随机初始化向量作为替代。
-% 同时无法将层次信息提供给因果推断模块，此时因果推断模块放弃层次信息，仅采用其他信息进行因果推断。
-% NORMAN(w/o CI)模型则是去除了因果推断模块，即在图神经网络模块的信息传递过程中不使用因果推断模块评估是否接收邻域信息，而是全盘接受邻域信息。
-NORMAN(w/o GNN)模型则是去除了图神经网络部分，仅保留层次信息提取部分，由该模块获取知识图谱表示信息并执行测试任务。
-表\ref{Experiment1_ablation}展示了消融实验的结果。可以发现
-% ，三个消融模型中，NORMAN(w/o CI)的表现最接近NORMAN模型，这说明因果推断模块对模型的整体效果影响相对较小。但可以发现添加了因果推断模块后，模型依然分别在MRR、Hits@1、Hits@3和Hist@10指标上实现了$2.3\%$、$2.3\%$、$3.1\%$和$1.6\%$的提升，说明在图神经网络的消息传递过程中加入因果推断是具有良好效果的，能够稳定地提升知识图谱表示效果。同时，因果推断的提升相对较小是因为另外两个模块更加重要，在表\ref{Experiment1_ablation}中可以发现
-NORMAN(w/o HM)和NORMAN(w/o GNN)的效果相对于NORMAN模型存在显著的下降，同时NORMAN(w/o GNN)的效果比NORMAN(w/o HM)更差。
-层次信息提取部分用于获取知识的层次信息，同时为图神经网络模块提供初始向量，间接影响了图神经网络模块和因果推断模块的效果。
-而图神经网络更为重要，是模型的核心，因此。
-通过上述分析，可以为模型的模块重要程度进行排序，即图神经网络模块最重要，其次是层次信息提取模块，最后是因果推断模块。
-\begin{table}[]
+\subsubsection{消融实验}
+\begin{table}[t]
   \centering
+  \caption{消融实验结果}
   \begin{tabular*}{0.95\textwidth}{@{\extracolsep{\fill}}lcccc}
-  \toprule[1pt]
-  \multirow{2}{*}{模型} & \multicolumn{4}{c}{FB15K-237} \\
-    & MRR & Hits@1 & Hits@3 & Hits@10 \\ \hline
-  NORMAN(w/o HM) & 34.4 & 29.3 & 39.5 & 53.8 \\
-  % NORMAN(w/o CI) & 37.5 & 29.2 & 42.6 & 56.2 \\
-  NORMAN(w/o GNN) & 32.6 & 25.0 & 36.1 & 51.2 \\
-  NORMAN & \textbf{39.8} & \textbf{31.5} & \textbf{45.7} & \textbf{57.8} \\
-  \bottomrule[1pt]
+    \toprule[1pt]
+    \multirow{2}{*}{模型} & \multicolumn{4}{c}{FB15K-237} \\
+      & MRR & Hits@1 & Hits@3 & Hits@10 \\ \hline
+    NORMAN(w/o HM) & 34.4 & 29.3 & 39.5 & 53.8 \\
+    NORMAN(w/o GNN) & 32.6 & 25.0 & 36.1 & 51.2 \\
+    NORMAN(w/o ATT) & 36.5 & 29.5 & 42.8 & 55.6 \\
+    NORMAN & \textbf{39.8} & \textbf{31.5} & \textbf{45.7} & \textbf{57.8} \\
+    \bottomrule[1pt]
   \end{tabular*}
-  \caption{FB15K-237数据集消融实验结果}
   \label{Experiment1_ablation}
 \end{table}
-
-% 层次数量影响
-% \begin{figure}[t]
-%   \centering
-%   \subfloat[FB15K-237数据集] {
-%     \includegraphics[width=0.3\textwidth]{2_NORMAN_layer_FB15K237.pdf}
-%     \label{Experiment1_layer_a}
-%   }
-%   \subfloat[WN18RR数据集] {
-%     \includegraphics[width=0.3\textwidth]{2_NORMAN_layer_WN18RR.pdf}
-%     \label{Experiment1_layer_b}
-%   }
-%   \subfloat[NELL-995数据集] {
-%     \includegraphics[width=0.3\textwidth]{2_NORMAN_layer_NELL995.pdf}
-%     \label{Experiment1_layer_c}
-%   }
-%   \caption{模型层次数量分析实验结果}
-%   \label{Experiment1_layer}
-% \end{figure}
-% 为了评估层次信息提取模块中的层次数量对NORMAN模型的影响，本文在FB15K-237、WN18RR和NELL-995三个数据集上进行实验，实验采用MRR作为评价指标，在调整层次数量$K$的同时观察模型效果的变化。实验结果如图\ref{Experiment1_layer}所示。
-% 可以发现，当设置$K=50$时模型可以在FB15K-237数据集上取得最好的效果，同时在WN18RR和NELL-995数据集上设置$K=75$时效果最好。
-% 这是由于FB15K-237数据集的知识层级相对较少，同时WN18RR和NELL-995的知识层级相对较多。当$K$与数据集的知识层次数量接近时，NORMAN模型可以取得最好的效果。
-
-% 因果推断因素影响
-% \begin{figure}[t]
-%   \centering
-%   \includegraphics[width=0.5\textwidth]{2_NORMAN_causalInference.pdf}
-%   \caption{模型因果推断输入内容分析实验结果}
-%   \label{Experiment1_causalInference}
-% \end{figure}
-% 为了评估因果推断模块中的四种输入内容是否能够对模型起到贡献，同时对输入内容的重要程度进行排序，本文在三种数据集上进行了实验。
-% 实验采用MRR作为评价指标，并设置了五种模型：NORMAN(base)、NORMAN(w/o $v_h$)、NORMAN(w/o $v_d$)、NORMAN(w/o $v_c$)和NORMAN(w/o $v_l$)，分别用来表示原始模型和缺少$v_h$、$v_d$、$v_c$、$v_l$输入内容的模型。
-% 实验结果如图\ref{Experiment1_causalInference}所示。
-% 可以发现在三个数据集上呈现了相同的结果，即NORMAN(base)的效果最好，随后依次是NORMAN(w/o $v_l$)、NORMAN(w/o $v_c$)、NORMAN(w/o $v_d$)和NORMAN(w/o $v_h$)。
-% 实验结果首先证明了四种输入内容均能够在因果推断过程中起到贡献。
-% 同时也体现了在输入内容中层次差异得分$v_h$最为重要，说明邻域节点间的层次差异有助于确定是否接收邻域信息。
-% 其次是决策差异得分$v_d$，这说明$v_d$能够评估节点邻域差异情况，有助于确定是否接受邻域信息。
-% 随后是预测置信度得分$v_c$，说明了平均预测置信度能够对模型起到一定的作用，但作用相对较小。
-% 贡献最小的是推理距离得分$v_l$，这说明邻域节点的距离也能够对是否接收邻域消息起到一定作用，但也可能会导致模型倾向于接收较近节点的消息，而忽略了比较重要的远距离节点的消息，这导致$v_l$对模型的效果提升相对较小。
+为了评估模型的各个模块效果，本文对NORMAN模型的各个模块开展了消融实验。
+构建的消融实验模型包括：NORMAN(w/o HM)、NORMAN(w/o GNN)、NORMAN(w/o ATT)以及完整的NORMAN模型。
+其中，NORMAN(w/o HM)模型去除了层次信息提取部分，仅由图神经网络模型实现知识图谱表示学习，这导致模型无法使用层次信息提取获取到的初始知识表示向量获取初始向量。对此，图神经网络模块使用随机初始化向量作为替代。
+NORMAN(w/o GNN)模型则是去除了图神经网络部分，仅由层次信息提取部分获取知识图谱表示信息并执行测试任务。
+NORMAN(w/o ATT)模型则是去除了图神经网络消息传递函数中的注意力机制，同时采用取平均数的方式作为替代，此时模型将认为任何邻域的消息具有相同的重要性。
+表\ref{Experiment1_ablation}展示了消融实验的结果。可以发现三种消融模型的效果相对于NORMAN模型均出现了显著的下降，其中NORMAN(w/o ATT)的效果与NORMAN模型最接近，同时NORMAN(w/o GNN)的效果比NORMAN(w/o HM)更差。
+上述实验结果说明，层次信息提取、图神经网络和图神经网络中的注意力机制对于NORMAN模型都很重要。其中图神经网络中的注意力机制能够为不同的邻域节点提供相应的注意力权重，从而能够区分不同节点消息的重要性。
+层次信息提取部分能够捕获知识的层次信息，同时为图神经网络模块提供初始向量，从而间接影响了图神经网络模块。
+而图神经网络是模型的核心，首先通过采用层次信息提取部分获取的向量进行初始化，从而完成了知识图谱中层次信息的获取。随后模型通过构建邻域子图和进行消息传递，实现了邻域信息的捕获，从而提高了模型的知识表示效果。
+因此，通过上述分析可以为模型各个部分的重要程度进行排序，即图神经网络部分最重要，其次是层次信息提取部分，最后是图神经网络中的注意力机制部分。
 
 % 消息范围效果
+\subsubsection{消息传递范围分析}
 \begin{figure}[t]
   \centering
   \subfloat[FB15K-237数据集] {
@@ -950,12 +835,11 @@ NORMAN(w/o HM)和NORMAN(w/o GNN)的效果相对于NORMAN模型存在显著的下
 \end{figure}
 为了更好地分析模型的图神经网络模块受到邻域消息范围$L$的影响，本文对$L$进行了调整，并统计了NORMAN模型在三种数据集上的表现，评价指标采用MRR。
 同时本文选择同样采用图神经网络和消息传递机制的GraIL模型开展了对比实验。实验结果如图\ref{Experiment1_messageRange}所示。
-可以发现，当设置$L$的范围为1到5时，随着邻域消息范围$L$的增长，本文提出的NORMAN模型在三种数据集上均能够实现效果的提升，同时提升速度随着$L$的增长而逐渐降低。
-这说明NORMAN模型能够利用范围较大的邻域信息进行知识图谱表示，同时也能够说明模型采用因果推断模块后能够选择性的接收邻域消息，避免由于邻域结构差异造成的知识图谱表示效果的下降。
-作为对比可以发现，GraIL模型的效果在$L$为3时达到最佳，当$L$继续增长时GraIL的效果将会出现下降。
-这说明GraIL模型只能够有效利用范围较小的邻域信息，当邻域范围太大时，模型会因为无法对消息进行有效的筛选而受到干扰信息的影响，从而降低知识图谱表示效果。
+可以发现，当设置$L$的范围为1到5时，随着邻域消息范围$L$的增长，本文提出的NORMAN模型在三种数据集上均能够实现效果的提升。这体现了模型采用的图神经网络模型具有较好的复杂知识表示能力，原因是模型能够在构建邻域子图的同时进行消息传递，实现节点信息的更新，从而保障了模型在邻域消息范围扩大的时候依然能够有效地实现知识表示。同时这也说明NORMAN模型采用注意力机制后能够对不同的邻域消息提供不同的权重，降低无关的和误导性的知识造成的影响，从而使得模型能够利用大范围的邻域信息进行知识图谱表示。
+相比之下可以发现，GraIL模型的效果在$L$为3时达到最佳，当$L$继续增长时GraIL的效果将会出现下降。这说明了GraIL模型的图神经网络机制相比于NORMAN模型不能够有效地表示复杂结构的知识信息，从而导致了邻域子图范围超过3时模型效果出现下降。同时说明GraIL模型只能够有效利用范围较小的邻域信息，当邻域范围太大时，模型会因为无法对消息进行有效的筛选而受到干扰信息的影响，从而降低知识图谱表示效果。
 
 % 可视化实验
+\subsubsection{节点可视化分析}
 \begin{figure}[t]
   \centering
   \subfloat[RotatE可视化结果]{
@@ -966,7 +850,7 @@ NORMAN(w/o HM)和NORMAN(w/o GNN)的效果相对于NORMAN模型存在显著的下
     \includegraphics[width=0.4\textwidth]{2_NORMAN_view.pdf}
     \label{Experiment1_figures_b}
   }
-  \caption{FB15K-237部分节点可视化分析实验结果}
+  \caption{FB15K-237数据集部分节点可视化分析实验结果}
   \label{Experiment1_figures}
 \end{figure}
 为了更直观地分析模型对知识图谱层次信息的表示效果，本文将RotatE模型和NORMAN模型对FB15K-237知识图谱的部分节点在欧氏空间中的表示向量进行了可视化展示，其中不同的节点采用不同颜色的点进行表示，得到的结果如图\ref{Experiment1_figures}所示。
@@ -974,16 +858,18 @@ NORMAN(w/o HM)和NORMAN(w/o GNN)的效果相对于NORMAN模型存在显著的下
 这种情况主要是因为RotatE模型采用的基于旋转的复数空间表示方法没有对知识图谱内的层次信息进行建模，因而不能够很好地体现知识图谱中的层次信息。
 NORMAN模型得到的知识图谱表示向量则能够清晰地将不同层次的实体进行区分，可以看到图中不同的实体之间存在明显的层次划分。
 这主要是因为NORMAN模型的极坐标系编码器采用半径坐标对实体的层次级别进行表示，能够根据知识图谱中的层次信息为实体分配对应的半径坐标向量。
-通过这种方法，NORMAN模型能够很好地捕获知识图谱中的层次信息，从而为知识推理等下游任务提供支持。
+通过这种方法，NORMAN模型能够很好地捕获知识图谱中的层次信息，从而为知识图谱补全等下游任务提供支持，同时也能为本文提出的知识推理模型提供层次信息。
 
 \section{本章小结}
-本章主要介绍了基于图神经网络的知识图谱表示学习模型，该模型能够将结构化三元组知识信息转换成向量表示。模型首先通过层次信息提取模块利用基于极坐标系的编码模型编码知识图谱，并通过聚类算法得到知识对应的层次信息。随后模型利用图神经网络模块，输入初始向量和知识层次信息，通过知识邻域信息传递进行数据更新，同时利用因果推断模块，根据层次差异得分、决策差异得分、预测置信度得分和推理距离得分等多种因素，评估各个图神经网络节点是否接收特定邻域的信息。
-本章首先给出了知识图谱表示学习任务的定义，随后给出了方法概览并详细介绍了本文提出的基于图神经网络的知识图谱表示学习模型与策略，最后在公开数据集上进行了实验，验证了模型的效果。
+本章主要介绍了基于图神经网络的知识图谱表示学习模型NORMAN。
+NORMAN模型首先采用了一种基于极坐标系的编码器。该编码器能够将知识编码为极坐标向量的形式，其中半径坐标向量用于捕获知识的层次信息，角坐标向量则用于区分不同类别的知识。
+随后模型采用了一种图神经网络模型。该模型首先利用层次信息提取过程得到的向量进行一个全连接层映射获取初始向量，随后通过递归方式实现邻域子图构建和消息传递，并通过消息聚合函数将邻域子图中的消息聚合起来，通过信息更新函数将消息与节点向量相结合，实现节点信息更新。同时在消息传递过程中，对各个邻域节点的消息采用注意力机制，从而区分不同节点的消息贡献程度。
+本章首先给出了知识图谱表示学习任务的定义，随后给出了方法概览，并详细介绍了本文提出的基于图神经网络的知识图谱表示学习模型与策略，最后在公开数据集上进行了实验，验证了模型的效果。
 
 
 \chapter{基于双重智能体强化学习的知识推理模型}
-本章提出一种基于双重智能体强化学习的知识推理模型LAURA，该模型使用实体和层次两种粒度的强化学习模块同时进行知识推理，并通过双重智能体强化学习交互模块实现信息交流和协作，共同实现高质量知识推理。
-% 本章包含七个部分：知识推理任务定义（3.1节），模型方法概览（3.2节），实体级强化学习模块构建（3.3节），层次级强化学习模块构建（3.4节），双重智能体强化学习交互模块构建（3.5节），实验评估（3.6节），以及本章小结（3.7节）。
+本章提出一种基于双重智能体强化学习的知识推理模型LAURA，构建了两种能够相互协作进行知识推理的强化学习智能体，能够根据知识图谱中的实体和层次信息进行知识推理，并通过协作动作空间、协作策略网络和协作奖励等方式实现信息交流和协作，共同实现高质量知识推理。
+本章包含六个部分：知识推理任务定义（3.1节），模型概览（3.2节），强化学习框架（3.3节），双重智能体知识推理（3.4节），实验评估（3.5节），以及本章小结（3.6节）。
 
 \section{知识推理任务定义}
 知识推理任务可以表示为给定知识推理问题$Q$，其中包含了查询三元组$(h, r, ?)$、$(h, ?, t)$或$(?, r, t)$，目标是通过利用知识图谱上的知识集合$F$推理查询三元组中缺失的内容，并得到知识推理路径$p$。
@@ -995,7 +881,7 @@ NORMAN模型得到的知识图谱表示向量则能够清晰地将不同层次�
 \begin{figure}[ht]
   \centering
   \includegraphics[width=0.8\textwidth]{3_Task}
-  \caption{基于双重智能体强化学习的知识推理模型框架图}
+  \caption{知识推理充分性示例}
   \label{3_Task}
 \end{figure}
 
@@ -1004,60 +890,48 @@ NORMAN模型得到的知识图谱表示向量则能够清晰地将不同层次�
 这条路径虽然也能到达正确答案，但是这种推理是不充分的，因为并不是所有美国人都居住在首都华盛顿。
 继续对这条推理路径进行分析，可以发现模型推理时使用了较高层次的知识（拜登是美国人），而利用较高层次的知识会导致候选答案变多，例如美国人可以生活在纽约、华盛顿和斯克兰顿等城市。
 因此，如果希望模型能够正确推理，就需要模型能够正确利用不同层次的知识，实现候选答案的增加或减少，从而保证模型能够获取到正确答案。
-本文提出的LAURA模型的一个重要动机是希望能够利用知识图谱中的层次信息增加知识推理路径的充分性。
-然而通常难以直接从知识图谱中获取明显的层次信息，因此模型利用了第二章的NORMAN模型实现层次信息的获取。
+本文提出的LAURA模型的一个重要动机是希望能够利用知识图谱中的层次信息增加知识推理路径的充分性，考虑到通常难以直接从知识图谱中获取明显的层次信息，因此模型利用了第二章的NORMAN模型实现知识图谱中层次信息的获取。
 
 本章涉及到的符号及定义如表\ref{3_symbols}所示。
 \begin{table}[ht]
   \centering
-  \begin{tabular*}{0.6\textwidth}{@{\extracolsep{\fill}}clcl}
+  \caption{本章符号定义}
+  \begin{tabular*}{0.8\textwidth}{@{\extracolsep{\fill}}clcl}
 		\toprule[1pt]
-    符号 & 描述\\ \hline
-    $G$ & 知识图谱\\
-    $F$ & 知识图谱事实集合\\
-    $p$ & 知识推理路径\\
-    $e$ & 实体变量\\
-    $r$ & 关系变量\\
-    $his$ & 历史信息变量\\
-    $S$ & 状态信息\\
-    $A$ & 动作空间\\
-    $A^{add}$ & 额外动作空间\\
-    $A^{co}$ & 协作动作空间\\
-    $\pi_\theta$ & 策略网络\\
-    $\pi_\theta^{co}$ & 协作策略网络\\
-    $R$ & 奖励函数\\
-    $\hat{R}$ & 协作奖励\\
-    $\operatorname{Similarity}(\cdot)$ & 相似度计算函数\\
-    $\operatorname{Top@T}(\cdot)$ & 保留最高得分三元组函数\\
-    $\operatorname{Entity}(\cdot)$ & 获取层次节点对应实体函数\\
-    $\operatorname{Hierarchy}(\cdot)$ & 获取实体节点对应层次函数\\
+    符号 & 描述 & 符号 & 描述\\ \hline
+    $G$ & 知识图谱 & $F$ & 知识图谱事实集合\\
+    $e$ & 实体变量 & $h$ & 聚类节点变量\\
+    $r$ & 关系变量 & $his$ & 历史信息变量\\
+    $S$ & 状态信息 & $A$ & 动作空间\\
+    $A^{add}$ & 额外动作空间 & $A^{co}$ & 协作动作空间\\
+    $\pi_\theta$ & 策略网络 & $\operatorname{Similarity}(\cdot)$ & 相似度计算函数\\
+    $\pi_\theta^{co}$ & 协作策略网络 & $\operatorname{Top@T}(\cdot)$ & 保留最高得分三元组函数\\
+    $R$ & 奖励函数 & $\operatorname{Entity}(\cdot)$ & 获取聚类节点内实体函数\\
+    $\hat{R}$ & 协作奖励 & $\operatorname{Hierarchy}(\cdot)$ & 获取实体对应聚类节点函数\\
+    $p$ & 知识推理路径 & &\\
 		\bottomrule[1pt]
 	\end{tabular*}
-  \caption{本章符号定义}
   \label{3_symbols}
 \end{table}
 
 \section{模型概览}
-本章提出的LAURA模型能够结合知识图谱表示学习模型，通过强化学习框架实现多粒度的知识推理。
-图\ref{3_LAURA}展示了该模型，模型主要包含三个模块，分别是实体级强化学习模块、层次级强化学习模块和双重智能体强化学习交互模块。
-对于实体级强化学习模块，该模块采用强化学习框架，在原始的实体级知识图谱上，由一个智能体（agent）根据策略网络（policy network）选取动作空间中的动作（action），改变自身状态（state），当到达结束条件时根据任务完成情况得到奖励（reward）。在此过程中，本文使用了第二章提出的知识图谱表示学习模型NORMAN构建额外动作空间，从而降低知识图谱的稀疏情况对模型的影响。同时利用NORMAN模型的奖励函数作为补充奖励，缓解在大规模知识图谱上应用强化学习框架进行知识推理的奖励稀疏问题。
-完成训练后，模块可以对查询的知识进行推理，返回知识的推理路径和对应的置信度。
-对于层次级强化学习模块，该模块采用与实体级强化学习模块相同的强化学习框架，区别在于该模块使用的是层次知识图谱。首先利用知识图谱表示学习模型中的层次信息提取模块获取各个实体对应的层级，并将位于相同层级的全部实体作为层级节点，不同层级间则根据是否存在至少一条实体关联构建层级关联，从而完成层次知识图谱构建。随后可以在层次知识图谱上训练层次级强化学习模型。完成训练后，模块可以对给定知识进行推理，并返回层级级别的知识推理路径和对应置信度。
-对于双重智能体强化学习交互模块，该模块为知识推理模型的核心模块，用于协调两个强化学习模块，实现模块间的信息交互。
-模块设计了协作动作空间、协作策略网络和协作奖励三部分内容。
-协作动作空间是根据另一个模块的状态信息获取对应的动作内容以实现对动作空间的扩展，为两个模块能够具有相似的知识推理轨迹提供基础。
-协作策略网络是对模块策略网络的扩展，除了考虑自身模块当前状态、历史状态之外，还将另一个模块的历史状态纳入决策过程。
-协作奖励是对模块奖励的扩展，除了考虑自身模块的奖励，还对两个模块的历史动作轨迹计算相似度得分，并与另一个模块的奖励一起作为补充奖励。
-当采用上述方法构建的知识推理模型完成训练后，模型可以在实体和层次两个级别进行知识推理，并将结果进行整合，返回置信度高于阈值的知识推理路径和对应的置信度信息。
-需要注意的是，LAURA模型在开始知识推理前首先在实体级和层次级知识图谱的每个节点上添加了自环和反向边，从而使得智能体能够在知识图谱上进行双向推理，以及实现提前停止在某个节点上。
+本章提出的LAURA模型能够结合知识图谱表示学习模型NORMAN，通过强化学习框架实现多粒度的知识推理。
+图\ref{3_LAURA}展示了该模型，可以发现模型包含了两个部分，分别是小型智能体知识推理和大型智能体知识推理。
+两个部分均采用了强化学习框架，在知识图谱上由一个智能体（agent）根据策略网络（policy network）选取动作空间中的动作（action）并改变自身状态（state），当到达结束条件时根据任务完成情况得到对应的奖励（reward）。
+两种智能体均能够独立进行知识推理，它们主要区别在于：大型智能体利用NORMAN模型获取知识图谱中的实体和关系的层次信息，并通过聚类的方式将层次级别相近的实体构建为聚类节点，根据聚类节点间是否有知识关联构建聚类边，从而完成了聚类知识图谱的构建。在知识推理过程中，大型智能体在聚类知识图谱上进行知识推理，而小型智能体则是在原始知识图谱上进行知识推理。
+为了实现两种智能体之间的信息交流，模型还包含了协作动作空间、协作策略网络和协作奖励。
+进行知识推理时协作动作空间能够保证两个智能体的动作空间相互覆盖，协作策略网络能够保证两个智能体能够交流对方的历史状态，协作奖励能够鼓励两个智能体沿着相似的推理路径前进并帮助另一个智能体达到正确目标。
+利用模型进行知识推理的过程可以简单描述为：首先由大型智能体进行一次单跳知识推理，随后由小型智能体进行一次单跳知识推理，在推理过程中两种智能体可以通过协作动作空间、协作策略网络和协作奖励进行信息交流和轨迹协调，重复上述步骤，直到两种智能体分别到达各自的推理距离上限时停止协作推理过程，并返回置信度最高的知识推理路径作为推理结果。
+需要注意的是，LAURA模型在开始知识推理前首先在两种知识图谱的每个节点上添加了自环和反向边，从而使得智能体能够在知识图谱上进行双向推理和提前停止在某个节点上。
+
 \begin{figure}
   \centering
-  \subfloat[微观智能体模型] {
+  \subfloat[小型智能体知识推理] {
     \includegraphics[width=0.8\textwidth]{3_LAURA_1}
     \label{3_LAURA_1}
   }
 
-  \subfloat[宏观智能体模型] {
+  \subfloat[大型智能体知识推理] {
     \includegraphics[width=0.8\textwidth]{3_LAURA_2}
     \label{3_LAURA_2}
   }
@@ -1066,9 +940,11 @@ NORMAN模型得到的知识图谱表示向量则能够清晰地将不同层次�
 \end{figure}
 
 \section{强化学习框架}
-强化学习框架进行知识推理的过程可以认为是一种马尔可夫决策过程（Markov Decision Process，MDP）~\cite{gronauer2022multi}。
-可以将知识推理过程表述为：给定知识图谱$G$的事实集合$F$和查询三元组$(h, r, ?)$（也可以是$(?, r, t)$和$(h, ?, t)$的形式），其中已知的实体可以记作查询实体$e_q$或第0跳实体$e_0$，给定关系可以记作查询关系$r_q$。在强化学习框架中，智能体首先从查询实体$e_q$出发，不断选择知识图谱上的节点作为下一跳实体，直到到达跳数上限$L$为止，最终达到的实体即为答案实体，可以记作为答案实体$e_a$或第$L$跳实体$e_L$。
-具体而言，在本节采用的实体级智能体知识推理的马尔可夫决策过程中，主要包含以下内容：
+利用强化学习框架进行知识推理的过程可以认为是一种马尔可夫决策过程（Markov Decision Process，MDP）~\cite{gronauer2022multi}。
+可以将知识推理过程表述为：给定知识图谱$G$的事实集合$F$和查询三元组$(h, r, ?)$（也可以是$(?, r, t)$和$(h, ?, t)$的形式），其中已知的实体可以记作查询实体$e_q$或第0跳实体$e_0$，给定关系可以记作查询关系$r_q$。
+在强化学习框架中，智能体首先从查询实体$e_q$出发，由智能体不断选择知识图谱上的节点作为下一跳实体，直到到达跳数上限$L$为止，最终达到的实体即为知识推理结果，可以记为答案实体$e_a$。
+
+具体而言，在强化学习框架的马尔可夫决策过程中，主要包含以下内容：
 \begin{itemize}
   \item [1)] 状态信息$S$，主要用于表示智能体当前的状态情况。假设当前是智能体的推理过程的第$i$步，则智能体的状态信息可以表示为变量$\bm{s}_i = (\bm{e}_i, \bm{his}_i, \bm{e}_q, \bm{r}_q)$，其中$\bm{e}_i$表示第$i$步智能体所在实体的表示向量，$\bm{his}_i$表示智能体的历史轨迹信息表示向量，例如可以选择长短期记忆（Long Short-Term Memory，LSTM）模型编码智能体的历史轨迹并返回当前对应的表示向量$\bm{his}_i$，$\bm{e}_q$和$\bm{r}_q$则是查询实体和查询关系的表示向量，对单次查询而言是固定不变的信息。
   \item [2)] 动作空间$A$，是智能体当前所在实体节点$e_i$对应的知识图谱中全部出边构成的集合。当智能体处在实体节点$e_i$时，智能体的动作空间可以表示为变量$\bm{A}_i = \{(\hat{r}, \hat{e}) \mid (e_i, \hat{r}, \hat{e}) \in F\}$。
@@ -1077,20 +953,23 @@ NORMAN模型得到的知识图谱表示向量则能够清晰地将不同层次�
   \item [5)] 奖励函数$R$，用于根据智能体最终是否到达正确答案而提供相应的奖励。通常情况下的奖励函数$R$是一个二值函数，如果智能体达到了正确答案则提供奖励为1，否则提供奖励为0。
 \end{itemize}
 
-\subsection{实体级智能体}
-在构建实体级强化学习模块的状态信息$\bm{s}_i$时，考虑到模块的智能体需要能够获取三种信息，包括查询问题信息，当前节点信息和历史路径信息。其中，查询问题信息可以表示为查询三元组中的查询实体和查询关系对应的向量，即$\bm{e}_q$和$\bm{r}_q$。当前节点信息可以用当前实体对应的向量$\bm{e}_i$进行表示。对于历史路径信息，则考虑使用LSTM模型进行学习和表示。令$L_e$表示实体级智能体的最大推理步数，则历史信息对应的向量获取过程为：
+\subsection{小型智能体}
+小型智能体能够在知识图谱上分析实体信息并进行知识推理。
+在构建小型智能体的状态信息$\bm{s}_i$时，考虑到智能体需要能够获取三种信息，包括查询问题信息，当前节点信息和历史路径信息。其中，查询问题信息可以表示为查询三元组中的查询实体和查询关系对应的向量，即$\bm{e}_q$和$\bm{r}_q$。当前节点信息可以用当前实体对应的向量$\bm{e}_i$进行表示。对于历史路径信息，则考虑使用LSTM模型进行学习和表示。
+令$L_e$表示小型智能体的最大推理步数，则历史信息对应的向量获取过程为：
 \begin{equation}
   \bm{his}_i=\operatorname{LSTM}\left(\bm{his}_{i - 1}, \bm{s}_{i - 1}\right), i \in [1, L_e], i \in \mathbb{Z}
   \label{equation_HistoryLSTM}
 \end{equation}
 根据上述计算过程，最终得到的状态信息可以表示为$\bm{s}_i = (\bm{e}_i, \bm{his}_i, \bm{e}_q, \bm{r}_q)$。
 
-动作空间的构造过程如前文所述，主要是根据智能体所处的节点位置$e_i$和知识图谱事实集合$F$的三元组信息实现构建，构建过程可以表示为：
+随后进行动作空间的构造，具体构造过程如强化学习框架部分所述，主要是根据智能体所处的节点位置$e_i$和知识图谱事实集合$F$的三元组信息实现构建，可以表示为：
 \begin{equation}
   \bm{A}_i = \{(\hat{r}, \hat{e}) \mid (e_i, \hat{r}, \hat{e}) \in F\}
   \label{base_1}
 \end{equation}
-在进行动作空间构建时，考虑到知识图谱可能存在节点链接稀疏的情况，造成智能体无法沿着链接路径进行高质量知识推理。对此，本文根据历史路径信息和层次信息对动作空间进行扩展，并通过知识图谱表示学习模型NORMAN评估候选实体是否可行，构造额外动作空间$\bm{A}_{i}^{add}$。具体方法是将历史路径节点和当前实体的相同层次节点构建节点集合$E_i$，同时根据关系集合$R$构造候选动作。得到的额外动作空间$\bm{A}_{i}^{add}$可以表示为：
+在进行动作空间构建时，考虑到知识图谱可能存在节点链接稀疏的情况，造成智能体无法沿着链接路径进行高质量知识推理。
+对此，本文根据历史路径信息和层次信息对动作空间进行扩展，并通过知识图谱表示学习模型NORMAN评估候选实体是否可行，构造额外动作空间$\bm{A}_{i}^{add}$。具体方法是将历史路径节点和当前实体的相同层次节点构建节点集合$E_i$，同时根据关系集合$R$构造候选动作。得到的额外动作空间$\bm{A}_{i}^{add}$可以表示为：
 \begin{equation}
   \bm{A}_{i}^{add} = \{(\hat{r}, \hat{e}) \mid (e_i, \hat{r}, \hat{e}) \notin G, \hat{r} \in R, \hat{e} \in E_i \}
   \label{extra_1}
@@ -1101,88 +980,76 @@ NORMAN模型得到的知识图谱表示向量则能够清晰地将不同层次�
 \end{equation}
 最后进行空间的融合$\bm{A}_i = \bm{A}_i \cup \bm{A}_{i}^{add} $，完成动作空间的扩展操作。
 
-在完成上述状态信息$S$和动作空间$A$的构造后，在第$i+1$步推理过程时，智能体通过策略网络选择动作$a = (\hat{r}, \hat{e}), a \in A$，并从实体$e_i$移动到$e_{i+1} = \hat{e}$。
-策略网络函数可以表示为：
+在完成上述状态信息$\bm{s}_i$和动作空间$\bm{A}_i$的构造后，即可对小型智能体的状态转移过程进行分析。
+在第$i$步推理过程时，小型智能体可以通过策略网络选择动作$\bm{a}_i = (\hat{r}, \hat{e}), \bm{a}_i \in \bm{A}_i$，并从实体$e_i$移动到$e_{i+1} = \hat{e}$。
+小型智能体采用的策略网络可以表示为：
 \begin{equation}
   \pi_\theta\left(\bm{a}_i \mid \bm{s}_i, \bm{A}_i\right) =\operatorname{Softmax}\left(\bm{A}_i \times \mathbf{W}_1 \operatorname{ReLU}\left(\mathbf{W}_2 \cdot \bm{s}_i\right)\right)
-  \label{aaaaa}
 \end{equation}
-随后，智能体会更新自身的状态信息$\bm{s}_{i+1} = (\bm{e}_{i+1}, \bm{his}_{i+1}, \bm{e}_q, \bm{r}_q)$，并进行下一步推理工作，直到达到最大步数$L_e$，即可得到答案实体$e_a$并完成知识推理过程。
+其中$\mathbf{W}_1$和$\mathbf{W}_2$是待学习的参数。
+随后，小型智能体会更新自身的状态信息$\bm{s}_{i+1} = (\bm{e}_{i+1}, \bm{his}_{i+1}, \bm{e}_q, \bm{r}_q)$，并进行下一步推理工作，直到达到最大步数$L_e$时停止知识推理。
+此时即可得到答案实体$e_a$并返回知识推理路径$p_e$，完成知识推理过程。
 
-在构建奖励函数$R$的过程中首先按照传统设置，当智能体达到正确答案时设置奖励为1，不能达到正确答案时设置奖励为0。考虑到智能体在大规模知识图谱进行长距离知识推理的过程中可能难以达到正确答案，从而造成奖励稀疏的问题，因此当智能体没有到达正确答案时，设置奖励函数$R$为第二章提出的知识图谱表示学习模型的得分函数，并将结果范围缩放到$[0, 1)$的范围。
+在构建奖励函数$R$时，首先设置当智能体达到正确答案时奖励为1，不能达到正确答案时设置奖励为0。考虑到小型智能体在大规模知识图谱进行知识推理的过程中可能难以达到正确答案，会造成奖励稀疏的问题。因此当小型智能体没有到达正确答案时，本文利用第二章提出的NORMAN模型的得分函数$f_r(h, t)$计算知识推理结果$(e_q, r_q, e_a)$对应的得分，并将得分的数值范围缩放到$[0, 1)$区间内，作为智能体的奖励$R$。
 
-\subsection{层次级智能体}
-% \begin{figure}[t]
-%   \centering
-%   \includegraphics[width=0.7\textwidth]{3_LevelReinforcementLearning}
-%   \caption{层次级强化学习模块结构图}
-%   \label{3_LevelReinforcementLearning}
-% \end{figure}
-本节提出的层次级强化学习模块，能够在层次级别上进行基于强化学习框架的路径推理，在推理过程中返回目标实体所在的层次级别并提供相应的推理路径。在进行推理之前首先需要构建层次级知识图谱，随后采用强化学习框架进行模型训练，完成模块构建。
+\subsection{大型智能体}
+大型智能体能够在聚类节点上进行知识推理，得到相应的推理路径并返回目标实体所在的聚类节点。
+为了构建聚类知识图谱，本文首先使用NORMAN模型的层次信息提取部分对知识图谱进行表示学习，该模型为基于极坐标系的编码器，能够将实体和关系转换为极坐标系上的节点。随后采用K-Means聚类算法，根据实体的半径坐标向量将实体划分为$K$个层次级别，其中$K$为超参数，可以根据知识图谱进行调整。随后的聚类知识图谱构造过程为：对0到$K$的各个层次级别，分别将相同层次的实体构造为一个聚类实体。同时如果两个聚类实体的内部至少有一个关联知识存在，则为这两个聚类实体构造连接。通过上述步骤即可构建聚类知识图谱$G_h$。
 
-为了构建层次级的知识推理模型，首先需要根据知识图谱内实体的层次级别构建相应的层次级知识图谱。
-本文选择使用NORMAN模型的层次信息提取部分对知识图谱进行表示学习，该模型为基于极坐标系的编码器，能够将实体和关系转换为极坐标系上的节点。
-随后采用K-Means聚类算法根据实体的半径坐标向量将实体划分为$K$个层次级别，其中$K$为超参数，可以根据知识图谱的可分层次情况进行调整。
-将每个层次级别的全部实体视为单个层次级实体，即可得到层次级知识图谱的实体集合。
-随后如果两个层次内部至少有一个实体级关联存在，则连接对应的两个层次。
-通过上述方法可以完成层次级知识图谱的构建。
-% 构建过程如图\ref{3_LevelKG}所示。基于该知识图谱即可进行层次级智能体的知识推理。
-% \begin{figure}
-%   \centering
-%   \includegraphics[width=0.7\textwidth]{3_LevelKG}
-%   \caption{层次级知识图谱构建过程}
-%   \label{3_LevelKG}
-% \end{figure}
+完成聚类知识图谱构建后即可开始对大型智能体进行配置。这里设聚类知识图谱内的聚类实体为$h$，如第$i$跳实体可以表示为$h_i$。
+首先在构建大型智能体的状态信息$\bm{s}_i$时，依然采用三种信息进行表示，分别是查询问题信息、当前节点信息和历史路径信息。
+由于聚类知识图谱中的关系主要是描述不同聚类节点之间是否有内部联系，难以直接对查询三元组的查询关系$r_q$进行直接表示，因此在查询问题信息部分不加入查询关系信息，仅包含查询实体信息，表示为$\bm{h}_q$。
+当前节点信息用当前聚类节点对应的向量$\bm{h}_i$表示。需要注意的是，这里是通过对聚类内全部实体向量取均值从而得到聚类节点的表示向量$\bm{h}_i$。
+历史路径信息部分同样使用LSTM模型进行学习和表示，可以表示为：
+\begin{equation}
+  \bm{his}_i=\operatorname{LSTM}\left(\bm{his}_{i - 1}, \bm{s}_{i - 1}\right), i \in [1, L_h], i \in \mathbb{Z}
+\end{equation}
+最终构造的状态信息可以表示为$\bm{s}_i = (\bm{h_i}, \bm{his}_i, \bm{h}_q)$。
 
-层次级和实体级的智能体知识推理过程基本一致，但是考虑到使用的是层次级知识图谱，因此在函数表示上略有差别。
-这里设层次级知识图谱内部的实体为$h$，即层次级别（hierarchical level）实体，其他表述与常规实体一致，如第$i$跳实体可以表示为$h_i$。
-随后需要构造层次级智能体知识推理的状态信息、动作空间和状态转移过程。
-
-构建层次级强化学习模块的状态信息$\bm{s}_i$时依然采用三种信息进行表示，分别是查询问题信息、当前节点信息和历史路径信息。由于层次级知识图谱中的关系主要是描述不同层次集合之间是否有内部联系，难以直接对查询三元组的查询关系$r_q$进行直接表示，因此在查询问题信息部分不加入查询关系信息，仅包含查询实体信息。同时，查询实体信息需要调整为层次知识图谱的查询层次实体信息对应的向量，表示为$\bm{h}_q$。当前节点信息用当前层次实体对应的向量$\bm{h_i}$表示。历史路径信息同样适用LSTM模型进行学习和表示，构造过程如公式\ref{equation_HistoryLSTM}所示。最终构造的状态信息可以表示为$\bm{s}_i = (\bm{h_i}, \bm{his}_i, \bm{h}_q)$。
-
-在进行动作空间的构造时，动作空间主要是根据智能体所处位置$h_i$和层次知识图谱$G_h$的事实信息集合$F_h$进行构造，构造过程可以表示为：
+在进行动作空间的构造时，动作空间主要是根据大型智能体所处位置$h_i$和聚类知识图谱$G_h$的事实集合$F_h$进行构造，构造过程可以表示为：
 \begin{equation}
   \bm{A}_i = \{(\hat{r}, \hat{h}) \mid (h_i, \hat{r}, \hat{h}) \in F_h\}
   \label{base_2}
 \end{equation}
-由于层次知识图谱的节点较少，同时节点间的关系是根据节点内部实体是否存在关联而构建的，这就导致节点间的链接较多，智能体能够在稠密的知识图谱上进行遍历。因此在构造层次级知识图谱模块的动作空间时不对动作空间进行额外的扩充。
+由于聚类知识图谱的节点较少，同时节点间的关系是根据节点内部实体是否存在关联知识而构建的，这就导致节点间的连接较多，智能体能够在稠密的知识图谱上进行遍历，从而使得大型智能体的动作空间较大。因此在构造大型智能体的动作空间时，不对动作空间进行额外扩充。
 
-在完成上述状态信息$S$和动作空间$A$的构造后，层次级智能体即可在知识推理的过程中进行状态转移。
-在第$i+1$步推理的过程中，层次级智能体通过策略网络选择动作$a = (\hat{r}, \hat{h}), a \in A$，并从层级实体$h_i$转移到$h_{i+1}$。
-策略网络函数可以表示为：
+在完成上述状态信息$\bm{s}_i$和动作空间$\bm{A}_i$的构造后，即可对大型智能体在知识推理的过程中进行状态转移的过程进行分析。
+在第$i$步推理的过程中，大型智能体通过策略网络选择动作$\bm{a}_i = (\hat{r}, \hat{h}), \bm{a}_i \in A_i$，并从聚类节点$h_i$转移到$h_{i+1}$。其中策略网络函数可以表示为：
 \begin{equation}
   \pi_\theta\left(\bm{a}_i \mid \bm{s}_i, \bm{A}_i\right) =\operatorname{Softmax}\left(\bm{A}_i \times \mathbf{W}_1 \operatorname{ReLU}\left(\mathbf{W}_2 \cdot \bm{s}_i\right)\right)
 \end{equation}
-随后，更新层次级智能体对应的状态信息$\bm{s}_{i+1} = (\bm{h_{i+1}}, \bm{his}_{i+1}, \bm{h}_q)$，并在随后进行后续推理过程，当智能体达到最大推理步数$L_h$时即可得到答案层次实体$h_a$，完成推理过程。
+随后，更新大型智能体对应的状态信息$\bm{s}_{i+1} = (\bm{h}_{i+1}, \bm{his}_{i+1}, \bm{h}_q)$，并进行后续推理过程。
+当大型智能体达到最大推理步数$L_h$时即可得到答案聚类节点$h_a$并返回推理路径$p_h$，完成推理过程。
 
-最后进行奖励函数$R$的构造。由于层次知识图谱的节点数量较少，智能体通过知识推理达到正确的层次节点的概率相对于实体级知识推理任务更高，因此层次级知识推理模块的奖励函数采用传统设计，即智能体最终到达正确实体所在的层次节点则奖励为1，没有到达正确实体所在层次节点则奖励为0。
+最后进行奖励函数$R$的构造。由于聚类知识图谱的节点数量较少，这使得大型智能体达到正确实体所在的聚类节点的概率比小型智能体更高。因此大型智能体的奖励函数采用传统设计，即智能体最终到达正确聚类节点则奖励为1，没有到达则奖励为0。
 
 \section{双重智能体知识推理}
-前面介绍的两种粒度的强化学习模块均能够独立进行学习和训练，然而在知识推理效果上来看，实体级强化学习模块属于传统的强化学习知识推理方法，同时层次级强化学习模块只能进行层次级别的知识推理并最终确定答案实体所在的层次级别，而不能确定真正的答案实体是哪一个。
-因此，为了提高知识推理的效果，有必要将上述两种知识推理模型融合起来，实现一种基于双重智能体强化学习的知识推理模型。
-
-为了实现上述目标，本文设计了双重智能体强化学习交互模块。
-可以发现，模块的输入是实体级和层次级强化学习模块部分获取的状态信息和动作空间，首先通过构建协作动作空间扩展两种智能体的动作空间，使得智能体有能力获取相似的推理轨迹。
-随后在双重智能体强化学习交互模块中通过协作策略网络综合两个模块的信息选择后续动作并进行状态转移。
-当推理达到最大跳数并获得最终的答案实体后，通过双重智能体强化学习交互模块的协作奖励评估两个模块智能体是否能够按照相似的轨迹进行推理，并与两个模块自身的奖励函数相结合，为智能体提供奖励。
-通过本节提出的双重智能体强化学习交互模块能够实现两种粒度的知识推理模块间的交互，进而增强知识推理效果。
+本文提出的两种智能体均能够独立进行学习和训练，然而在知识推理效果上来看，小型智能体属于传统的强化学习知识推理方法，同时大型智能体只能在聚类知识图谱上进行知识推理，并最终确定答案实体所在的聚类节点，而不能确定真正的答案实体是哪一个。
+因此，为了提高知识推理的效果，有必要将两种智能体结合起来，实现一种基于双重智能体强化学习的知识推理模型。
+本文提出了协作动作空间、协作策略网络和协作奖励，能够将两种智能体结合起来，进而增强知识推理的效果。
 
 \subsection{协作动作空间}
-本章在实体级和层次级强化学习模块曾介绍过智能体的动作空间$A$是根据知识图谱提供的知识信息构造的动作集合，可以表示为变量$\bm{A}_i = \{(\hat{r}, \hat{e}) \mid (e_i, \hat{r}, \hat{e}) \in F\}$，同时可以考虑构造额外动作空间$A^{add}$实现对动作空间$A$的扩展。
-为了增强两种模型的交互性，让两种模型的推理轨迹等信息能够相互交互，本节提出了协作动作空间的方法，这种方法为每种智能体分别构造额外动作空间，用于覆盖另一种智能体所在的节点对应的内容。通过这种方法能够让两种智能体的动作空间相互交融，为两种智能体沿着相似的道路进行推理提供必要条件。
-这里采用上角标$e$和$l$分别表示实体级和层次级智能体对应的内容，$\bm{\hat{A}}_i$表示第$i$步的协作动作空间，则实体级智能体在第$i$步的协作动作空间可以表示为：
+首先介绍协作动作空间,这种方法为每种智能体分别构造额外动作空间用于覆盖另一种智能体所在的节点，通过这种方法让两种智能体的动作空间相互交融，为两种智能体沿相似路径进行推理提供必要条件。
+这里采用上角标$e$和$l$分别表示小型智能体和大型智能体对应的内容，$\bm{\hat{A}}_i$表示第$i$步的协作动作空间，则小型智能体在第$i$步的协作动作空间可以表示为：
 \begin{equation}
   \bm{\hat{A}}_i^{e} = \{(\hat{r}, \hat{e}) \mid \hat{r} \in R, \hat{e} \in \operatorname{Entity}(h_i)\}
+\end{equation}
+其中，$\operatorname{Entity}(\cdot)$函数表示获取聚类节点对应的实体内容。
+由于处于同一个聚类节点内的实体数量可能会很多，因此这里选择使用NORMAN模型对三元组进行打分和筛选，仅保留得分最高的$T$个三元组对应的动作，从而完成动作空间的筛选。
+这里同样设置$\operatorname{Top@T}$为保留得分最高的$T$个三元组的函数，则筛选后的额外动作空间$\bm{A}_{i}^{add}$可以表示为：
+\begin{equation}
+  \bm{\hat{A}}_i^{e} = \{(\hat{r}, \hat{e}) \mid \operatorname{Top@T}(f_{\hat{r}}(e_i, \hat{e})), \hat{r} \in R, \hat{e} \in \operatorname{Entity}(h_i) \}
   \label{coo_1}
 \end{equation}
-其中，$\operatorname{Entity}(\cdot)$函数表示获取层次节点对应的实体内容。通过上述函数，实体级智能体的协作动作空间$\bm{\hat{A}}_i^{e}$可以覆盖层次级智能体所在的层次节点对应的所有实体节点，从而让实体级智能体具有沿着层次级智能体的路径继续前进的能力。
-类似的，可以构造层次级智能体在第$i$步的协作动作空间为：
+通过上述函数，小型智能体的协作动作空间$\bm{\hat{A}}_i^{e}$可以包含大型智能体所在的聚类节点对应的实体节点，从而让小型智能体具有沿着大型智能体的路径继续前进的能力。
+类似的，可以构造大型智能体在第$i$步的协作动作空间为：
 \begin{equation}
   \bm{\hat{A}}_i^{h} = \{(\hat{r}, \hat{h}) \mid \hat{r} \in R_h, \hat{h} \in \operatorname{Hierarchy}(e_i)\}
   \label{coo_2}
 \end{equation}
-其中，$\operatorname{Hierarchy}(\cdot)$函数表示获取实体节点对应的层次级别。通过上述函数，层次级智能体的协作函数$\bm{\hat{A}}_i^{h}$也可以覆盖实体级智能体所在的实体节点对应的层次节点，从而为层次级智能体能够根据实体级智能体提供的微观信息沿着相似的道路前进提供了支持。
-最后，将协作动作空间合并到动作空间，可以表示为：
+其中，$\operatorname{Hierarchy}(\cdot)$函数表示获取实体节点对应的层次级别。
+通过上述函数，大型智能体的协作动作空间$\bm{\hat{A}}_i^{h}$也可以覆盖小型智能体所在的实体节点对应的聚类节点，从而大型智能体沿着与小型智能体相似的推理路径进行推理提供了支持。
+最后，需要将协作动作空间合并到动作空间，完成动作空间的更新。这一过程可以表示为：
 \begin{equation}
   \begin{aligned}
     \bm{A}_i^{e} &= \bm{A}_i^{e} \cup \bm{\hat{A}}_i^{e} \\
@@ -1191,15 +1058,19 @@ NORMAN模型得到的知识图谱表示向量则能够清晰地将不同层次�
 \end{equation}
 
 \subsection{协作策略网络}
-在协作策略网络中，主要目标是根据实体级和层次级知识推理模块的智能体状态信息和动作空间，形成一种协作策略函数，能够为实体级和层次级智能体提供相应的动作概率，并通过采样选择后续的动作。
-在具体的实践过程中，考虑到前文介绍到智能体的状态信息可以表示为$\bm{s}_i = (\bm{e}_i, \bm{his}_i, \bm{e}_q, \bm{r}_q)$，其中$\bm{e}_i, \bm{e}_q, \bm{r}_q$分别是第$i$步智能体所在实体信息、查询实体信息和查询关系信息，这些信息基本只与智能体自身有关，难以与另一个智能体进行信息交互。而历史信息$\bm{his}_i$可以通过调整，与另一个智能体产生关联，从而进行信息交互。
-因此，本文设计的协作策略网络主要是调整实体级和层次级智能体对应的历史信息，使得每种智能体的历史信息都包含了另一个智能体的历史信息，构造协作历史信息$\bm{his}^{co}$并由两种智能体所共享。这里设最大跳数为$L$，同时采用上角标$e$和$l$分别表示实体级和层次级智能体对应的内容，则智能体第$i$步的协作历史信息$\bm{his}_i^{co}$可以表示为：
+协作策略网络的主要目标是结合两种智能体的状态信息和动作空间共同构建策略网络，使得一种智能体在选择动作时能够结合另一种智能体的信息，共同进行知识推理。
+在具体的实践过程中，可以发现智能体的状态信息可以表示为$\bm{s}_i = (\bm{e}_i, \bm{his}_i, \bm{e}_q, \bm{r}_q)$。
+其中$\bm{e}_i, \bm{e}_q, \bm{r}_q$分别是第$i$步智能体所在实体信息、查询实体信息和查询关系信息，这些信息基本只与智能体自身有关，难以与另一个智能体进行信息交互。
+而历史信息$\bm{his}_i$可以通过调整与另一个智能体产生关联，从而进行信息交互。
+因此，本文提出的协作策略网络首先构造协作历史信息$\bm{his}^{co}$，随后对两种智能体的历史信息进行计算，并进而构建协作策略网络。
+
+这里设最大跳数为$L$，则可以通过两种智能体的历史信息拼接起来，构成智能体第$i$步的协作历史信息$\bm{his}_i^{co}$。协作历史信息的构建过程可以表示为：
 \begin{equation}
   \bm{his}_{i}^{co} = \left[\bm{his}_{i-1}^e, \bm{his}_{i-1}^l\right], \quad i \in [1, L] \  \And \  i \in \mathbb{Z}
   \label{his_1}
 \end{equation}
-随后，采用LSTM模型对节点的之前状态和协作历史信息一起进行编码，即可获得智能体的历史信息。
-实体级智能体的历史信息向量的计算过程可以表示为：
+
+随后，采用LSTM模型对节点状态和协作历史信息一起进行编码，从而可以获得智能体的历史信息。小型智能体的历史信息向量的计算过程可以表示为：
 \begin{equation}
   \begin{aligned}
     \bm{his}_0^e &= \operatorname{LSTM}^e\left(\bm{0}, \bm{0}\right) \\
@@ -1207,7 +1078,7 @@ NORMAN模型得到的知识图谱表示向量则能够清晰地将不同层次�
   \end{aligned}
   \label{his_2}
 \end{equation}
-可以采用相似的方法求得层次级智能体的历史信息向量为：
+可以采用相似的方法计算大型智能体的历史信息向量为：
 \begin{equation}
   \begin{aligned}
     \bm{his}_0^l &=\operatorname{LSTM}^l\left(\bm{0}, \bm{0}\right) \\
@@ -1215,36 +1086,44 @@ NORMAN模型得到的知识图谱表示向量则能够清晰地将不同层次�
   \end{aligned}
   \label{his_3}
 \end{equation}
-完成构建协作历史信息后，即可构建协作策略网络。这里设置实体级智能体的状态信息向量为$\bm{s}_i^{e} = \left[\bm{e}_q, \bm{r}_q, \bm{e}_i, \bm{his}_i^e\right]$，则构建的实体级智能体的协作策略网络可以表示为：
+
+完成历史信息的计算后，即可构建协作策略网络。
+这里设置小型智能体的状态信息向量为$\bm{s}_i^{e} = \left[\bm{e}_q, \bm{r}_q, \bm{e}_i, \bm{his}_i^e\right]$，则构建的小型智能体的协作策略网络可以表示为：
 \begin{equation}
   \pi_\theta^e\left(\bm{a}_i^e \mid \bm{s}_i^e, \bm{A}_i^e\right) =\operatorname{Softmax}\left(\bm{A}_i^e \times \mathbf{W}_1^e \operatorname{ReLU}\left(\mathbf{W}_2^e \cdot \bm{s}_i^{e}\right)\right)
   \label{pi_1}
 \end{equation}
-类似的，设置层次级智能体状态信息向量为$\bm{s}_i^{h} = \left[\bm{h}_q, \bm{h}_i, \bm{his}_i^l\right]$，可以构建层次级智能体的协作策略网络。
+类似的，设置大型智能体状态信息向量为$\bm{s}_i^{h} = \left[\bm{h}_q, \bm{h}_i, \bm{his}_i^l\right]$，可以构建大型智能体的协作策略网络。
 \begin{equation}
   \pi_\theta^l\left(\bm{a}_i^l \mid \bm{s}_i^l, \bm{A}_i^l\right) =\operatorname{Softmax}\left(\bm{A}_i^l \times \mathbf{W}_1^l \operatorname{ReLU}\left(\mathbf{W}_2^l \cdot \bm{s}_i^{h}\right)\right)
   \label{pi_2}
 \end{equation}
-通过上述协作策略网络，可以为智能体提供动作空间内各项动作的概率，并通过采样的方式获取后续动作，实现知识推理。在这些步骤中，通过构建协作历史信息$\bm{his}^{co}$，可以让两个知识推理模块共享历史路径信息，从而有助于帮助它们协作推理，共同解决问题。具体而言，层次级智能体会提供给实体级智能体层次层面的信息，帮助实体级智能体确定接下来的动作应该朝着哪个层级的目标进步。另一方面，实体级智能体会为层次级智能体分享自己的动作轨迹，帮助层次级智能体了解后续动作应该朝带有何种实体特征的层级节点前进，从而实现相互帮助。
+
+通过上述方法构建的协作策略网络，可以为智能体提供动作空间内各项动作的概率，并通过采样的方式获取后续动作，实现知识推理。
+在这些步骤中，通过构建协作历史信息$\bm{his}^{co}$，可以让两种智能体共享历史路径信息，从而有助于帮助它们协作推理，共同解决问题。
+具体而言，大型智能体会提供给小型智能体当前层次的信息，并帮助小型智能体确定接下来的动作应该朝着高层次还是低层次的方向进行推理。
+另一方面，小型智能体会为大型智能体分享当前的实体信息，帮助大型智能体了解后续动作应该朝带有何种实体特征的聚类节点前进。
+通过上述方法，两种智能体能够相互协作，并获取正确的知识推理路径。
 
 \subsection{协作奖励}
-为了实现实体级和层次级知识推理模块的信息交互，本节还针对奖励函数做了新的设计，即协作奖励。
-模型采用的协作动作空间为两种智能体沿着相似的轨迹行进提供了基础保障条件。随后构建的协作策略网络有助于两种智能体交换信息。
-但是上述方法不能明确地指导两种智能体需要沿着相似的路径进行推理，两种智能体依然是只考虑自身能否到达目标节点，而没有考虑帮助另一个智能体达到正确的节点。
-为了进一步增强两种智能体的协作，本节设计的协作奖励能够作为一种补充奖励，鼓励两种智能体沿着相似的路径推理。
-协作奖励的思路主要是：对两种智能体推理的路线进行相似度计算，并获取相似度得分。
-此外，还需要加上另一种智能体的原始得分，以评估是否引导信息能够帮助另一个智能体得到正确的答案。
-在计算的过程中，采用$\hat{R}_i$表示第$i$步的协作奖励得分，则实体级智能体的协作奖励可以表示为：
+上面提出的协作动作空间能够为两种智能体沿着相似的轨迹行进提供了必要条件，协作策略网络能够帮助两种智能体交换信息。
+但是上述方法均不能明确地指导两种智能体需要沿着相似的路径进行推理，这导致两种智能体依然只会考虑自身能否到达目标节点，而没有考虑帮助另一个智能体达到正确的节点。
+
+为了进一步增强两种智能体的协作，本节设计的协作奖励能够作为一种补充奖励，鼓励两种智能体沿着相似的路径推理。协作奖励的思路主要是：对两种智能体推理的路线进行相似度计算，并获取相似度得分。此外，还需要加上另一种智能体的原始得分，以评估是否智能体提供的指导信息能够帮助另一个智能体得到正确的答案。
+
+在计算的过程中，采用$\hat{R}_i$表示第$i$步的协作奖励得分，则小型智能体的协作奖励可以表示为：
 \begin{equation}
   \hat{R}^e = \sum_{i=1}^{L} \operatorname{Similarity}(\bm{e}_i, \bm{h}_i) + R^h
   \label{similar_1}
 \end{equation}
 其中$\operatorname{Similarity}(\cdot)$是相似度评估函数，主要计算方法是对输入的两个向量的余弦相似度进行计算。
-类似的，可以构建层次级智能体的协作奖励：
+需要注意的是，这里聚类节点的向量是通过对聚类内全部实体的向量求均值得到的。
+类似的，可以构建大型智能体的协作奖励：
 \begin{equation}
   \hat{R}^h = \sum_{i=1}^{L} \operatorname{Similarity}(\bm{e}_i, \bm{h}_i) + R^e
   \label{similar_2}
 \end{equation}
+
 最后，对两种智能体的奖励函数进行更新，即可完成奖励函数的补充：
 \begin{equation}
   \begin{aligned}
@@ -1254,43 +1133,47 @@ NORMAN模型得到的知识图谱表示向量则能够清晰地将不同层次�
   \label{similar_reward}
 \end{equation}
 
-协作奖励能够通过计算轨迹的余弦相似度，评估两种智能体是否沿着近似的道路进行推理。同时，考虑了另一种智能体最终的得分，保证了协作奖励能够在保证推理路径相同的情况下兼顾对另一个智能体正确性的观察。
-通过引入协作奖励能够让两种智能体能够学习通过相互沟通信息，并共同沿着相似的路径进行推理，提高了推理的一致性。另一方面，协作奖励还有助于缓解大规模知识图谱中应用强化学习框架的奖励稀疏问题，提高模型的学习速度。
+协作奖励能够通过计算推理路径的余弦相似度，评估两种智能体是否沿相似路径进行推理。同时协作奖励还考虑了另一种智能体的最终得分，因此能够在保证推理路径相近的情况下，兼顾对另一个智能体正确性的观察。此外，协作奖励还有助于缓解大规模知识图谱中应用强化学习框架的奖励稀疏问题，提高智能体的学习速度。
 
-\subsection{知识推理过程}
-基于双重智能体强化学习的知识推理模型LAURA的训练过程如算法\ref{algorithm_dualagent}所示。
-可以发现，LAURA模型训练过程中与知识图谱表示学习NORMAN结合紧密，能够通过NORMAN模型扩展实体级智能体的动作空间，以及补充实体级智能体的奖励。
-同时可以发现本节提出的双重智能体强化学习交互模块是知识推理模型LAURA的核心模块，通过协作动作空间、协作策略网络和协作奖励，将实体级和层次级知识推理模块结合了起来，确保两种模块能够接受对方信息并沿着对方相似的推理路径进行知识推理，实现了宏观和微观信息的紧密交流和结合，从而能够进行双重智能体知识推理。
 \begin{algorithm}[H]
 	\caption{LAURA模型训练算法}  
 	\label{algorithm_dualagent}
 	\begin{algorithmic}[1]
-  \Require 知识图谱事实集合$F$, 数据集$D$, NORMAN模型$M$, 最大范围$L$, 学习率$\alpha$
-  \Ensure 实体级智能体策略网络$\pi_\theta^e$, 层次级智能体策略网络$\pi_\theta^l$
-  \For{$(e_q, r_q, e_a) \in D$}
-  \State $(h_q, h_a) \leftarrow \operatorname{GetHierarchy}(e_q, e_a)$ // 通过层次信息提取模块获取层次信息
-  \State $\bm{s}_{0}^{e} \leftarrow (\bm{e}_q, \bm{0}, \bm{e}_q, \bm{r}_q), \bm{s}_{0}^{l} \leftarrow (\bm{h}_q, \bm{0}, \bm{h}_q)$ // 初始化实体级和层次级状态信息
-  \State $\bm{A}_{0}^{e} \leftarrow \operatorname{GetActionSpace}(e_0, F) \cup \operatorname{GetExtraSpace}(e_0, M) \cup \operatorname{GetCooperationSpace}(e_0, h_0)$ // 根据公式\ref{base_1}, \ref{extra_1}和\ref{coo_1}获取实体级动作空间
-  \State $\bm{A}_{0}^{l} \leftarrow \operatorname{GetActionSpace}(h_0, F) \cup \operatorname{GetCooperationSpace}(h_0, e_0)$ // 根据公式\ref{base_2}和\ref{coo_2}获取层次级动作空间
+  \Require 知识图谱事实集合$F$, 聚类知识图谱事实集合$F_h$, 数据集$D$, NORMAN模型$M$, 最大范围$L$, 学习率$\alpha$
+  \Ensure 小型智能体策略网络$\pi_\theta^e$, 大型智能体策略网络$\pi_\theta^l$
+  \For{$(e_q, r_q, e_a) \in D$} 
+  \State $(h_q, h_a) \leftarrow \operatorname{GetCluterNode}(e_q, e_a)$ // 获取大型智能体的查询节点和查询答案
+  \State $\bm{s}_{0}^{e} \leftarrow (\bm{e}_q, \bm{0}, \bm{e}_q, \bm{r}_q), \bm{s}_{0}^{l} \leftarrow (\bm{h}_q, \bm{0}, \bm{h}_q)$ // 初始化状态信息
+  \State $\bm{A}_{0}^{l} \leftarrow \operatorname{GetActionSpace}(h_0, F_h) \cup \operatorname{GetCooperationSpace}(h_0, e_0)$ \par\quad// 根据公式\ref{base_2}和\ref{coo_2}获取大型智能体动作空间
+  \State $\bm{A}_{0}^{e} \leftarrow \operatorname{GetActionSpace}(e_0, F) \cup \operatorname{GetExtraSpace}(e_0, M) \cup \operatorname{GetCooperationSpace}(e_0, h_0)$ \par\quad// 根据公式\ref{base_1}, \ref{extra_1}和\ref{coo_1}获取小型智能体动作空间
   \For{$i \leftarrow 1$ to $L$}
-  \State $\bm{e}_i \leftarrow \operatorname{Sample}(\pi_\theta^e(\bm{s}_{i-1}^{e}, \bm{A}_{i-1}^{e}))$ // 基于实体级策略网络进行实体节点采样
-  \State $\bm{h}_i \leftarrow \operatorname{Sample}(\pi_\theta^l(\bm{s}_{i-1}^{l}, \bm{A}_{i-1}^{l}))$ // 基于层次级策略网络进行层次节点采样
+  \State $\bm{h}_i \leftarrow \operatorname{Sample}(\pi_\theta^l(\bm{s}_{i-1}^{l}, \bm{A}_{i-1}^{l}))$ // 策略网络采样获取新的聚类节点
+  \State $\bm{e}_i \leftarrow \operatorname{Sample}(\pi_\theta^e(\bm{s}_{i-1}^{e}, \bm{A}_{i-1}^{e}))$ // 策略网络采样获取新的实体节点
   \State $\bm{his}_{i}^{coo} \leftarrow \operatorname{GetHistory}(\bm{his}_{i-1}^{e}, \bm{his}_{i-1}^{l})$ // 根据公式\ref{his_1}获取协作历史信息
-  \State $\bm{his}_{i}^{e} \leftarrow \operatorname{GetEntityHistory}(\bm{his}_{i}^{coo}, \bm{e}_{i-1})$ // 根据公式\ref{his_2}获取实体历史信息
-  \State $\bm{his}_{i}^{l} \leftarrow \operatorname{GetHierarchyHistory}(\bm{his}_{i}^{coo}, \bm{h}_{i-1})$ // 根据公式\ref{his_3}获取层次历史信息
-  \State $\bm{s}_{i}^{e} \leftarrow (\bm{e}_{i}, \bm{his}_{i}^{e}, \bm{e}_q, \bm{r}_q)$ // 更新实体级状态信息
-  \State $\bm{s}_{i}^{l} \leftarrow (\bm{h}_{i}, \bm{his}_{i}^{l}, \bm{h}_q)$ // 更新层次级状态信息
-  \State $\bm{A}_{i}^{e} \leftarrow \operatorname{GetActionSpace}(\bm{e}_i, F) \cup \operatorname{GetExtraSpace}(\bm{e}_i, M) \cup \operatorname{GetCooperationSpace}(\bm{e}_i, \bm{h}_i)$ // 更新实体级动作空间
-  \State $\bm{A}_{i}^{l} \leftarrow \operatorname{GetActionSpace}(\bm{h}_i, F) \cup \operatorname{GetCooperationSpace}(\bm{h}_i, \bm{e}_i)$ // 更新层次级动作空间
+  \State $\bm{his}_{i}^{l} \leftarrow \operatorname{GetHierarchyHistory}(\bm{his}_{i}^{coo}, \bm{h}_{i-1})$ \par\quad\quad // 根据公式\ref{his_3}获取大型智能体历史信息
+  \State $\bm{his}_{i}^{e} \leftarrow \operatorname{GetEntityHistory}(\bm{his}_{i}^{coo}, \bm{e}_{i-1})$ \par\quad\quad // 根据公式\ref{his_2}获取小型智能体历史信息
+  \State $\bm{s}_{i}^{l} \leftarrow (\bm{h}_{i}, \bm{his}_{i}^{l}, \bm{h}_q)$ // 更新大型智能体状态信息
+  \State $\bm{s}_{i}^{e} \leftarrow (\bm{e}_{i}, \bm{his}_{i}^{e}, \bm{e}_q, \bm{r}_q)$ // 更新小型智能体状态信息
+  \State $\bm{A}_{i}^{l} \leftarrow \operatorname{GetActionSpace}(\bm{h}_i, F) \cup \operatorname{GetCooperationSpace}(\bm{h}_i, \bm{e}_i)$ \par\quad\quad// 更新大型智能体动作空间
+  \State $\bm{A}_{i}^{e} \leftarrow \operatorname{GetActionSpace}(\bm{e}_i, F) \cup \operatorname{GetExtraSpace}(\bm{e}_i, M) \cup \operatorname{GetCooperationSpace}($\par\quad\quad$\bm{e}_i, \bm{h}_i)$ // 更新小型智能体动作空间
   \EndFor
-  \State $R^{e} \leftarrow \operatorname{GetEntityReward}(\bm{e}_L, \bm{e}_a, M) + \operatorname{GetSimilarReward}_{i=1,\cdots,L_e}(\bm{e}_i, \bm{h}_i, R^{l})$// 根据公式\ref{similar_1}和\ref{similar_reward}计算实体级奖励
-  \State $R^{l} \leftarrow \operatorname{GetLayerReward}(\bm{h}_L, \bm{h}_a) + \operatorname{GetSimilarReward}_{i=1,\cdots,L_l}(\bm{e}_i, \bm{h}_i, R^{e})$// 根据公式\ref{similar_2}和\ref{similar_reward}计算层次级奖励
-  \State $\pi_\theta^e \leftarrow \operatorname{UpdatePolicyNetwork}(\pi_\theta^e, R^{e}, \alpha)$// 更新实体级策略网络
-  \State $\pi_\theta^l \leftarrow \operatorname{UpdatePolicyNetwork}(\pi_\theta^l, R^{l}, \alpha)$// 更新层次级策略网络
+  \State $R^{l} \leftarrow \operatorname{GetLayerReward}(\bm{h}_L, \bm{h}_a) + \operatorname{GetSimilarReward}_{i=1,\cdots,L_l}(\bm{e}_i, \bm{h}_i) + R^{e}$ \par\quad // 根据公式\ref{similar_2}和\ref{similar_reward}计算大型智能体奖励
+  \State $R^{e} \leftarrow \operatorname{GetEntityReward}(\bm{e}_L, \bm{e}_a, M) + \operatorname{GetSimilarReward}_{i=1,\cdots,L_e}(\bm{e}_i, \bm{h}_i) + R^{l}$ \par\quad // 根据公式\ref{similar_1}和\ref{similar_reward}计算小型智能体奖励
+  \State $\pi_\theta^l \leftarrow \operatorname{UpdatePolicyNetwork}(\pi_\theta^l, R^{l}, \alpha)$// 更新大型智能体策略网络
+  \State $\pi_\theta^e \leftarrow \operatorname{UpdatePolicyNetwork}(\pi_\theta^e, R^{e}, \alpha)$// 更新小型智能体策略网络
   \EndFor
   \State \Return $\pi_\theta^e, \pi_\theta^l$
 	\end{algorithmic}
 \end{algorithm} 
+
+\subsection{知识推理过程}
+在完成了两种智能体的构建，并采用了协作动作空间、协作策略网络和协作奖励后，即可进行LAURA模型的训练。
+基于双重智能体强化学习的知识推理模型LAURA的训练过程如算法\ref{algorithm_dualagent}所示。
+可以发现，在知识推理过程中首先从数据集中取出对应的查询实体、查询关系和查询答案，这些信息可以直接提供给小型智能体。同时根据聚类的结果获取查询实体和查询答案所在的聚类节点，从而得到大型智能体的查询实体和查询答案。
+随后根据上述信息初始化两种智能体的状态信息，并构建动作空间。随后即可进行知识推理过程，这里设置两种智能体的推理步数上限为$L$，则后面需要进行$L$步的知识推理。在每一步知识推理中，首先由大型智能体进行单步知识推理，随后由小型智能体进行单步知识推理，单步知识推理就是由策略网络进行采样获取相应的动作，并获取动作中的实体作为当前的节点。随后进行协作历史信息的获取，并更新两种智能体的历史信息，进而更新智能体的状态信息，以及构建新的动作空间。当完成了$L$步的知识推理后，需要对两种智能体进行奖励的计算，包含了智能体本身的奖励和协作奖励，其中协作奖励又包括两种智能体知识推理路径的相似度和另一个智能体的奖励。最后通过奖励对智能体的策略网络进行更新。完成模型训练后，即可得到最终的策略网络，此时智能体可以根据输入的查询信息进行推理，并得到合适的知识推理路径。
+
+可以发现，LAURA模型训练过程中与知识图谱表示学习NORMAN结合紧密，能够通过NORMAN模型扩展智能体的动作空间以及补充智能体的奖励。
+同时可以发现，本节提出的协作动作空间、协作策略网络和协作奖励能够将两种智能体结合起来，确保两种智能体能够接受对方信息并沿着与对方相似的推理路径进行知识推理，实现了实体和层次信息的相互交流和知识推理轨迹的相互协调，从而保障了知识推理的质量。
 
 \section{实验评估}
 本节在多个开源数据集上开展实验，综合评估LAURA模型的性能。
@@ -1298,26 +1181,35 @@ LAURA模型使用Python语言编写，Python版本为3.10.1，使用的深度学
 同时，本节所有实验都是在型号为AMAX G448-X3的服务器上完成的，服务器的具体参数包括：CPU型号为Xeon Sliver 4314，GPU型号为GeForce RTX 3090，系统内存为64G，系统硬盘为500G，操作系统版本为Ubuntu 22.04.1 LTS。
 
 \subsection{实验概览}
-知识推理模型的目标是基于知识图谱中的已有知识预测和推理新的知识。为了评估知识推理模型的效果，本文选择了单跳知识图谱问答和多跳知识图谱问答两种实验来进行模型评估。
+知识推理模型的目标是基于知识图谱中的已有知识预测和推理新的知识。为了评估知识推理模型的效果，本文重点选择了单跳知识图谱问答和多跳知识图谱问答任务来进行模型评估。
 在单跳知识图谱问答任务中，知识推理模型可以直接采用查询语句进行单跳知识推理，对于不能直接知识推理的模型则首先需要通过知识抽取将查询语句转换成查询三元组$(h, r, ?)$，$(?, r, t)$或$(h, ?, t)$，随后的知识推理过程和知识图谱补全的过程较为相似，通过知识推理模型对所有候选答案进行评分，这里的获取得分有多种方法，可以是知识图谱表示学习模型的得分函数，也可以是强化学习等推理模型通过计算得到的置信度得分。最后按照得分的降序顺序对候选三元组进行排序，并根据结果三元组序列评估模型效果。
-多跳知识图谱问答则相对更加复杂一些。知识推理模型可以直接采用查询语句进行多跳知识推理，对于不能直接知识推理的模型也是需要将查询语句转换成查询三元组$(h, r, ?)$，$(?, r, t)$或$(h, ?, t)$，随后要求模型根据已有的知识图谱进行查询，在指定跳数$T$的范围内进行多跳推理，最后对所有候选答案进行得分计算，同样是对得分进行降序排序，并根据最终排序结果评估模型效果。
+多跳知识图谱问答则相对更加复杂一些。知识推理模型可以直接采用查询语句进行多跳知识推理，对于不能直接知识推理的模型也是需要将查询语句转换成查询三元组$(h, r, ?)$，$(?, r, t)$或$(h, ?, t)$，随后要求模型根据已有的知识图谱进行查询，在指定跳数的范围内进行多跳推理，最后对所有候选答案进行得分计算，同样是对得分进行降序排序，并根据最终排序结果评估模型效果。同时，多跳知识图谱问答要求模型能够提供相应的推理路径，从而能够对模型推理过程的充分性和合理性进行评估。
 
 在构造查询语句时，本文首先采用了与知识图谱补全任务相似的方式，通过随机移除知识图谱事实三元组$(h, r, t)$中的任意一项构造查询三元组。
 随后需要利用查询三元组构造对应的查询语句，考虑到实验的主要目的是考察模型的知识推理效果而不是知识抽取效果，因此本文采用固定的模板构造统一格式的查询语句。对于$(h, r, ?)$格式的查询三元组，构造的查询语句为“\textit{$h$的$r$是什么？}”。对于$(?, r, t)$格式的查询三元组，构造的查询语句为“\textit{$t$的$r^{-1}$是什么？}”，其中$r^{-1}$表示关系$r$的逆关系。对于$(h, ?, t)$格式的查询三元组，构造的查询语句为“\textit{$h$和$t$的关系是什么？}”。通过上述模板，可以将查询三元组转换为查询语句。同时，模型采用的知识抽取过程也是采用模板匹配的方法，通过对上述查询语句应用模板进行匹配获取对应的查询三元组，并完成后续的知识推理工作。
 本文选择的知识图谱问答的评价指标同样为平均排序MR、平均倒数排序MRR和Hits@K等，根据知识图谱补全实验的分析，一般认为平均倒数排序MRR的表示能力优于平均排序MR，因此本文选择平均倒数排序MRR和Hits@K作为评估指标。
 
-本节首先介绍了知识推理模型的评估实验内容，即通过单跳知识图谱问答和多跳知识图谱问答，评估模型的效果。随后介绍了任务的评价指标、数据集和具体的实验设置，并在最后比较本文提出的LAURA模型和其他基线知识推理模型在知识图谱问答上的效果，进而对LAURA模型的优势和劣势进行客观评估。
+本节首先介绍了知识推理模型的评估实验内容，即通过单跳知识图谱问答和多跳知识图谱问答评估模型的效果。随后介绍了任务的评价指标、数据集和具体的实验设置，并在比较了本文提出的LAURA模型和其他基线知识推理模型在知识图谱问答上的效果，进而对LAURA模型的优势和劣势进行客观评估。
 
 \subsection{数据集}
-本文在单跳知识图谱问答和多跳知识图谱问答两种任务上进行模型评估。
-针对单跳知识图谱问答，本文采用的数据集包括：FB15K-237、WN18RR和NELL-995。
-另一方面，对于多跳知识图谱问答，本文采用的数据集包括：FB15K-237-10\%、FB15K-237-20\%和FB15K-237-50\%~\cite{lv2020dynamic}。
-在单跳知识图谱问答中，由于单跳知识图谱问答与知识图谱补全任务对数据集的要求是相同的，因此本文选择与知识图谱表示学习模型实验部分相同的数据集，即FB15K-237、WN18RR和NELL-995，从而能够更好的对本文提出的两种模型进行对比。
-在多跳知识图谱问答任务中，考虑到多跳推理过程需要综合一定范围内的知识进行综合评估，为了测试本文提出的模型在不同稀疏程度的知识图谱上的性能，本文选择了多个基于FB15K-237数据集进行随机采样得到的数据集，即FB15K-237-10\%、FB15K-237-20\%和FB15K-237-50\%。由名字可以看出，这三个数据集分别随机保留了FB15K-237数据集的10\%、20\%和50\%的三元组数据，从而能够评估模型利用不同稀疏程度的知识图谱进行知识推理的能力。同时，在稀疏的知识图谱上进行多跳知识图谱问答是一种复杂的知识推理任务，能够充分的评估各种模型的性能。
-具体统计数量上，本部分采用的单跳推理测试数据集的统计数据见表\ref{Datasets1}，多跳推理测试数据集如表\ref{Datasets2}所示。根据上文分析可知，本文选择的单跳和多跳知识图谱问答数据集能够较好的评估模型的知识推理能力，同时能够评估模型在不同稀疏程度的知识图谱上的效果。
-
-\begin{table}
+\begin{table}[t]
   \centering
+  \caption{单跳知识图谱问答数据集统计信息}
+  \begin{tabular*}{0.95\textwidth}{@{\extracolsep{\fill}}lccccc}
+    \toprule[1pt]
+    数据集 & 实体数量 & 关系数量 & 训练集数量 & 验证集数量 & 测试集数量 \\ \hline
+    FB15K-237 & 14541 & 237 & 272115 & 17535 & 20466\\
+    WN18RR & 40943 & 11 & 86835 & 3034 & 3134\\
+    NELL-995 & 75492 & 200 & 138793 & 7710 & 7710\\
+    \bottomrule[1pt]
+	\end{tabular*}
+  \label{Datasets1_1}
+\end{table}
+
+\subsection{数据集}
+\begin{table}[t]
+  \centering
+  \caption{多跳知识图谱问答数据集统计信息}
   \begin{tabular*}{0.95\textwidth}{@{\extracolsep{\fill}}lccccc}
 		\toprule[1pt]
     数据集 & 实体数量 & 关系数量 & 训练集数量 & 验证集数量 & 测试集数量 \\ \hline
@@ -1326,309 +1218,329 @@ LAURA模型使用Python语言编写，Python版本为3.10.1，使用的深度学
     FB15K-237-50\% & 14149 & 237 & 136057 & 17449 & 20324\\
 		\bottomrule[1pt]
 	\end{tabular*}
-  \caption{多跳知识图谱问答数据集统计信息}
   \label{Datasets2}
 \end{table}
+本文在单跳知识图谱问答和多跳知识图谱问答两种任务上进行模型评估。
+针对单跳知识图谱问答，本文采用的数据集包括：FB15K-237、WN18RR和NELL-995。
+另一方面，对于多跳知识图谱问答，本文采用的数据集包括：FB15K-237-10\%、FB15K-237-20\%和FB15K-237-50\%~\cite{lv2020dynamic}。
+在单跳知识图谱问答中，由于单跳知识图谱问答与知识图谱补全任务对数据集的要求是相同的，因此本文选择与知识图谱表示学习模型实验部分相同的数据集，即FB15K-237、WN18RR和NELL-995，从而能够更好的对本文提出的两种模型进行对比。
+在多跳知识图谱问答任务中，考虑到多跳推理过程需要综合一定范围内的知识进行综合评估，为了测试本文提出的模型在不同稀疏程度的知识图谱上的性能，本文选择了多个基于FB15K-237数据集进行随机采样得到的数据集，即FB15K-237-10\%、FB15K-237-20\%和FB15K-237-50\%。由名字可以看出，这三个数据集分别随机保留了FB15K-237数据集的10\%、20\%和50\%的三元组数据，从而能够评估模型利用不同稀疏程度的知识图谱进行知识推理的能力。同时，在稀疏的知识图谱上进行多跳知识图谱问答是一种复杂的知识推理任务，能够充分的评估各种模型的性能。
+具体统计数量上，本部分采用的单跳推理测试数据集的统计数据如表\ref{Datasets1_1}所示，多跳推理测试数据集如表\ref{Datasets2}所示。根据上文分析可知，本文选择的单跳和多跳知识图谱问答数据集能够较好的评估模型的知识推理能力，同时能够评估模型在不同稀疏程度的知识图谱上的效果。
 
-\subsection{实验设置}
-在使用LAURA模型进行单跳和多跳知识图谱问答实验前，首先需要对模型的超参数进行设置。本文对LAURA模型的超参数进行了调整，并最终形成了一系列最优超参数。
-首先，需要针对强化学习框架设置各个模块通用的超参数。这里设置最大出边度数为200，最大动作空间为256，实体对最大边数为10，实体嵌入维度为512，嵌入丢弃率为0.3，前馈层丢弃率为0.1，历史网络层数为3，历史嵌入维度为128，衰减率为0.05，延迟复制步数为5，采样部署频率为3，训练批次大小为128。
-考虑到各个数据集的数据量大小和结构差异，针对不同的数据集还需要设置对应的动作丢弃率、集束搜索(beam search)大小和学习率$\alpha$。
-在实体级强化学习模块需要设置的超参数主要是最大跳数$L_e$和补充动作空间大小$T$。这里统一设置$L_e = 3$。
-类似的，在层次级强化学习模块需要对层次级智能体知识图谱问答的最大跳数$L_h$进行设置。同样也是设置为$L_h = 3$。
-由于LAURA需要使用NORMAN模型提供知识图谱层次信息，以及使用NORMAN模型的得分函数作为补充奖励，因此还需要对NORMAN模型的超参数进行设置。考虑到单跳知识图谱问答同样使用了FB15K-237、WN18RR和NELL-995数据集，因此采用的超参数设置情况与表\ref{Hyperparameters1}相同。多跳知识图谱问答部分则需要重新设置对应的NORMAN模型超参数。在对FB15K-237-10、FB15K-237-20和FB15K-237-50进行超参数调整和实验评估后，最后的超参数仍然与FB15K-237一致。
-实验针对单跳知识图谱问答和多跳知识图谱问答分别调整对应超参数，得到的超参数设置情况分别如表\ref{Hyperparameters2_Singlehop}和表\ref{Hyperparameters2_Multihop}所示。
-
-\begin{table}[]
+\begin{table}[t]
   \centering
-  \begin{tabular*}{0.95\textwidth}{@{\extracolsep{\fill}}lcccc}
-  \toprule[1pt]
-  \multirow{2}{*}{超参数名称} & \multirow{2}{*}{取值范围} & \multicolumn{3}{c}{最佳超参数}\\ 
-    &  & FB15K-237 & WN18RR & NELL-995 \\ \hline
-  动作丢弃率 & $\{0, 0.1, 0.2, 0.5, 0.8\}$ & 0.5 & 0.2 & 0.2 \\
-  集束搜索大小 & $\{32, 64, 128, 256, 512\}$ & 256 & 128 & 128 \\
-  $\alpha$ & $\{1e\text{-}3, 2e\text{-}4, 5e\text{-}5, 2e\text{-}5\}$ & $1e\text{-}3$ & $1e\text{-}3$ & $1e\text{-}3$ \\
-  $T$ & $\{0, 2, 4, 6, 8\}$ & 2 & 4 & 4 \\
-  \bottomrule[1pt]
-  \end{tabular*}
   \caption{单跳知识图谱问答超参数设置情况}
+  \begin{tabular*}{0.95\textwidth}{@{\extracolsep{\fill}}lcccc}
+    \toprule[1pt]
+    \multirow{2}{*}{超参数名称} & \multirow{2}{*}{取值范围} & \multicolumn{3}{c}{最佳超参数}\\ 
+      &  & FB15K-237 & WN18RR & NELL-995 \\ \hline
+    动作丢弃率 & $\{0, 0.1, 0.2, 0.5, 0.8\}$ & 0.5 & 0.2 & 0.2 \\
+    集束搜索大小 & $\{32, 64, 128, 256, 512\}$ & 256 & 128 & 128 \\
+    $\alpha$ & $\{1e\text{-}3, 2e\text{-}4, 5e\text{-}5, 2e\text{-}5\}$ & $1e\text{-}3$ & $1e\text{-}3$ & $1e\text{-}3$ \\
+    $T$ & $\{0, 2, 4, 6, 8\}$ & 2 & 4 & 4 \\
+    $K$ & $\{25, 50, 75, 100, 125\}$ & 50 & 75 & 75\\
+    \bottomrule[1pt]
+  \end{tabular*}
   \label{Hyperparameters2_Singlehop}
 \end{table}
 
-\begin{table}[]
+\begin{table}[t]
   \centering
-  \begin{tabular*}{0.95\textwidth}{@{\extracolsep{\fill}}lcccccc}
-  \toprule[1pt]
-  \multirow{2}{*}{超参数名称} & \multirow{2}{*}{取值范围} & \multicolumn{3}{c}{最佳超参数}\\ 
-    &  & \small{FB15K-237-10} & \small{FB15K-237-20} & \small{FB15K-237-50} \\ \hline
-  动作丢弃率 & $\{0, 0.1, 0.2, 0.5, 0.8\}$ & 0.5 & 0.5 & 0.5 \\
-  集束搜索大小 & $\{32, 64, 128, 256, 512\}$ & 512 & 256 & 256 \\
-  $\alpha$ & $\{1e\text{-}3, 2e\text{-}4, 5e\text{-}5, 2e\text{-}5\}$ & $1e\text{-}3$ & $1e\text{-}3$ & $1e\text{-}3$ \\
-  $T$ & $\{0, 2, 4, 6, 8\}$ & 8 & 6 & 4 \\
-  \bottomrule[1pt]
-  \end{tabular*}
   \caption{多跳知识图谱问答超参数设置情况}
+  \begin{tabular*}{0.95\textwidth}{@{\extracolsep{\fill}}lcccccc}
+    \toprule[1pt]
+    \multirow{2}{*}{超参数名称} & \multirow{2}{*}{取值范围} & \multicolumn{3}{c}{最佳超参数}\\ 
+      &  & \small{FB15K-237-10\%} & \small{FB15K-237-20\%} & \small{FB15K-237-50\%} \\ \hline
+    动作丢弃率 & $\{0, 0.1, 0.2, 0.5, 0.8\}$ & 0.5 & 0.5 & 0.5 \\
+    集束搜索大小 & $\{32, 64, 128, 256, 512\}$ & 512 & 256 & 256 \\
+    $\alpha$ & $\{1e\text{-}3, 2e\text{-}4, 5e\text{-}5, 2e\text{-}5\}$ & $1e\text{-}3$ & $1e\text{-}3$ & $1e\text{-}3$ \\
+    $T$ & $\{0, 2, 4, 6, 8\}$ & 8 & 6 & 4 \\
+    $K$ & $\{25, 50, 75, 100, 125\}$ & 50 & 50 & 50\\
+    \bottomrule[1pt]
+  \end{tabular*}
   \label{Hyperparameters2_Multihop}
 \end{table}
 
+\subsection{基线模型}
+本文选择了一些表现较好的方法作为基线模型进行对比：
+\begin{itemize}
+  \item [1)]\textbf{TransE：}Bordes等~\cite{bordes2013translating}提出的TransE模型是最经典的翻译模型，通过基于距离的评分函数将关系作为头实体和尾实体间的翻译，并将翻译后的两个实体间的距离作为得分，从而获取三元组的合理性。
+  \item [2)]\textbf{ComplEx：}Trouillon等~\cite{trouillon2016complex}提出的ComplEx模型是对DistMult的一种扩展，通过使用复数嵌入能够建模不对称关系并实现效果提升。
+  \item [3)]\textbf{ConvE：}Dettmers等~\cite{dettmers2018convolutional}提出的ConvE模型是一种卷积神经网络神经推理模型，能够通过二维卷积捕获实体间的特征交互信息并实现知识推理。
+  \item [4)]\textbf{pLogicNet：}Qu等~\cite{qu2019probabilistic}提出的pLogicNet模型是一种符号推理模型，综合了马尔可夫符号网络MLN和图嵌入技术的思想，能够处理知识图谱中的缺失信息和实现高效知识推理。
+  \item [5)]\textbf{NeuralLP：}Yang等~\cite{yang2017differentiable}提出的NeuralLP模型是一种基于矩阵的神经符号推理模型，能够在知识推理过程中得到带有权重的链式逻辑规则，并通过注意力机制实现规则信息的聚合和实现推理路径的评分。
+  \item [6)]\textbf{MINERVA：}Das等~\cite{das2018go}提出的MINERVA模型是采用强化学习框架的神经符号推理模型，智能体可以从查询实体出发遍历各个路径实现知识推理。
+  \item [7)]\textbf{M-Walk：}Shen等~\cite{shen2018m}提出的M-Walk模型同样采用强化学习框架，同时采用了一种基于价值的强化学习方法，并使用蒙特卡洛树搜索来改善奖励稀疏的问题。
+\end{itemize}
+其中，TransE和ComplEx均为知识图谱表示学习模型，可以通过模型的评分函数对单跳知识图谱问答的目标三元组进行打分，实现单跳知识图谱问答。
+ConvE、pLogicNet、NeuralLP、MINERVA和M-Walk则为知识推理模型，除了能够进行单跳知识图谱问答任务外还可以执行多跳知识图谱问答任务，并提供知识推理路径信息。
+
+\subsection{实验设置}
+在使用LAURA模型进行单跳和多跳知识图谱问答实验前，首先需要对模型的超参数进行设置。本文对LAURA模型的超参数进行了调整，并最终形成了一系列最优超参数。
+首先，需要针对强化学习框架设置超参数。这里设置最大出边度数为200，最大动作空间为256，实体对最大边数为10，实体嵌入维度为512，嵌入丢弃率为0.3，前馈层丢弃率为0.1，历史网络层数为3，历史嵌入维度为128，衰减率为0.05，延迟复制步数为5，采样部署频率为3，训练批次大小为128。
+考虑到各个数据集的数据量大小和结构差异，针对不同的数据集还需要设置对应的动作丢弃率、集束搜索(beam search)大小和学习率$\alpha$。
+随后需要设置小型智能体的最大跳数$L_e$和补充动作空间大小$T$。这里统一设置$L_e = 3$。
+类似的，需要对大型智能体知识图谱问答的最大跳数$L_h$进行设置。同样也是设置为$L_h = 3$。
+同时，需要为大型智能体构造聚类知识图谱，因此需要设置K-Means聚类的数量$K$。
+由于LAURA需要使用NORMAN模型提供知识图谱层次信息，以及使用NORMAN模型的得分函数作为补充奖励，因此还需要对NORMAN模型的超参数进行设置。考虑到单跳知识图谱问答同样使用了FB15K-237、WN18RR和NELL-995数据集，因此采用的超参数设置情况与表\ref{Hyperparameters1}相同。多跳知识图谱问答部分则需要重新设置对应的NORMAN模型超参数。在对FB15K-237-10\%、FB15K-237-20\%和FB15K-237-50\%进行超参数调整和实验评估后，最后的超参数仍然与FB15K-237一致。
+实验针对单跳知识图谱问答和多跳知识图谱问答分别调整对应超参数，得到的超参数设置情况分别如表\ref{Hyperparameters2_Singlehop}和表\ref{Hyperparameters2_Multihop}所示。
 
 \subsection{实验结果与分析}
-在单跳知识图谱问答实验中，实验采用的数据集包括FB15K-237、WN18RR和NELL-995，并选择TransE、ComplEx、ConvE、pLogicNet~\cite{qu2019probabilistic}、NeuralLP~\cite{yang2017differentiable}、MINERVA~\cite{das2018go}及M-Walk~\cite{shen2018m}等模型作为比较对象。
-其中，TransE和ComplEx是两种知识图谱表示学习模型，可以通过模型的评分函数对单跳知识图谱问答的目标三元组进行打分，实现单跳知识图谱问答。
-其他的模型则均为知识推理模型，除了能够进行单跳知识图谱问答任务外还可以执行多跳知识图谱问答任务，并提供知识推理路径信息。ConvE是一种卷积神经网络神经推理模型，能够通过二维卷积捕获实体间的特征交互信息并实现知识推理。pLogicNet是一种符号推理模型，综合了马尔可夫符号网络MLN和图嵌入技术的思想，能够处理知识图谱中的缺失信息和实现高效知识推理。NeuralLP是一种基于矩阵的神经符号推理模型，能够在知识推理过程中得到带有权重的链式逻辑规则，并通过注意力机制实现规则信息的聚合和实现推理路径的评分。MINERVA是采用强化学习框架的神经符号推理模型，智能体可以从查询实体出发遍历各个路径实现知识推理。M-Walk同样采用强化学习框架，同时采用了一种基于价值的强化学习方法，并使用蒙特卡洛树搜索来改善奖励稀疏的问题。
+\subsubsection{单跳知识图谱问答实验}
 
-在FB15K-237数据集中采用上述模型执行单跳知识图谱问答，得到的实验结果如表\ref{Experiment2_FB15K-237}所示。
-可以发现本文提出的LAURA模型表现良好，在Hits@3和Hits@10指标上取得了最好的成绩。
-需要注意的是，FB15K-237数据集更适合于知识图谱表示学习模型，而知识推理模型容易陷入中心节点而无法获取到正确的答案。
-与其他知识推理模型不同的是，LAURA模型与知识图谱表示学习模型NORMAN进行了融合，能够使用NORMAN模型完成额外动作空间的构建，并使用NORMAN模型的评分函数提供没有到达正确答案时的奖励。
-通过上述方法可以让LAURA模型获取到NORMAN模型提供的知识图谱表示学习信息，提高LAURA模型的效果。
-同时，LAURA模型还采用了实体级和层次级双重智能体强化学习的方式，能够利用层次级智能体知识推理获取宏观层面的信息，并通过协作动作空间、协作策略网络和协作奖励将宏观信息提供给实体级智能体。
-通过上述方式能够帮助实体级智能体在面对具有大量出边的中间节点时寻找正确的推理方向，最终达到答案实体，从而提高LAURA模型在FB15K-237知识图谱上取得更好的效果。
-\begin{table}[]
+\begin{table}[t]
   \centering
-  \begin{tabular*}{0.95\textwidth}{@{\extracolsep{\fill}}lcccc}
-  \toprule[1pt]
-  \multirow{2}{*}{模型} & \multicolumn{4}{c}{FB15K-237}   \\
-    & MRR & Hits@1 & Hits@3 & Hits@10 \\ \hline
-  TransE & 36.1 & 24.8 & 40.1 & 45.0 \\
-  ComplEx & \textbf{39.4} & \textbf{30.3} & 43.4 & 57.2 \\
-  ConvE & 32.5 & 23.7 & 34.7 & 50.1 \\
-  pLogicNet & 33.2 & 23.7 & 36.2 & 52.8 \\
-  NeuralLP & 22.7 & 16.6 & 24.8 & 34.8 \\
-  MINERVA & 27.1 & 19.2 & 30.7 & 42.6 \\
-  M-Walk & 23.4 & 16.8 & 24.5 & 40.3 \\
-  LAURA & 38.2 & 26.1 & \textbf{43.9} & \textbf{57.6} \\
-  \bottomrule[1pt]
-  \end{tabular*}
   \caption{FB15K-237数据集单跳知识图谱问答实验结果}
+  \begin{tabular*}{0.95\textwidth}{@{\extracolsep{\fill}}lcccc}
+    \toprule[1pt]
+    \multirow{2}{*}{模型} & \multicolumn{4}{c}{FB15K-237}   \\
+      & MRR & Hits@1 & Hits@3 & Hits@10 \\ \hline
+    TransE & 29.4 & 24.8 & 40.1 & 46.5 \\
+    ComplEx & 24.7 & 15.8 & 27.5 & 42.8 \\
+    ConvE & 32.5 & 23.7 & 34.7 & 50.1 \\
+    pLogicNet & 33.2 & 23.7 & 36.2 & 52.8 \\
+    NeuralLP & 22.7 & 16.6 & 24.8 & 34.8 \\
+    MINERVA & 27.1 & 19.2 & 30.7 & 42.6 \\
+    M-Walk & 23.4 & 16.8 & 24.5 & 40.3 \\
+    LAURA & \textbf{38.2} & \textbf{26.1} & \textbf{43.9} & \textbf{57.6} \\
+    \bottomrule[1pt]
+  \end{tabular*}
   \label{Experiment2_FB15K-237}
 \end{table}
+在FB15K-237数据集中采用上述模型执行单跳知识图谱问答，得到的实验结果如表\ref{Experiment2_FB15K-237}所示。可以发现本文提出的LAURA模型能够取得最好的成绩。
+需要注意的是，在FB15K-237数据集中知识推理模型容易陷入中心节点而无法获取到正确的答案。与其他知识推理模型不同的是，LAURA模型与知识图谱表示学习模型NORMAN进行了融合，能够使用NORMAN模型完成额外动作空间的构建，并使用NORMAN模型的评分函数提供没有到达正确答案时的奖励。因此，通过上述方法可以让LAURA模型获取到NORMAN模型提供的额外信息，从而提高LAURA模型的效果。
+同时，LAURA模型还采用了双重智能体强化学习的方式，能够利用大型智能体知识推理获取层次信息，并通过协作动作空间、协作策略网络和协作奖励将层次信息提供给小型智能体。通过上述方式能够帮助小型智能体在面对具有大量出边的中间节点时寻找正确的推理方向，最终达到答案实体，从而提高LAURA模型在FB15K-237知识图谱上的效果。
 
-在WN18RR数据集上的结果如表\ref{Experiment2_WN18RR}所示。可以发现LAURA在MRR、Hits@1和Hits@3的指标上均取得了最好的效果，体现了LAURA模型能够结合NORMAN模型的知识图谱表示信息，同时利用实体和层次智能体的相互协作，实现高质量知识推理。
-\begin{table}[]
+\begin{table}[t]
   \centering
-  \begin{tabular*}{0.95\textwidth}{@{\extracolsep{\fill}}lcccc}
-  \toprule[1pt]
-  \multirow{2}{*}{模型} & \multicolumn{4}{c}{WN18RR}   \\
-    & MRR & Hits@1 & Hits@3 & Hits@10 \\ \hline
-  TransE & 35.9 & 28.9 & 46.4 & 53.4 \\
-  ComplEx & 41.5 & 38.2 & 43.3 & 48.0 \\
-  ConvE & 43.2 & 40.5 & 44.1 & 52.4 \\
-  pLogicNet & 44.1 & 39.8 & 43.4 & 53.7 \\
-  NeuralLP & 45.9 & 37.6 & 46.8 & \textbf{65.7} \\
-  MINERVA & 44.8 & 41.3 & 45.6 & 51.3 \\
-  M-Walk & 43.7 & 41.5 & 44.7 & 54.3 \\
-  LAURA & \textbf{47.1} & \textbf{44.2} & \textbf{48.5} & 53.2 \\
-  \bottomrule[1pt]
-  \end{tabular*}
   \caption{WN18RR数据集单跳知识图谱问答实验结果}
+  \begin{tabular*}{0.95\textwidth}{@{\extracolsep{\fill}}lcccc}
+    \toprule[1pt]
+    \multirow{2}{*}{模型} & \multicolumn{4}{c}{WN18RR}   \\
+      & MRR & Hits@1 & Hits@3 & Hits@10 \\ \hline
+    TransE & 22.6 & 28.9 & 46.4 & 50.4 \\
+    ComplEx & 44.5 & 41.2 & 46.3 & 51.0 \\
+    ConvE & 43.2 & 40.5 & 44.1 & 52.4 \\
+    pLogicNet & 44.1 & 39.8 & 43.4 & 53.7 \\
+    NeuralLP & 45.9 & 37.6 & 46.8 & \textbf{65.7} \\
+    MINERVA & 44.8 & 41.3 & 45.6 & 51.3 \\
+    M-Walk & 43.7 & 41.5 & 44.7 & 54.3 \\
+    LAURA & \textbf{47.1} & \textbf{44.2} & \textbf{48.5} & 53.2 \\
+    \bottomrule[1pt]
+  \end{tabular*}
   \label{Experiment2_WN18RR}
 \end{table}
+在WN18RR数据集上的结果如表\ref{Experiment2_WN18RR}所示。可以发现LAURA在MRR、Hits@1和Hits@3的指标上均取得了最好的效果，体现了LAURA模型能够结合NORMAN模型的知识图谱表示信息，同时利用双重智能体的相互协作，实现高质量知识推理。
 
-在NELL-995数据集上的实验结果如表\ref{Experiment2_NELL-995}所示，其中pLogicNet和NeuralLP因为无法在实体规模较大的NELL-995数据集上进行知识推理并获取有效的结果，所以无法提供相应的数据。可以发现LAURA模型同样取得了优秀的效果，在四个指标上均取得了最好的成绩，同时相较于其他模型提升效果很大，这说明在处理大规模实体的知识图谱时，LAURA的双重智能体强化学习结构能够较好的利用层次和实体信息，实现高质量的知识推理。同时知识推理能够在有效的时间内完成，具有较好的稳定性，不会因为实体数量增加而造成效果下降或者造成无法正常工作。
-\begin{table}[]
+\begin{table}[t]
   \centering
-  \begin{tabular*}{0.95\textwidth}{@{\extracolsep{\fill}}lcccc}
-  \toprule[1pt]
-  \multirow{2}{*}{模型} & \multicolumn{4}{c}{NELL-995} \\
-    & MRR & Hits@1 & Hits@3 & Hits@10 \\ \hline
-  TransE & 45.6 & 51.4 & 67.8 & 75.1 \\
-  ComplEx & 68.4 & 61.2 & 76.1 & 82.1 \\
-  ConvE & 46.2 & 52.3 & 58.1 & 71.2 \\
-  pLogicNet & - & - & - & - \\
-  NeuralLP & - & - & - & - \\
-  MINERVA & 67.5 & 58.8 & 74.6 & 81.3 \\
-  M-Walk & 70.7 & 63.2 & 75.7 & 81.9 \\
-  LAURA & \textbf{75.2} & \textbf{67.2} & \textbf{77.4} & \textbf{86.1} \\
-  \bottomrule[1pt]
-  \end{tabular*}
   \caption{NELL-995数据集单跳知识图谱问答实验结果}
+  \begin{tabular*}{0.95\textwidth}{@{\extracolsep{\fill}}lcccc}
+    \toprule[1pt]
+    \multirow{2}{*}{模型} & \multicolumn{4}{c}{NELL-995} \\
+      & MRR & Hits@1 & Hits@3 & Hits@10 \\ \hline
+    TransE & 45.6 & 51.4 & 67.8 & 75.1 \\
+    ComplEx & 68.4 & 61.2 & 76.1 & 82.1 \\
+    ConvE & 46.2 & 52.3 & 58.1 & 71.2 \\
+    pLogicNet & - & - & - & - \\
+    NeuralLP & - & - & - & - \\
+    MINERVA & 67.5 & 58.8 & 74.6 & 81.3 \\
+    M-Walk & 70.7 & 63.2 & 75.7 & 81.9 \\
+    LAURA & \textbf{75.2} & \textbf{67.2} & \textbf{77.4} & \textbf{86.1} \\
+    \bottomrule[1pt]
+  \end{tabular*}
   \label{Experiment2_NELL-995}
 \end{table}
+在NELL-995数据集上的实验结果如表\ref{Experiment2_NELL-995}所示，其中pLogicNet和NeuralLP因为无法在实体规模较大的NELL-995数据集上进行知识推理并获取有效的结果，所以无法提供相应的数据。可以发现LAURA模型同样取得了优秀的效果，在四个指标上均取得了最好的成绩，同时相较于其他模型提升效果很大，分别在MRR、Hits@1、Hits@3和Hits@10指标上实现了4.5\%、4.0\%、1.3\%和4.0\%的提升。这说明在处理包含大量实体种类的知识图谱时，LAURA的双重智能体强化学习结构能够较好的利用实体和层次信息，实现高质量的知识推理。同时知识推理能够在有效的时间内完成，具有较好的稳定性，不会因为实体规模增加而造成效果下降或者造成无法正常工作。
 
-在多跳知识图谱问答任务中，考虑到单跳知识图谱问答实验中的知识图谱表示学习模型无法进行显式的多跳知识图谱问答，因此在实验中不采用这部分模型，其他模型则继续作为对比实验模型参与实验。
+\subsubsection{多跳知识图谱问答实验}
+在多跳知识图谱问答任务中，考虑到单跳知识图谱问答实验中的知识图谱表示学习模型无法获取知识推理路径，从而无法分析多跳知识推理过程的充分性和合理性，因此在实验中不采用这部分模型，其他模型则继续作为对比实验模型参与实验。
 
-在FB15K-237-10数据集上执行多跳知识图谱问答，得到的结果如表\ref{Experiment2_FB15K-237-10}所示。可以发现LAURA在数据集上的表现优秀，仅在Hits@10指标上弱于ConvE模型，同时在其他指标上都取得了更好的效果。FB15K-237-10是三个多跳知识图谱问答数据集中最稀疏的知识图谱，通过随机采样的方式仅保留了FB15K-237数据集中$10\%$的知识三元组，能够在该图谱上实现较好的知识推理效果，证明了LAURA能够很好的实现两种粒度的智能体的信息交互和轨迹协调，实现高质量的知识推理。
-同时，由于在稀疏知识图谱上的边非常少，智能体容易陷入没有邻接边可以进行推理的情况，这使得通过强化学习框架进行多跳知识图谱问答的难度大大增加，可以看到MINERVA和M-Walk模型的效果相比FB15K-237数据集上出现了较大的下降。
-对此，LAURA模型可以使用NORMAN模型获取额外动作空间，以及通过层次级智能体提供的协作动作空间，从而可以缓解动作空间较少的问题，帮助实体级智能体在缺少邻接边时找到下一跳节点，最终完成知识推理。
-\begin{table}[]
+在FB15K-237-10\%数据集上执行多跳知识图谱问答，得到的结果如表\ref{Experiment2_FB15K-237-10}所示。可以发现LAURA在数据集上的表现优秀，取得了最好的效果。FB15K-237-10\%是三个多跳知识图谱问答数据集中最稀疏的知识图谱，通过随机采样的方式仅保留了FB15K-237数据集中$10\%$的知识三元组，能够在该图谱上实现较好的多跳知识推理效果，证明了LAURA能够很好的实现两种粒度的智能体的信息交互和轨迹协调，实现高质量的知识推理。
+同时，由于在稀疏知识图谱上的边非常少，智能体容易陷入没有邻接边可以进行推理的情况，这使得通过强化学习框架进行多跳知识图谱问答的难度大大增加，可以看到MINERVA和M-Walk模型的效果相比在FB15K-237数据集上的效果存在较大差距。
+对此，LAURA模型可以使用NORMAN模型获取额外动作空间，同时可以通过大型智能体提供协作动作空间。通过上述方法可以缓解在稀疏知识图谱上知识推理时动作空间太小的问题，帮助小型智能体获取到下一跳节点，最终完成知识推理。
+\begin{table}[t]
   \centering
+  \caption{FB15K-237-10\%数据集多跳知识图谱问答实验结果}
   \begin{tabular*}{0.95\textwidth}{@{\extracolsep{\fill}}lcccc}
-  \toprule[1pt]
-  \multirow{2}{*}{模型} & \multicolumn{4}{c}{FB15K-237-10}   \\
-    & MRR & Hits@1 & Hits@3 & Hits@10 \\ \hline
-  ConvE & 24.5 & 14.3 & 26.2 & \textbf{39.1} \\
-  pLogicNet & 24.2 & 13.6 & 25.1 & 37.2 \\
-  NeuralLP & 7.9 & 3.5 & 7.2 & 13.8 \\
-  MINERVA & 7.8 & 4.2 & 7.8 & 12.2 \\
-  M-Walk & 7.6 & 3.1 & 7.5 & 12.0 \\
-  LAURA & \textbf{24.7} & \textbf{15.6} & \textbf{27.5} & 37.8 \\
-  \bottomrule[1pt]
+    \toprule[1pt]
+    \multirow{2}{*}{模型} & \multicolumn{4}{c}{FB15K-237-10\%}   \\
+      & MRR & Hits@1 & Hits@3 & Hits@10 \\ \hline
+    ConvE & 22.5 & 13.3 & 24.2 & 33.1 \\
+    pLogicNet & 23.2 & 14.6 & 25.1 & 34.2 \\
+    NeuralLP & 7.9 & 3.5 & 7.2 & 13.8 \\
+    MINERVA & 7.8 & 4.2 & 7.8 & 12.2 \\
+    M-Walk & 7.6 & 3.1 & 7.5 & 12.0 \\
+    LAURA & \textbf{24.7} & \textbf{15.6} & \textbf{27.5} & \textbf{39.8} \\
+    \bottomrule[1pt]
   \end{tabular*}
-  \caption{FB15K-237-10数据集多跳知识图谱问答实验结果}
   \label{Experiment2_FB15K-237-10}
 \end{table}
 
-在FB15K-237-20数据集上进行多跳知识图谱问答实验，得到的结果如表\ref{Experiment2_FB15K-237-20}所示。在该数据集上LAURA模型同样取得了较好的效果，证明了模型结构的合理性，能够在稀疏知识图谱上实现多跳知识图谱问答。
-\begin{table}[]
+在FB15K-237-20\%数据集上进行多跳知识图谱问答实验，得到的结果如表\ref{Experiment2_FB15K-237-20}所示。在该数据集上LAURA模型同样取得了最好的效果，证明了模型结构的合理性，能够在稀疏知识图谱上实现多跳知识图谱问答。
+\begin{table}[t]
   \centering
+  \caption{FB15K-237-20\%数据集多跳知识图谱问答实验结果}
   \begin{tabular*}{0.95\textwidth}{@{\extracolsep{\fill}}lcccc}
-  \toprule[1pt]
-  \multirow{2}{*}{模型} & \multicolumn{4}{c}{FB15K-237-20}   \\
-    & MRR & Hits@1 & Hits@3 & Hits@10 \\ \hline
-  ConvE & 26.1 & 18.2 & 28.3 & 41.8 \\
-  pLogicNet & 23.1 & 15.7 & 27.4 & 40.9 \\
-  NeuralLP & 11.2 & 8.2 & 11.2 & 17.9 \\
-  MINERVA & 15.9 & 11.1 & 16.4 & 22.7 \\
-  M-Walk & 14.7 & 12.9 & 16.1 & 20.2 \\
-  LAURA & \textbf{27.2} & \textbf{18.9} & \textbf{29.2} & \textbf{43.1} \\
-  \bottomrule[1pt]
+    \toprule[1pt]
+    \multirow{2}{*}{模型} & \multicolumn{4}{c}{FB15K-237-20\%}   \\
+      & MRR & Hits@1 & Hits@3 & Hits@10 \\ \hline
+    ConvE & 24.6 & 16.2 & 26.3 & 35.8 \\
+    pLogicNet & 25.1 & 16.7 & 27.4 & 36.9 \\
+    NeuralLP & 11.2 & 8.2 & 11.2 & 17.9 \\
+    MINERVA & 15.9 & 11.1 & 16.4 & 22.7 \\
+    M-Walk & 14.7 & 12.9 & 16.1 & 20.2 \\
+    LAURA & \textbf{27.2} & \textbf{18.9} & \textbf{31.2} & \textbf{43.1} \\
+    \bottomrule[1pt]
   \end{tabular*}
-  \caption{FB15K-237-20数据集多跳知识图谱问答实验结果}
   \label{Experiment2_FB15K-237-20}
 \end{table}
 
-最后，在FB15K-237-50数据集上进行多跳知识图谱问答，得到的结果如表\ref{Experiment2_FB15K-237-50}所示。可以发现，LAURA同样可以取得较好的效果，说明LAURA模型能够较好地学习知识图谱中的信息，并通过双重智能体协作推理的方式实现高质量知识推理。
-\begin{table}[]
+最后，在FB15K-237-50\%数据集上进行多跳知识图谱问答，得到的结果如表\ref{Experiment2_FB15K-237-50}所示。可以发现，LAURA同样可以取得最好的效果，说明LAURA模型能够较好地学习知识图谱中的信息，并通过双重智能体协作推理的方式实现高质量知识推理。
+\begin{table}[t]
   \centering
+  \caption{FB15K-237-50\%数据集多跳知识图谱问答实验结果}
   \begin{tabular*}{0.95\textwidth}{@{\extracolsep{\fill}}lcccc}
-  \toprule[1pt]
-  \multirow{2}{*}{模型} & \multicolumn{4}{c}{FB15K-237-50}   \\
-    & MRR & Hits@1 & Hits@3 & Hits@10 \\ \hline
-  ConvE & 31.3 & 20.6 & \textbf{34.2} & \textbf{50.1} \\
-  pLogicNet & 28.9 & 18.4 & 33.1 & 48.6 \\
-  NeuralLP & 18.2 & 13.2 & 19.2 & 24.6 \\
-  MINERVA & 23.0 & 15.6 & 24.0 & 31.1 \\
-  M-Walk & 22.1 & 14.2 & 18.9 & 26.1 \\
-  LAURA & \textbf{31.8} & \textbf{22.5} & \textbf{34.2} & 48.2 \\
-  \bottomrule[1pt]
+    \toprule[1pt]
+    \multirow{2}{*}{模型} & \multicolumn{4}{c}{FB15K-237-50\%}   \\
+      & MRR & Hits@1 & Hits@3 & Hits@10 \\ \hline
+    ConvE & 28.3 & 17.6 & 30.2 & 41.1 \\
+    pLogicNet & 28.9 & 18.4 & 31.1 & 42.6 \\
+    NeuralLP & 18.2 & 13.2 & 19.2 & 24.6 \\
+    MINERVA & 23.0 & 15.6 & 24.0 & 31.1 \\
+    M-Walk & 22.1 & 14.2 & 18.9 & 26.1 \\
+    LAURA & \textbf{33.8} & \textbf{22.5} & \textbf{38.5} & \textbf{50.2} \\
+    \bottomrule[1pt]
   \end{tabular*}
-  \caption{FB15K-237-50数据集多跳知识图谱问答实验结果}
   \label{Experiment2_FB15K-237-50}
 \end{table}
 
-为了评估模型在具体的知识图谱问答中的效果，同时考虑到多跳知识图谱问答比单跳知识图谱问答更加复杂，但知识推理过程异曲同工，即单跳知识推理任务可以认为是跳数为1的多跳知识推理任务，因此本文选择了多跳知识图谱问答数据集FB15K-237-50的10种关系类别对模型的知识推理能力进行评估，并分析各个模型的知识推理效果。实验采用MRR作为评价指标，得到的结果如表\ref{Experiment2_tasks}所示。可以发现，本文提出的LAURA模型在多跳知识推理任务上与知识推理模型进行比较时能取得很好的效果，相较于其他知识推理模型实现了平均$1.6\%$的效果提升。
-
-\begin{table}[]
+为了评估模型在具体的知识图谱问答中的效果，同时考虑到多跳知识图谱问答比单跳知识图谱问答更加复杂，但知识推理过程异曲同工，即单跳知识推理任务可以认为是跳数为1的多跳知识推理任务，因此本文选择了多跳知识图谱问答数据集FB15K-237-50\%的10种不同特定关系的问答任务对模型的知识推理能力进行评估，从而分析各个模型的知识推理效果。实验采用MRR作为评价指标，得到的结果如表\ref{Experiment2_tasks}所示。可以发现，本文提出的LAURA模型在多跳知识推理任务上与其他知识推理模型进行比较时能取得很好的效果，实现了平均$1.6\%$的效果提升。
+\begin{table}[t]
   \centering
+  \caption{FB15K-237-50\%数据集特定任务实验结果}
   \begin{tabular*}{1\textwidth}{@{\extracolsep{\fill}}lcccccc}
-  \toprule[1pt]
-  任务名称 & ConvE & pLogicNet & NeuralLP & MINERVA & M-Walk & LAURA \\ \hline
-  LocationContains & 20.5 & 18.7 & 11.2 & 15.6 & 14.8 & \textbf{20.8} \\
-  FilmCountry & 34.8 & 33.9 & 27.9 & 33.2 & 32.5 & \textbf{35.6} \\
-  FilmMusic & 12.5 & 13.4 & 7.8 & 15.0 & 13.4 & \textbf{17.4} \\
-  Gender & 55.2 & 51.9 & 45.6 & 46.5 & 46.1 & \textbf{56.9} \\
-  Nationality & 40.3 & 36.4 & 23.1 & 28.3 & 27.6 & \textbf{43.5} \\
-  PlaceOfBirth & 18.7 & 15.9 & 5.8 & 11.5 & 9.9 & \textbf{20.5} \\
-  Profession & 44.5 & 41.2 & 24.6 & 30.2 & 28.5 & \textbf{45.8} \\
-  FilmGenre & 32.0 & 29.6 & 19.3 & 23.1 & 22.0 & \textbf{35.2} \\
-  FilmLanguage & 45.8 & 41.9 & 36.2 & 38.9 & 38.4 & \textbf{46.0} \\
-  MusicGenreArtists & 28.2 & 27.5 & 15.6 & 17.5 & 17.2 & \textbf{29.3} \\
-  \bottomrule[1pt]
+    \toprule[1pt]
+    \multirow{2}{*}{任务名称} & \multicolumn{6}{c}{FB15K-237-50\%} \\
+      & ConvE & pLogicNet & NeuralLP & MINERVA & M-Walk & LAURA \\ \hline
+    LocationContains & 20.5 & 18.7 & 11.2 & 15.6 & 14.8 & \textbf{20.8} \\
+    FilmCountry & 34.8 & 33.9 & 27.9 & 33.2 & 32.5 & \textbf{35.6} \\
+    FilmMusic & 12.5 & 13.4 & 7.8 & 15.0 & 13.4 & \textbf{17.4} \\
+    Gender & 55.2 & 51.9 & 45.6 & 46.5 & 46.1 & \textbf{56.9} \\
+    Nationality & 40.3 & 36.4 & 23.1 & 28.3 & 27.6 & \textbf{43.5} \\
+    PlaceOfBirth & 18.7 & 15.9 & 5.8 & 11.5 & 9.9 & \textbf{20.5} \\
+    Profession & 44.5 & 41.2 & 24.6 & 30.2 & 28.5 & \textbf{45.8} \\
+    FilmGenre & 32.0 & 29.6 & 19.3 & 23.1 & 22.0 & \textbf{35.2} \\
+    FilmLanguage & 45.8 & 41.9 & 36.2 & 38.9 & 38.4 & \textbf{46.0} \\
+    MusicGenreArtists & 28.2 & 27.5 & 15.6 & 17.5 & 17.2 & \textbf{29.3} \\
+    \bottomrule[1pt]
   \end{tabular*}
-  \caption{FB15K-237-50数据集关系类别实验结果}
   \label{Experiment2_tasks}
 \end{table}
 % ((20.8-20.5)+(35.6-34.8)+(17.4-15)+(56.9-55.2)+(43.5-40.3)+(20.5-18.7)+(45.8-44.5)+(35.2-32.0)+(46-45.8)+(29.3-28.2))/10
 
 % 消融实验
+\subsubsection{消融实验}
 \begin{table}[t]
   \centering
+  \caption{消融实验结果}
   \begin{tabular*}{0.95\textwidth}{@{\extracolsep{\fill}}lcccc}
-  \toprule[1pt]
-  模型 & MRR & Hits@1 & Hits@3 & Hits@10 \\ \hline
-  LAURA(w/o NORMAN) & 29.2 & 18.9 & 31.3 & 44.3 \\
-  LAURA(w/o D) & 25.4 & 17.3 & 24.8 & 32.3 \\
-  LAURA(w/o CA) & 28.9 & 19.2 & 30.9 & 44.4 \\
-  LAURA(w/o CP) & 23.4 & 15.9 & 23.8 & 29.4 \\
-  LAURA(w/o CR) & 25.2 & 17.2 & 23.9 & 31.8 \\
-  LAURA & \textbf{31.8} & \textbf{22.5} & \textbf{34.2} & \textbf{48.2} \\
-  \bottomrule[1pt]
+    \toprule[1pt]
+    \multirow{2}{*}{模型} & \multicolumn{4}{c}{FB15K-237-50\%} \\
+      & MRR & Hits@1 & Hits@3 & Hits@10 \\ \hline
+    LAURA(w/o NORMAN) & 31.2 & 18.9 & 35.3 & 46.5 \\
+    LAURA(w/o D) & 27.4 & 17.3 & 28.8 & 32.3 \\
+    LAURA(w/o CA) & 30.9 & 19.2 & 34.9 & 44.4 \\
+    LAURA(w/o CP) & 25.4 & 15.9 & 22.8 & 29.4 \\
+    LAURA(w/o CR) & 27.2 & 17.2 & 23.9 & 31.8 \\
+    LAURA & \textbf{33.8} & \textbf{22.5} & \textbf{38.5} & \textbf{50.2} \\
+    \bottomrule[1pt]
   \end{tabular*}
-  \caption{FB15K-237-50数据集消融实验结果}
   \label{Experiment2_ablation}
 \end{table}
 为了进一步分析LAURA模型，本文设计了消融实验，从而评估LAURA模型各个模块的重要性。
-消融实验在FB15K-237-50数据集上开展，在消融实验过程中，本文设置的消融模型分别是：LAURA(w/o NORMAN)，LAURA(w/o D)，LAURA(w/o CA)，LAURA(w/o CP)，LAURA(w/o CR)，以及完整的LAURA模型。
-其中，LAURA(w/o NORMAN)是去除了知识图谱表示学习模型NORMAN后的模型。去除NORMAN模型后，模型存在两个问题：首先无法通过NORMAN模型获取额外动作空间，对此可以选择不扩展动作空间。另一个问题是没有到达正确节点时，无法使用NORMAN模型的评分函数提供奖励分数，对此模型取消0到1之间的奖励分数，没有到达正确节点则直接令奖励为0。需要注意的是，这里的去除NORMAN模型支持不包括去除NORMAN模型的层次信息提取模块为每个实体获取对应的层次信息，因为没有了层次信息就无法构建层次级别知识图谱，从而无法构建层次级强化学习模块。
-LAURA(w/o D)则是去除了双重智能体强化学习交互模块的模型。由于去除该模块后的两个智能体模块不能实现交互协作，同时层次级智能体仅能进行层次级知识推理，无法获取到正确答案，因此该模型也可以视为仅保留了实体级强化学习模块的模型。同时，消融实验没有设计去除实体级强化学习模块和去除层次级强化学习模块的模型，因为去除了实体级强化学习模块就无法正常推理，而去除层次级强化学习模块则与LAURA(w/o D)效果相同。
-LAURA(w/o CA)、LAURA(w/o CP)和LAURA(w/o CR)则分别是去除了双重智能体强化学习交互模块的协作动作空间、协作策略网络和协作奖励后的模型。
-对上述模型采用FB15K-237-50数据集进行多跳知识图谱问答的消融实验，结果如表\ref{Experiment2_ablation}所示。可以发现，LAURA(w/o NORMAN)模型的表现与LAURA模型最接近，原因是主要使用NORMAN模型进行额外动作空间的获取和提供奖励，这些对LAURA模型的效果影响相对较小。LAURA(w/o D)的效果相较于LAURA模型出现了很大的下降，其表现与其他实体级强化学习模型如MINERVA模型的效果更加接近，说明双重智能体强化学习交互模块是模型效果的核心，通过该模块可以结合层次级强化学习模块获取的全局知识，帮助实体级强化学习模块进行知识推理并获取正确的实体。对于LAURA(w/o CA)、LAURA(w/o CP)和LAURA(w/o CR)三个模型，其中LAURA(w/o CA)的效果与LAURA模型最接近，这说明协作动作空间对模型效果的影响较小，原因是实体级和层次级智能体的动作空间原来就有一部分是相互覆盖的，协作动作空间只是加入了两种智能体没有相互覆盖的动作空间，因此对模型影响较小。LAURA(w/o CP)和LAURA(w/o CR)的模型效果则相对较差，甚至弱于删除了双重智能体强化学习交互模块的模型LAURA(w/o D)，这是由于删除了协作策略网络或协作奖励后，两种智能体不但不能相互协作，反而会给对方带来无用信息，从而干扰了实体级智能体的知识推理过程，导致其更容易获取到错误的实体，效果甚至不如单独的实体级智能体进行知识推理。
+消融实验在FB15K-237-50\%数据集上开展，在消融实验过程中，本文设置的消融模型分别是：LAURA(w/o NORMAN)，LAURA(w/o D)，LAURA(w/o CA)，LAURA(w/o CP)，LAURA(w/o CR)，以及完整的LAURA模型。
+其中，LAURA(w/o NORMAN)是去除了知识图谱表示学习模型NORMAN后的模型。去除NORMAN模型后，模型存在两个问题：首先无法通过NORMAN模型获取额外动作空间，对此可以选择不扩展动作空间。另一个问题是没有到达正确节点时，无法使用NORMAN模型的评分函数提供奖励分数，对此模型取消0到1之间的奖励分数，没有到达正确节点则直接令奖励为0。需要注意的是，这里的去除NORMAN模型支持不包括去除NORMAN模型的层次信息提取部分，因为没有了层次信息就无法构建聚类知识图谱，从而无法构建大型智能体。
+LAURA(w/o D)则是同时去除了双重智能体交互部分的模型，也就是同时去除了协作动作空间、协作策略网络和协作奖励后的模型。由于去除该部分后的两个智能体模块将不能实现交互协作，同时大型智能体仅能进行层次级知识推理，无法获取到正确答案，因此该模型也可以视为仅保留了小型智能体的模型。同时，消融实验没有设计去除小型智能体和去除大型智能体的模型，因为去除了小型智能体就无法正常推理，而去除大型智能体则与LAURA(w/o D)效果相同。
+LAURA(w/o CA)、LAURA(w/o CP)和LAURA(w/o CR)则分别是去除了协作动作空间、协作策略网络和协作奖励后的模型。
+对上述模型采用FB15K-237-50\%数据集进行多跳知识图谱问答的消融实验，结果如表\ref{Experiment2_ablation}所示。可以发现，LAURA(w/o NORMAN)模型的表现与LAURA模型最接近，原因是主要使用NORMAN模型进行额外动作空间的获取和提供奖励，这些对LAURA模型的效果影响相对较小。LAURA(w/o D)的效果相较于LAURA模型出现了很大的下降，其表现与其他强化学习模型如MINERVA模型的效果更加接近，说明双重智能体强化学习交互模块是模型效果的核心，通过该模块可以结合大型智能体获取的层次信息，帮助小型智能体进行知识推理并获取正确的实体。对于LAURA(w/o CA)、LAURA(w/o CP)和LAURA(w/o CR)三个模型，其中LAURA(w/o CA)的效果与LAURA模型最接近，这说明协作动作空间对模型效果的影响较小，原因是两种智能体的动作空间原来就有一部分是相互覆盖的，协作动作空间只是加入了两种智能体没有相互覆盖的动作空间，因此对模型影响较小。LAURA(w/o CP)和LAURA(w/o CR)的模型效果则相对较差，甚至弱于删除了双重智能体强化学习交互模块的模型LAURA(w/o D)，这是由于删除了协作策略网络或协作奖励后，两种智能体不但不能相互协作，反而会给对方带来无用信息，从而干扰了小型智能体的知识推理过程，导致其更容易获取到错误的实体，效果甚至不如单独的小型智能体进行知识推理。
 
+\subsubsection{聚类数量影响分析}
 \begin{figure}[t]
   \centering
-  \subfloat[FB15K-237-10数据集] {
+  \subfloat[FB15K-237-10\%数据集] {
     \includegraphics[width=0.3\textwidth]{3_LAURA_layer_FB15K23710.pdf}
     \label{Experiment2_layer_a}
   }
-  \subfloat[FB15K-237-20数据集] {
+  \subfloat[FB15K-237-20\%数据集] {
     \includegraphics[width=0.3\textwidth]{3_LAURA_layer_FB15K23720.pdf}
     \label{Experiment2_layer_b}
   }
-  \subfloat[FB15K-237-50数据集] {
+  \subfloat[FB15K-237-50\%数据集] {
     \includegraphics[width=0.3\textwidth]{3_LAURA_layer_FB15K23750.pdf}
     \label{Experiment2_layer_c}
   }
-  \caption{模型层次数量分析实验结果}
+  \caption{聚类数量影响分析}
   \label{Experiment2_layer}
 \end{figure}
-层次级强化学习模块应用了NORMAN模型提供的层次信息进行了层次知识图谱的构建，因此层次数量也会影响到LAURA模型的表现。
-为了分析模型层次数量对LAURA模型的影响，本文在FB15K-237-10、FB15K-237-20和FB15K-237-50三个数据集上开展实验并选择MRR作为评价指标，调整知识层数$K$并观察模型效果，得到的实验结果如图\ref{Experiment2_layer}所示。
-可以发现当设置层次数量为50时LAURA模型在三个数据集上取得了最好的效果，主要的原因是：三个数据集是对FB15K-237数据集进行随机采样构建而成的，因此知识层数与FB15K-237相同。
-在第二章的NORMAN模型层次数量分析实验中可以发现，NORMAN模型在设置FB15K-237的层数为50时取得最好的效果，这说明设置FB15K-237数据集的层数为50是比较合理的，所以LAURA模型能够在层次数量为50时在三个数据集中取得最好的效果。
+大型智能体应用了NORMAN模型提供的层次信息进行了聚类知识图谱的构建，因此进行K-Means聚类过程设置的聚类数量$K$对也会影响到LAURA模型的表现。
+为了分析聚类数量对LAURA模型的影响，本文在FB15K-237-10\%、FB15K-237-20\%和FB15K-237-50\%三个数据集上开展实验并选择MRR作为评价指标，调整聚类数量$K$并观察模型效果，得到的实验结果如图\ref{Experiment2_layer}所示。
+可以发现当设置聚类数量为50时LAURA模型同时在三个数据集上都取得了最好的效果。根据聚类知识图谱的构建过程可以发现，主要是利用了K-Means模型对NORMAN模型提取到实体和关系的半径坐标向量进行聚类，并最终将实体和关系划分为$K$个类别。因此主要原因可以归纳为FB15K-237数据集的知识层数与50最为接近，同时实验采用的三种数据集都是对FB15K-237数据集进行随机采样构建而成，所以知识层数与FB15K-237相同，从而使得模型在三种数据集上都能够在聚类数量为50时取得最好的效果。
 
+\subsubsection{知识推理距离影响分析}
 \begin{figure}[t]
   \centering
-  \subfloat[FB15K-237-10数据集] {
+  \subfloat[FB15K-237-10\%数据集] {
     \includegraphics[width=0.3\textwidth]{3_LAURA_hop_FB15K23710.pdf}
     \label{Experiment2_multihop_a}
   }
-  \subfloat[FB15K-237-20数据集] {
+  \subfloat[FB15K-237-20\%数据集] {
     \includegraphics[width=0.3\textwidth]{3_LAURA_hop_FB15K23720.pdf}
     \label{Experiment2_multihop_b}
   }
-  \subfloat[FB15K-237-50数据集] {
+  \subfloat[FB15K-237-50\%数据集] {
     \includegraphics[width=0.3\textwidth]{3_LAURA_hop_FB15K23750.pdf}
     \label{Experiment2_multihop_c}
   }
-  \caption{稀疏知识图谱知识推理距离分析实验结果}
+  \caption{稀疏知识图谱知识推理距离影响分析}
   \label{Experiment2_multihop}
 \end{figure}
-为了评估模型在稀疏知识图谱上进行知识推理时推理距离的影响，本文在FB15K-237-10、FB15K-237-20和FB15K-237-50三种数据集上开展实验，在实验过程中调整模型的最大跳数$L$并采用MRR作为模型的评价指标。
+为了评估模型在稀疏知识图谱上进行知识推理时推理距离的影响，本文在FB15K-237-10\%、FB15K-237-20\%和FB15K-237-50\%三种数据集上开展实验，在实验过程中调整模型的最大跳数$L$并采用MRR作为模型的评价指标。
 同时，本文还选择了MINERVA模型作为对比模型进行实验。实验结果如图\ref{Experiment2_multihop}所示。
 可以发现MINERVA模型在跳数增加时效果出现了明显的下降。这说明MINERVA模型在进行多跳知识推理时效果不够稳定，容易受到知识推理跳数的影响。
 相比之下，本文提出的LAURA模型在三个数据集上均取得了更好的效果，同时模型效果随着知识推理跳数的增长能够实现相对平缓的下降，说明模型的知识推理效果较为稳定。
-造成LAURA模型在跳数增加时效果较为稳定的主要原因是LAURA模型采用了双智能体的模式，在多跳知识推理过程中实体级智能体能够获取层次级智能体提供的宏观信息，从而使得模型能够避免陷入中间节点，到达目标节点。
-而MINERVA模型则缺乏宏观信息的指导，因此容易陷入中间节点，导致了模型在进行多跳知识推理时效果会出现显著下降。
+造成LAURA模型在跳数增加时效果较为稳定的主要原因是LAURA模型采用了双重智能体的方式，在多跳知识推理过程中小型智能体能够获取大型智能体提供的层次信息，从而使得模型能够选择合适的层次进行推理，增加了推理路径的充分性和合理性。同时LAURA模型通过构建扩展动作空间和协作动作空间，实现了对智能体动作空间的扩展，从而能够增强智能体的知识推理能力，并帮助智能体到达目标节点。
+而MINERVA模型则缺乏类似的机制，因此容易在推理过程中选择错误层次的节点，同时在稀疏知识图谱上进行多跳推理时容易出现动作空间内可选动作太少的情况，导致了模型在进行长距离多跳知识推理时效果会出现显著下降。
 
+\subsubsection{案例分析}
 \begin{table}[t]
   \centering
+  \caption{FB15K-237-50\%数据集多跳知识图谱问答案例分析}
   \begin{tabular*}{0.95\textwidth}{@{\extracolsep{\fill}}ccc}
-  \toprule[1pt] 
-  序号 & 推理问题 & 推理过程 \\ \hline
-  1 & $(e_0, Gender, ?)$ & $(e_0 \xrightarrow{Gender} e_a)$ \\
-  2 & $(e_0, Nationality, ?)$ & $(e_0 \xrightarrow{PlaceLived} e_1 \xrightarrow{USCounty} e_2 \xrightarrow{Nationality} e_a)$ \\
-  3 & $(e_0, ?, e_a)$ & $(e_0 \xrightarrow{Award} e_1 \xrightarrow{Award^{-1}} e_0 \xrightarrow{PerformanceFilm} e_a) $ \\
-  \multirow{2}{*}{4} & $(e_0, Profession, ?)$ & $(e_0 \xrightarrow{Award} e_1 \xrightarrow{Award} e_2 \xrightarrow{Profession} e_a)$ \\
-  & $(h_{e_0}, r_0, ?)$ & $(h_{e_0} \xrightarrow{r_0} h_{e_1} \xrightarrow{r_1} h_{e_2} \xrightarrow{r_2} h_{e_a})$ \\
-  \bottomrule[1pt]
+    \toprule[1pt] 
+    序号 & 推理问题 & 推理过程 \\ \hline
+    1 & $(e_0, Gender, ?)$ & $(e_0 \xrightarrow{Gender} e_a)$ \\
+    2 & $(e_0, Nationality, ?)$ & $(e_0 \xrightarrow{PlaceLived} e_1 \xrightarrow{USCounty} e_2 \xrightarrow{Nationality} e_a)$ \\
+    3 & $(e_0, ?, e_a)$ & $(e_0 \xrightarrow{Award} e_1 \xrightarrow{Award^{-1}} e_0 \xrightarrow{PerformanceFilm} e_a) $ \\
+    \multirow{2}{*}{4} & $(h_{e_0}, r_0, ?)$ & $(h_{e_0} \xrightarrow{r_0} h_{e_1} \xrightarrow{r_1} h_{e_2} \xrightarrow{r_2} h_{e_a})$ \\
+    & $(e_0, Profession, ?)$ & $(e_0 \xrightarrow{Award} e_1 \xrightarrow{Award} e_2 \xrightarrow{Profession} e_a)$ \\
+    \bottomrule[1pt]
   \end{tabular*}
-  \caption{FB15K-237-50数据集多跳知识图谱问答案例分析}
   \label{Experiment2_CaseStudy}
 \end{table}
 最后对LAURA模型在多跳知识图谱问答上的任务执行情况进行案例分析。
-案例分析过程选择了FB15K-237-50数据集上的比较有代表性的多跳知识图谱问答案例，如表\ref{Experiment2_CaseStudy}所示。
-为了便于观察，本文将查询语句中的查询三元组提取出来放入表中的推理问题部分，将FB15K-237-50数据集中的实体编号信息替换为了$e_i$，同时将层次级别替换为了$h_{e_i}$，层次关系替换为了$r_i$，其中角标$i$表示第$i$跳知识推理过程，同时令角标$a$表示答案。
+案例分析过程选择了FB15K-237-50\%数据集上的比较有代表性的多跳知识图谱问答案例，如表\ref{Experiment2_CaseStudy}所示。
+为了便于观察，本文将查询语句中的查询三元组提取出来放入表中的推理问题部分，将FB15K-237-50\%数据集中的实体编号信息替换为了$e_i$，同时将聚类节点替换为了$h_{e_i}$，聚类节点间的关系替换为了$r_i$，其中角标$i$表示第$i$跳知识推理过程，同时令角标$a$表示答案。
 对表中所获得的结果进行分析，可以发现：
 推理样例1说明了LAURA能够解决单跳知识图谱问答问题。在样例中，智能体根据知识图谱中相关信息推测$e_0$的性别并进行排序，最后通过单跳推理获取到了正确的性别$e_a$。
 样例2说明了LAURA能够解决多跳知识图谱问答问题。在推理过程中，智能体首先发现知识图谱中存在$(e_0, PlaceLived, e_1)$的知识并进行推理，随后发现存在$(e_1, USCounty, e_2)$的知识并进行推理，最后根据关系$Nationality$对所有候选答案进行排序，得到了最终答案实体$e_a$。需要注意的是，推理过程中的关系$USCounty$对获取最后的答案（国籍信息）起到了重要的提示作用，这说明LAURA智能体状态信息中的历史路径信息具有重要作用，能够在多跳推理过程中提供帮助。
 样例3说明了LAURA能够解决查询问题为$(h, ?, t)$类型的多跳知识图谱问答。查询过程中智能体首先根据知识图谱中$(e_0, AwardNominee, e_1)$推测出$e_0$是人名，并根据其他知识推断出$e_a$是电影名称，最后在所有候选关系中选择$PerformanceFilm$作为$e_0$和$e_a$之间的关系，实现了正确的知识推理。
-样例4说明了LAURA能够实现实体级和层次级智能体的协作，解决知识图谱问答问题。在该样例中上面一行是实体级智能体的推理路径，下面一行则是层次级智能体的推理路径。在推理过程中，实体级智能体发现实体$e_0$存在知识$(e_0, Award, e_1)$并进行推理，随后层次级智能体参考实体级智能体的路径完成了第一步推理，得到了$(h_{e_0}, r_0, h_{e_1})$。接下来层次级智能体在层次级知识图谱中发现存在知识$(h_{e_1}, r_1, h_{e_2})$并进行推理，随后实体级智能体参考层次级智能体的路径完成了第二步推理，得到了$(e_1, Award, e_2)$。需要注意的是，实体级知识图谱中缺少该知识，也就是说这一知识是实体级智能体根据层次级智能体的提示加入到协作动作空间中，并通过协作策略网络提供动作概率和采样得到的新知识。最后，实体级智能体通过知识图谱中相关信息推测获得$e_2$奖项的人物对应的职业并对候选答案进行排序，从而得到了实体$e_0$对应的正确职业$e_a$。
+样例4说明了LAURA能够实现小型智能体大型智能体的协作，解决知识图谱问答问题。在该样例中上面一行是大型智能体的推理路径，下面一行则是小型智能体的推理路径，每一步的知识推理中先由大型智能体推理，再由小型智能体推理。在推理过程中，首先大型智能体完成了第一步推理，得到$(h_{e_0}, r_0, h_{e_1})$，随后小型智能体发现实体$e_0$存在知识$(e_0, Award, e_1)$并进行推理。接下来大型智能体在聚类知识图谱中发现存在知识$(h_{e_1}, r_1, h_{e_2})$并进行推理，随后小型智能体参考大型智能体的路径完成了第二步推理，得到了$(e_1, Award, e_2)$。需要注意的是，知识图谱中缺少该知识，也就是说这一知识是小型智能体根据大型智能体的提示加入到协作动作空间中，并通过协作策略网络进行采样得到的新知识。最后，小型智能体通过知识图谱中的有关信息推测获得$e_2$奖项的人物对应的职业并对候选答案进行排序，从而得到了实体$e_0$对应的正确职业$e_a$。
 
 \section{本章小结}
-本章主要介绍了基于双重智能体强化学习的知识推理模型，该模型能够结合知识图谱表示学习模型，根据给定的查询结构化三元组知识信息进行显式的知识推理，返回知识推理路径和对应置信度信息。
-本章提出的模型能够在实体级和层次级两种粒度下进行知识推理，其中层次级知识推理主要根据宏观层面的信息进行知识推理，优势是能够更好地统合全局信息，实体级知识推理主要根据微观层面信息进行推理，优势是能够更好地处理局部细节信息。通过双重智能体强化学习交互模块，主要使用协作动作空间、协作策略网络和协作奖励的方法，能够将两种级别的强化学习模块进行整合，提高知识推理效果。
-本章首先给出了知识图谱问答的定义，随后介绍了方法概览，并详细介绍了本文提出的基于双重智能体强化学习的知识推理模型的模型与策略，最后在公开数据集上进行了实验，验证了模型的效果。
+本章主要介绍了基于双重智能体强化学习的知识推理模型LAURA，该模型能够结合知识图谱表示学习模型NORMAN，根据给定的查询问题进行显式的知识推理，返回对应的知识推理路径。
+NORMAN模型采用强化学习框架，能够根据知识图谱中的拓扑结构进行多跳推理并生成推理路径，从而实现高可解释性的知识推理。同时，NORMAN模型一种新颖的双重智能体强化学习方法。在知识推理过程中，构建了两种能够相互协作进行知识推理的强化学习智能体，两种智能体能够分别根据知识图谱中的实体和层次信息进行知识推理。同时，采用协作动作空间、协作策略网络和协作奖励等方法，能够帮助两种智能体实现信息交互，指导两种智能体沿相似路径进行知识推理，并帮助彼此到达正确的节点，进而实现高质量和高可解释性的知识推理。此外，模型采用了NORMAN模型的评分函数，从而缓解了知识图谱稀疏造成的智能体动作空间较小的问题，同时通过评分函数计算软奖励提供给没有到达目标节点的推理过程，缓解了在知识图谱上应用强化学习框架存在的奖励稀疏问题，提高了智能体的学习速度和推理能力。
+本章首先给出了知识推理的定义，随后介绍了模型概览，并详细介绍了本文提出的基于双重智能体强化学习的知识推理模型的模型与策略，最后在公开数据集上进行了实验，验证了模型的效果。
 
 
 \chapter{总结与展望}
@@ -1636,25 +1548,27 @@ LAURA(w/o CA)、LAURA(w/o CP)和LAURA(w/o CR)则分别是去除了双重智能�
 \section{主要工作总结}
 本文的工作主要包括以下两个方面：
 \begin{itemize}
-  \item [1)]\textbf{提出一种基于图神经网络的知识图谱表示学习模型NORMAN：}该模型包含层次信息提取模块、因果推断模块和图神经网络模块。
-  层次信息提取模块的目标是增强模型对层次信息的利用能力，提高模型对知识信息的表示效果。本文采用极坐标表示法编码知识图谱，并以半径坐标作为知识的层次信息，角坐标则用于区分相同层次的知识。通过对半径坐标进行聚类，可以实现对知识的层次信息提取，为因果推断模块提供数据支持。
-  因果推断模块能够将因果推断融入知识图谱表示学习中，评估邻域信息是否有助于进行表示和推理并进行取舍。本文采用邻域信息因果干预的方法，综合考虑层次差异得分、决策差异得分、预测置信度得分和推理距离得分等多种因素，判断当前节点是否接收来自邻域节点的信息。本文通过加入因果推断方法，提高知识图谱表示效果，为后续推理提供充分支持。
-  图神经网络模块采用图神经网络模型，构建的图神经网络模型能够充分利用知识图谱中各个实体的邻域结构信息，并通过知识邻域间的信息传递进行数据更新。在此过程中，模块利用层次信息提取模块的层次信息作为辅助，采用因果推断模块评估是否接收邻域信息。完成训练后的模型，能够将输入的知识结构化三元组转换为表示向量，并可以用于后续知识推理工作。
-  在多个公开数据集上的实验结果表明，本文提出的NORMAN模型在知识图谱问答任务上的表现优于现有模型，体现了模型能够结合层次信息、因果信息和邻域信息进行知识图谱表示，并能够为知识图谱下游任务提供支持。
-  \item [2)]\textbf{提出一种基于双重智能体强化学习的知识推理模型LAURA：}该模型包含实体级强化学习模块、层次级强化学习模块和双重智能体强化学习交互模块。
-  模型采用强化学习框架，能够根据知识图谱中的拓扑结构进行多跳推理，并能够通过显式推理生成推理路径，提高知识推理的可解释性。通过融合知识图谱表示学习模型，知识推理模型能够对动作空间进行扩展，从而缓解了知识图谱稀疏性问题。通过利用知识图谱表示学习的评分函数作为软奖励提供给没有到达目标节点的推理过程，缓解了强化学习的奖励稀疏问题，提高了模型的学习速度和推理能力。
-  在知识推理过程中，实体级和层次级强化学习模块能够分别根据知识图谱中的实体和层次信息进行知识推理，实现微观和宏观两种粒度的知识推理。
-  同时，双重智能体强化学习交互模块采用协作动作空间、协作策略网络和协作奖励等方法，能够实现模块间的信息交互，提高模型的知识推理效果，进而实现高质量知识推理。
-  在多个公开数据集上的实验结果表明，本文提出的LAURA模型在单跳和多跳知识图谱问答上的表现优于现有模型，体现了模型能够结合实体级和层次级信息，并通过双重智能体交互的方式实现信息交流和轨迹协调，共同实现高质量知识推理。
+  \item [1)]\textbf{提出一种基于图神经网络的知识图谱表示学习模型NORMAN：}
+  该方法主要针对知识图谱内的层次信息和邻域信息进行建模，主要包含层次信息提取和图神经网络模型两部分。
+  首先为了捕获知识图谱中的层次信息并对不同的实体和关系进行区分，提出了一种基于极坐标系的编码器。该编码器能够将知识编码为极坐标向量的形式，其中半径坐标向量用于捕获知识的层次信息，角坐标向量则用于区分不同类别的知识。
+  随后为了捕获知识图谱中的邻域信息，提出了一种图神经网络模型。该模型首先利用层次信息提取过程得到的向量进行全连接层映射，得到模型节点的初始向量，随后通过递归方式实现邻域子图构建和消息传递，并通过消息聚合函数将邻域子图中的消息聚合起来，通过信息更新函数将消息与节点向量相结合，实现节点信息更新。同时在消息传递过程中，对各个邻域节点的消息采用注意力机制，从而区分不同节点的消息贡献程度。
+  通过上述方法，NORMAN模型能够有效地捕获知识图谱中的层次信息和邻域信息，进行高质量的知识表示，并能够在知识图谱补全等下游任务中进行应用。
+  模型在常用的公开数据集FB15K-237、WN18RR和NELL-995上进行了大量实验，实验结果表明本文提出的NORMAN模型在知识图谱补全任务上的表现优于现有模型，体现了模型能够结合层次信息、因果信息和邻域信息进行知识图谱表示，并能够为知识图谱下游任务提供支持。
+  \item [2)]\textbf{提出一种基于双重智能体强化学习的知识推理模型LAURA：}
+  该方法主要针对知识图谱中的实体和层次信息进行建模。
+  首先为了提高知识推理的可解释性，采用强化学习框架，能够根据知识图谱中的拓扑结构进行多跳推理并生成推理路径，从而实现高可解释性的知识推理。
+  随后为了保证知识推理路径的充分性，提出了一种新颖的双重智能体强化学习方法。在知识推理过程中，构建了两种能够相互协作进行知识推理的强化学习智能体，两种智能体能够分别根据知识图谱中的实体和层次信息进行知识推理。同时，采用协作动作空间、协作策略网络和协作奖励等方法，能够帮助两种智能体实现信息交互，指导两种智能体沿相似路径进行知识推理，并帮助彼此到达正确的节点，进而实现高质量和高可解释性的知识推理。
+  此外，通过融合知识图谱表示学习模型NORMAN，能够对智能体的动作空间进行扩展，从而缓解了知识图谱稀疏造成的智能体动作空间较小的问题。同时通过利用NORMAN模型的评分函数计算软奖励提供给没有到达目标节点的推理过程，缓解了在知识图谱上应用强化学习框架存在的奖励稀疏问题，提高了智能体的学习速度和推理能力。
+  该模型在常用的公开数据集FB15K-237、WN18RR和NELL-995上进行了单跳知识图谱问答实验，并在数据集FB15K-237-10\%、FB15K-237-20\%和FB15K-237-50\%上进行了多跳知识图谱问答实验。实验结果表明，本文提出的LAURA模型在单跳和多跳知识图谱问答上的表现优于现有模型，体现了模型能够结合知识图谱中实体和层次的信息，并通过双重智能体共同进行知识推理的方式，实现高质量知识推理。
 \end{itemize}
 
 \section{未来工作展望}
 尽管本文实现了一种基于图神经网络的知识图谱表示学习模型NORMAN和一种基于双重智能体强化学习的知识推理模型LAURA，能够在知识图谱补全、单跳知识图谱问答和多跳知识图谱问答等任务上取得优秀的效果，但其中仍然存在一些不足之处。
 本文的工作可以在以下几个方面进行改进：
 \begin{itemize}
-  \item [1)]\textbf{使用双曲空间嵌入模型捕获层次信息：}本文提出的知识图谱表示学习模型NORMAN，采用的层次信息提取模块主要使用极坐标系编码器在欧氏空间上进行知识图谱编码，并通过极坐标系的半径坐标捕获知识图谱内的层次结构信息。考虑到双曲空间嵌入模型可以通过超球形状的嵌入空间建模知识图谱的层次结构，在后续的研究工作中可以考虑采用双曲空间嵌入模型建模知识图谱，并捕获知识图谱内的层次结构信息，例如可以使用庞加莱球模型~\cite{abramowicz2002poincare}等进行知识图谱表示学习。
-  \item [2)]\textbf{将因果推断方法应用到知识推理过程中：}在知识图谱表示学习模型NORMAN中应用了因果推断方法，首先对图神经网络模型的消息传递过程进行了因果发现分析并构建了因果图，随后通过因果干预的方法对来自邻域的消息进行随机屏蔽并根据层次差异得分、决策差异得分、预测置信度得分和推理距离得分等多种因素进行因果效应分析，最后构建二元分类器评估是否接收邻域节点信息。在后续的研究工作中，同样可以在知识推理的过程中尝试加入类似的因果推断机制，并评估能否取得更好的效果。
-  \item [3)]\textbf{研究其他多智能体强化学习训练方案：}本文提出的知识推理模型LAURA，在知识图谱问答中构建了实体级和层次级的两种智能体，能够在两种粒度上进行知识推理，并通过双重智能体强化学习交互模块的协作动作空间、协作策略网络和协作奖励进行信息交流和轨迹协调，从而提高整体知识推理效率和泛化能力。在后续的研究工作中，可以考虑构建其他更多粒度的智能体如邻域子图粒度的智能体，引入额外信息训练智能体，以及采用不同的策略网络和奖励函数训练智能体等。通过研究其他多智能体强化学习训练方案，有助于提高模型效果，同时进一步探索多智能体强化学习的模型构建方式。
+  \item [1)]\textbf{使用双曲空间嵌入模型捕获层次信息：}本文提出的知识图谱表示学习模型NORMAN，采用的层次信息提取方法主要是使用极坐标系编码器在欧氏空间上进行知识图谱编码，并通过极坐标系的半径坐标捕获知识图谱内的层次信息。考虑到双曲空间嵌入模型可以通过超球形状的嵌入空间建模知识图谱的层次结构，在后续的研究工作中可以考虑采用双曲空间嵌入模型建模知识图谱，并捕获知识图谱内的层次信息，例如可以使用庞加莱球模型~\cite{abramowicz2002poincare}等进行知识图谱表示学习。
+  \item [2)]\textbf{研究其他多智能体强化学习训练方案：}本文提出的知识推理模型LAURA，在知识图谱问答中构建了两种智能体，能够在两种粒度上进行知识推理，并通过双重智能体强化学习交互模块的协作动作空间、协作策略网络和协作奖励进行信息交流和轨迹协调，从而提高整体知识推理效率和泛化能力。在后续的研究工作中，可以考虑构建其他更多粒度的智能体如邻域子图粒度的智能体，引入额外信息训练智能体，以及采用不同的策略网络和奖励函数训练智能体等。通过研究其他多智能体强化学习训练方案，有助于提高模型效果，同时进一步探索多智能体强化学习的模型构建方式。
+  \item [3)]\textbf{采用模仿学习以缓解奖励稀疏问题：}本文提出的知识推理模型LAURA，在大规模稀疏知识图谱上进行知识推理时如果没有到达正确的节点，则通过双重智能体强化学习的协作奖励和知识图谱表示学习模型NORMAN的评分函数提供软奖励的方式获取奖励，从而缓解了奖励稀疏问题。在后续的研究工作中，可以考虑引入模仿学习（Imitation Learning）的方式，基于人类专家的推理路径来对奖励函数进行建模，从而缓解奖励稀疏的问题。例如可以采用VAIL~\cite{pengvariational}的方式对奖励函数进行建模。
 \end{itemize}
 
 \acknowledgement
