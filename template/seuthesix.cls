@@ -332,7 +332,8 @@ listtablename={表格目录}
 
 \ifengineering
    \begin{picture}(0,0)
-      \put(23,-7.2){ %
+      \put(21.2,-7.2){ %
+      % \put(23,-7.2){ %
       \includegraphics[scale=0.68]{figures/engineering.png}}
    \end{picture}
 \else \ifmasters
