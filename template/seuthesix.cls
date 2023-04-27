@@ -687,7 +687,8 @@ listtablename={表格目录}
        {\vfill}
        {\@departmenteng}\\
        {\universitynameeng}\\
-       {\todayeng}
+      %  {\todayeng}
+      {May 2023}
        \par
      }%
    \end{center}%
